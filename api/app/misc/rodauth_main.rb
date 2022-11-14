@@ -15,7 +15,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # hmac_secret "26dd8cfe05d91f49689b58b23b91aa70b21e84999509fcd3e3a4d4907ad58e17beb2c795eed1b9965e15684013738b4f00d1f1ef4cc53ca83ad93930eda82b72"
 
     # Set JWT secret, which is used to cryptographically protect the token.
-    jwt_secret "a84bf498194d41181b8e7c14b5096e87ac19cbae0977884aa3f6287e369cc7e170e1bd71e1923bae47ce5d48fd1b7151164507b7ccc7b60c6d4152c7101dd522"
+    jwt_secret Rails.application.credentials.jwt_secret
 
     # Accept only JSON requests.
     only_json? true
