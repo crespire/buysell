@@ -12,10 +12,10 @@ class RodauthMain < Rodauth::Rails::Auth
     # ==> General
     # The secret key used for hashing public-facing tokens for various features.
     # Defaults to Rails `secret_key_base`, but you can use your own secret key.
-    # hmac_secret "3df31f898ccddc6da9c3a1a3abe3cebbb298e0815f83794c7820ff6d99c3bf5318f9a638e9b6464b63e174b88cf25dbda33d450a87020f26ad4b03bb063ed393"
+    # hmac_secret "26dd8cfe05d91f49689b58b23b91aa70b21e84999509fcd3e3a4d4907ad58e17beb2c795eed1b9965e15684013738b4f00d1f1ef4cc53ca83ad93930eda82b72"
 
     # Set JWT secret, which is used to cryptographically protect the token.
-    jwt_secret Rails.application.credentials.jwt_secret
+    jwt_secret "a84bf498194d41181b8e7c14b5096e87ac19cbae0977884aa3f6287e369cc7e170e1bd71e1923bae47ce5d48fd1b7151164507b7ccc7b60c6d4152c7101dd522"
 
     # Accept only JSON requests.
     only_json? true

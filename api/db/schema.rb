@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_14_193645) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_14_200303) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
+  enable_extension "plpgsql"
+
   create_table "account_login_change_keys", force: :cascade do |t|
     t.string "key", null: false
     t.string "login", null: false
@@ -31,17 +35,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_193645) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "status", default: 1, null: false
-    t.string "email", null: false
+    t.citext "email", null: false
     t.string "password_hash"
-    t.index ["email"], name: "index_accounts_on_email", unique: true, where: "status IN (1, 2)"
+    t.index ["email"], name: "index_accounts_on_email", unique: true, where: "(status = ANY (ARRAY[1, 2]))"
   end
 
   create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "account_id", null: false
+    t.index ["account_id"], name: "index_posts_on_account_id"
   end
 
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
+  add_foreign_key "posts", "accounts"
 end
