@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
+  before_action :authenticate, only: %i[index create update destroy]
 
   # GET /posts
   def index
@@ -15,7 +16,8 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    puts params
+    @post = current_account.posts.build(post_params)
 
     if @post.save
       render json: @post, status: :created, location: @post

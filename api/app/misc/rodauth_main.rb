@@ -1,10 +1,8 @@
 class RodauthMain < Rodauth::Rails::Auth
   configure do
     # List of authentication features that are loaded.
-    enable :create_account, :verify_account, :verify_account_grace_period,
-      :login, :logout, :jwt,
-      :reset_password, :change_password, :change_password_notify,
-      :change_login, :verify_login_change, :close_account
+    enable :create_account, :login, :logout, :json, :reset_password,
+           :change_password, :change_password_notify, :close_account
 
     # See the Rodauth documentation for the list of available config options:
     # http://rodauth.jeremyevans.net/documentation.html
@@ -15,14 +13,14 @@ class RodauthMain < Rodauth::Rails::Auth
     # hmac_secret "26dd8cfe05d91f49689b58b23b91aa70b21e84999509fcd3e3a4d4907ad58e17beb2c795eed1b9965e15684013738b4f00d1f1ef4cc53ca83ad93930eda82b72"
 
     # Set JWT secret, which is used to cryptographically protect the token.
-    jwt_secret Rails.application.credentials.jwt_secret
+    # jwt_secret Rails.application.credentials.jwt_secret
 
     # Accept only JSON requests.
     only_json? true
 
     # Handle login and password confirmation fields on the client side.
-    # require_password_confirmation? false
-    # require_login_confirmation? false
+    require_password_confirmation? false
+    require_login_confirmation? false
 
     # Specify the controller used for view rendering and CSRF verification.
     rails_controller { RodauthController }
@@ -37,7 +35,7 @@ class RodauthMain < Rodauth::Rails::Auth
     account_password_hash_column :password_hash
 
     # Set password when creating account instead of when verifying.
-    verify_account_set_password? false
+    # verify_account_set_password? false
 
     # Redirect back to originally requested location after authentication.
     # login_return_to_requested_location? true
@@ -57,12 +55,13 @@ class RodauthMain < Rodauth::Rails::Auth
     create_reset_password_email do
       RodauthMailer.reset_password(self.class.configuration_name, account_id, reset_password_key_value)
     end
-    create_verify_account_email do
-      RodauthMailer.verify_account(self.class.configuration_name, account_id, verify_account_key_value)
-    end
-    create_verify_login_change_email do |_login|
-      RodauthMailer.verify_login_change(self.class.configuration_name, account_id, verify_login_change_key_value)
-    end
+    # Remove mailers for disabled features
+    # create_verify_account_email do
+    #   RodauthMailer.verify_account(self.class.configuration_name, account_id, verify_account_key_value)
+    # end
+    # create_verify_login_change_email do |_login|
+    #   RodauthMailer.verify_login_change(self.class.configuration_name, account_id, verify_login_change_key_value)
+    # end
     create_password_changed_email do
       RodauthMailer.password_changed(self.class.configuration_name, account_id)
     end
