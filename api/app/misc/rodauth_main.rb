@@ -1,8 +1,10 @@
 class RodauthMain < Rodauth::Rails::Auth
   configure do
     # List of authentication features that are loaded.
-    enable :create_account, :login, :logout, :json, :reset_password,
-           :change_password, :change_password_notify, :close_account
+    enable :create_account, :verify_account, :verify_account_grace_period,
+           :login, :logout, :remember, :json, :reset_password,
+           :change_password, :change_password_notify, :change_login,
+           :verify_login_change, :close_account
 
     # See the Rodauth documentation for the list of available config options:
     # http://rodauth.jeremyevans.net/documentation.html
@@ -35,10 +37,10 @@ class RodauthMain < Rodauth::Rails::Auth
     account_password_hash_column :password_hash
 
     # Set password when creating account instead of when verifying.
-    # verify_account_set_password? false
+    verify_account_set_password? false
 
     # Redirect back to originally requested location after authentication.
-    # login_return_to_requested_location? true
+    login_return_to_requested_location? true
     # two_factor_auth_return_to_requested_location? true # if using MFA
 
     # Autologin the user after they have reset their password.
@@ -92,11 +94,48 @@ class RodauthMain < Rodauth::Rails::Auth
     # Change minimum number of password characters required when creating an account.
     # password_minimum_length 8
 
+    # ==> Remember Feature
+    # Remember all logged in users.
+    after_login { remember_login }
+
+    # Or only remember users that have ticked a "Remember Me" checkbox on login.
+    after_login { remember_login if param_or_nil("remember") }
+
+    # Extend user's remember period when remembered via a cookie
+    extend_remember_deadline? true
+    # Or only remember users that have ticked a "Remember Me" checkbox on login.
+    after_login { remember_login if param_or_nil("remember") }
+
+    # Extend user's remember period when remembered via a cookie
+    extend_remember_deadline? true
+
     # ==> Hooks
     # Validate custom fields in the create account form.
-    # before_create_account do
-    #   throw_error_status(422, "name", "must be present") if param("name").empty?
-    # end
+    before_create_account do
+      name = param_or_nil('name')
+      min_name_length = 3
+      max_name_length = 36
+
+      if name && !name.length.between?(min_name_length, max_name_length)
+        throw_error_status(422, 'name', "must be between #{min_name_length} and #{max_name_length} characters, got: #{name.length}")
+      end
+
+      account[:name] = name || 'user'
+    end
+
+    # Return JSON user object after certain actions with some fields held back
+    fields_held_back = %i[password_hash id]
+    after_login do
+      json_response.merge!(user: account.as_json(except: fields_held_back))
+    end
+
+    after_create_account do
+      json_response.merge!(user: account.as_json(except: fields_held_back))
+    end
+
+    after_verify_account do
+      json_response.merge!(user: account.as_json(except: fields_held_back))
+    end
 
     # Perform additional actions after the account is created.
     # after_create_account do
