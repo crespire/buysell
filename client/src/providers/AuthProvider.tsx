@@ -21,6 +21,7 @@ export interface AuthContextModel {
   user: User | null;
   signUp: (email: string, password: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
+  verify: (key: string ) => Promise<void>;
   logOut: () => Promise<void>;
 }
 
@@ -53,7 +54,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       console.log('Got a response:', data);
       setUser(data.user);
       console.log('Set user in state');
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error));
   }
 
   async function logIn(email: string, password: string): Promise<void> {
@@ -63,11 +64,25 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     setUser(null);
   }
 
+  async function verify(key: string): Promise<void> {
+    await fetch('https://localhost:3000/verify-account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"key": key})
+    }).then(response => response.json()).then(data => {
+      setUser(data.user);
+      console.log('User updated after verification.');
+    }).catch(error => console.log(error));
+  }
+
   const values = {
     user,
     signUp,
     logIn,
     logOut,
+    verify,
     //resetPassword
   }
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
