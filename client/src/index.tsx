@@ -31,9 +31,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>
 );
