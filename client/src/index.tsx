@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import { AuthProvider } from './providers/AuthProvider';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App';
+import Hero from './components/Hero';
+import Signup from './components/Signup';
 
 const router = createBrowserRouter([
   {
