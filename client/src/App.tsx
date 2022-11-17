@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 import { useAuth } from './providers/AuthProvider';
+import { Outlet } from 'react-router';
+import Header from './Header';
+import Footer from './Footer';
 
 function App() {
   const { signUp } = useAuth();
@@ -9,9 +12,12 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <main className="App">
+      <Header />
       <button onClick={handleClick}>Fire signup</button>
-    </div>
+      <Outlet />
+      <Footer />
+    </main>
   );
 }
 
