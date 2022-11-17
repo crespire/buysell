@@ -53,17 +53,17 @@ class RodauthMain < Rodauth::Rails::Auth
     # already_logged_in { redirect login_redirect }
 
     # ==> Emails
+    email_from 'hello@crespire.dev'
     # Use a custom mailer for delivering authentication emails.
     create_reset_password_email do
       RodauthMailer.reset_password(self.class.configuration_name, account_id, reset_password_key_value)
     end
-    # Remove mailers for disabled features
-    # create_verify_account_email do
-    #   RodauthMailer.verify_account(self.class.configuration_name, account_id, verify_account_key_value)
-    # end
-    # create_verify_login_change_email do |_login|
-    #   RodauthMailer.verify_login_change(self.class.configuration_name, account_id, verify_login_change_key_value)
-    # end
+    create_verify_account_email do
+      RodauthMailer.verify_account(self.class.configuration_name, account_id, verify_account_key_value)
+    end
+    create_verify_login_change_email do |_login|
+      RodauthMailer.verify_login_change(self.class.configuration_name, account_id, verify_login_change_key_value)
+    end
     create_password_changed_email do
       RodauthMailer.password_changed(self.class.configuration_name, account_id)
     end
