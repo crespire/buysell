@@ -1,5 +1,7 @@
 function Hero() {
-  return (<></>)
+  return (
+    <div>Hero/Index</div>
+  );
 }
 
 export default Hero;

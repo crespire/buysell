@@ -5,16 +5,10 @@ import Header from './Header';
 import Footer from './Footer';
 
 function App() {
-  const { signUp } = useAuth();
-  
-  const handleClick = () => {
-    signUp('test2@test.com', '123456');
-  };
 
   return (
     <main className="App">
-      <Header />
-      <button onClick={handleClick}>Fire signup</button>
+      <Header />    
       <Outlet />
       <Footer />
     </main>
