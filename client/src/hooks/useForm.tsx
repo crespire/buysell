@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler, ReactEventHandler, SyntheticEvent, useState } from 'react';
+import { ChangeEventHandler, FocusEventHandler, useState } from 'react';
 
 interface KeyedStateInterface {
   [property: string]: string
