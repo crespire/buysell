@@ -1,14 +1,18 @@
-import {useState} from 'react';
+import { ChangeEventHandler, FocusEventHandler, ReactEventHandler, SyntheticEvent, useState } from 'react';
 
 interface KeyedStateInterface {
   [property: string]: string
 }
 
-const useForm = (
-  callback = function () {
-    console.log('No callback found, but we fired it.');
-  }
-) => {
+interface FormHook {
+  values: KeyedStateInterface;
+  errors: KeyedStateInterface;
+  handleChange: ChangeEventHandler;
+  handleSubmit: (e:React.SyntheticEvent, ...args:string[]) => void;
+  handleBlur: FocusEventHandler;
+}
+
+const useForm = (callback: Function): FormHook => {
   const [values, setValues] = useState<KeyedStateInterface>({});
   const [errors, setErrors] = useState<KeyedStateInterface>({});
   const [touched, setTouched] = useState<string[]>([]);
@@ -19,10 +23,11 @@ const useForm = (
     const property = target.name;
     const value = target.value;
     const pattern = target.pattern;
+    const passConf = target.dataset.confirm || false;
     const validationMsg = target.dataset.error || 'Error, please check field.';
 
     if (touched.includes(property)) {
-      validate(property, value, pattern, validationMsg);
+      validate(property, value, passConf ? values['pass'] : pattern, validationMsg);
     }
 
     setValues({
@@ -44,11 +49,11 @@ const useForm = (
       : setErrors({...errors, [property]: message});
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
     e.preventDefault();
 
     if (Object.keys(errors).length === 0 && Object.keys(values).length > 0) {
-      callback();
+      callback(args[0], args[1]);
       console.log('Submitted');
     } else {
       console.log("Didn't pass validation, did nothing.");
@@ -56,10 +61,23 @@ const useForm = (
   };
 
   const handleBlur = (e: React.FocusEvent): void => {
+    e.preventDefault();
     const target = e.target as HTMLInputElement;
     const property = target.name;
+    const value = target.value;
+    const pattern = target.pattern;
+    const passConf = target.dataset.confirm || false;
+    const validationMsg = target.dataset.error || 'Error, please check field.';
+
+    if (!touched.includes(property) && value.length > 0) {
+      validate(property, value, passConf ? values['pass'] : pattern, validationMsg);
+    }
     
-    setTouched(prev => [...prev, property]);
+    setTouched(prev => {
+      if (!prev.includes(property) && value.length > 0) { return [...prev, property]; }
+
+      return prev;
+    });
   }
 
   return {values, errors, handleChange, handleSubmit, handleBlur};
