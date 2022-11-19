@@ -1,4 +1,4 @@
-import React, {
+import {
   ReactNode,
   useEffect,
   useState,
@@ -20,7 +20,7 @@ export interface AuthContextModel {
   user: User | null;
   signUp: (email: string, password: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
-  verify: (key: string ) => Promise<void>;
+  verifyUser: (key: string ) => Promise<void>;
   logOut: () => Promise<void>;
 }
 
@@ -63,7 +63,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     setUser(null);
   }
 
-  async function verify(key: string): Promise<void> {
+  async function verifyUser(key: string): Promise<void> {
     await fetch('https://localhost:3000/verify-account', {
       method: 'POST',
       headers: {
@@ -81,7 +81,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     signUp,
     logIn,
     logOut,
-    verify,
+    verifyUser,
     //resetPassword
   }
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
