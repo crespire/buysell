@@ -4,7 +4,7 @@ interface KeyedStateInterface {
   [property: string]: string
 }
 
-interface FormHook {
+interface FormHookInterface {
   values: KeyedStateInterface;
   errors: KeyedStateInterface;
   handleChange: ChangeEventHandler;
@@ -12,7 +12,7 @@ interface FormHook {
   handleBlur: FocusEventHandler;
 }
 
-const useForm = (callback: Function): FormHook => {
+const useForm = (callback: Function): FormHookInterface => {
   const [values, setValues] = useState<KeyedStateInterface>({});
   const [errors, setErrors] = useState<KeyedStateInterface>({});
   const [touched, setTouched] = useState<string[]>([]);
@@ -53,7 +53,24 @@ const useForm = (callback: Function): FormHook => {
     e.preventDefault();
 
     if (Object.keys(errors).length === 0 && Object.keys(values).length > 0) {
-      callback(args[0], args[1]);
+      switch(callback.name) {
+        case 'signUp':
+          console.log('Submitting sign up...');
+          callback(args[0], args[1]);
+          break;
+        case 'logIn':
+          console.log('Sending credentials for login...');
+          break;
+        case 'verifyUser':
+          console.log('Verifying user...');
+          break;
+        case 'logOut':
+          console.log('Sending logout...');
+          break;
+        default:
+          console.log('Callback name not recognized, calling without args.');
+          callback();
+      }
       console.log('Submitted');
     } else {
       console.log("Didn't pass validation, did nothing.");
