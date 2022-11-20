@@ -12,29 +12,17 @@ interface FormHookInterface {
   handleBlur: FocusEventHandler;
 }
 
+interface InputFieldValuesInterface {
+  property: string,
+  value: string,
+  pattern: string,
+  validationMsg: string;
+}
+
 const useForm = (callback: Function): FormHookInterface => {
   const [values, setValues] = useState<KeyedStateInterface>({});
   const [errors, setErrors] = useState<KeyedStateInterface>({});
   const [touched, setTouched] = useState<string[]>([]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const target = e.target;
-    const property = target.name;
-    const value = target.value;
-    const pattern = target.pattern;
-    const passConf = target.dataset.confirm || false;
-    const validationMsg = target.dataset.error || 'Error, please check field.';
-
-    if (touched.includes(property)) {
-      validate(property, value, passConf ? values['pass'] : pattern, validationMsg);
-    }
-
-    setValues({
-      ...values,
-      [property]: value,
-    });
-  };
 
   const validate = (property:string, value:string, pattern:string, message:string): void => {
     const errorRemover = (): void => {
@@ -47,6 +35,31 @@ const useForm = (callback: Function): FormHookInterface => {
     regex.test(value)
       ? errorRemover()
       : setErrors({...errors, [property]: message});
+  };
+
+  const eventDetails = (e: React.SyntheticEvent): InputFieldValuesInterface => {
+    const target = e.target as HTMLInputElement;
+    const property = target.name;
+    const value = target.value;
+    const pattern = target.pattern;
+    const validationMsg = target.dataset.error || 'Error, please check field.';
+
+    return { property, value, pattern, validationMsg };
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    
+    const { property, value, pattern, validationMsg } = eventDetails(e);
+
+    if (touched.includes(property)) {
+      validate(property, value, pattern, validationMsg);
+    }
+
+    setValues({
+      ...values,
+      [property]: value,
+    });
   };
 
   const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
@@ -79,15 +92,11 @@ const useForm = (callback: Function): FormHookInterface => {
 
   const handleBlur = (e: React.FocusEvent): void => {
     e.preventDefault();
-    const target = e.target as HTMLInputElement;
-    const property = target.name;
-    const value = target.value;
-    const pattern = target.pattern;
-    const passConf = target.dataset.confirm || false;
-    const validationMsg = target.dataset.error || 'Error, please check field.';
+   
+    const { property, value, pattern, validationMsg } = eventDetails(e);
 
     if (!touched.includes(property) && value.length > 0) {
-      validate(property, value, passConf ? values['pass'] : pattern, validationMsg);
+      validate(property, value, pattern, validationMsg);
     }
     
     setTouched(prev => {

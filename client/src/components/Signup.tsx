@@ -19,7 +19,7 @@ function Signup() {
           ? <p>{errors.pass}</p>
           : <br /> }
         <label htmlFor="passconf">Confirm: </label>
-        <input type="password" name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern="^(?=.*\d).{8,}$" data-error="Password must match." data-confirm={true} />
+        <input type="password" name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern={`^${values['pass']}$`} data-error="Password must match." />
         { errors.passconf
           ? <p>{errors.passconf}</p>
           : <br />
