@@ -9,17 +9,17 @@ function Signup() {
     <div>
       <form onSubmit={(e) => {handleSubmit(e, values['email'], values['pass'])}}>
         <label htmlFor="email">Email: </label>
-        <input type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values['email'] || ''} pattern="^[\w.]+@([\w-]+\.)+[\w-]{2,4}$" data-error="Email format incorrect." />
+        <input type="text" required name="email" onChange={handleChange} onBlur={handleBlur} value={values['email'] || ''} pattern="^[\w.]+@([\w-]+\.)+[\w-]{2,4}$" data-error="Email format incorrect." />
         { errors.email 
           ? <p>{errors.email}</p>
           : <br /> }
         <label htmlFor="pass">Password: </label>
-        <input type="password" name="pass" onChange={handleChange} onBlur={handleBlur} value={values['pass'] || ''} pattern="^(?=.*\d).{8,}$" data-error="Password must be at least 8 characters and must contain a digit." />
+        <input type="password" required name="pass" onChange={handleChange} onBlur={handleBlur} value={values['pass'] || ''} pattern="^(?=.*\d).{8,}$" data-error="Minimum length is 8, and must contain a digit." />
         { errors.pass
           ? <p>{errors.pass}</p>
           : <br /> }
         <label htmlFor="passconf">Confirm: </label>
-        <input type="password" name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern={`^${values['pass']}$`} data-error="Password must match." />
+        <input type="password" required name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern={`^${values['pass']}$`} data-error="Passwords must match." />
         { errors.passconf
           ? <p>{errors.passconf}</p>
           : <br />
