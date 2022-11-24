@@ -6,6 +6,8 @@ import {
   createContext
 } from 'react';
 
+const baseUrl = 'http://localhost:3000'
+
 export type User = {
   login: string,
   status: 'verified' | 'unverified' | 'closed',
@@ -42,7 +44,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
 
   async function signUp(email: string, password: string): Promise<void> {
     const requestData = JSON.stringify({"login": email, "password": password});
-    await fetch('http://localhost:3000/create-account', {
+    await fetch(`${baseUrl}/create-account`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -57,6 +59,19 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   }
 
   async function logIn(email: string, password: string): Promise<void> {
+    const requestData = JSON.stringify({"login": email, "password": password});
+    await fetch(`${baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: requestData
+    }).then(response => response.json()).then(data => {
+      console.log('Got a response:', data);
+      setUser(data.user);
+      console.log('Set user in state');
+    }).catch(error => console.log(error));
   }
 
   async function logOut(): Promise<void> {
@@ -64,7 +79,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   }
 
   async function verifyUser(key: string): Promise<void> {
-    await fetch('https://localhost:3000/verify-account', {
+    await fetch(`${baseUrl}/verify-account`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

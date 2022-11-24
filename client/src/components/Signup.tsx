@@ -9,12 +9,10 @@ function Signup() {
     <div>
       <h1 className="text-2xl">Sign Up</h1>
       <form className="flex flex-col align-center justify-center space-x-2" onSubmit={(e) => {handleSubmit(e, values['email'], values['pass'])}}>
-        <p>
-          <ul className="list-inside list-disc">
-            <li>All fields are required.</li>
-            <li>Password must be 8 characters long and contain at least one digit.</li>
-          </ul>        
-        </p>
+        <ul className="list-inside list-disc">
+          <li>All fields are required.</li>
+          <li>Password must be 8 characters long and contain at least one digit.</li>
+        </ul>
         <div className="p-2">
           <label htmlFor="email">Email:</label>
           <input className="border-b border-black border-solid" type="text" required name="email" onChange={handleChange} onBlur={handleBlur} value={values['email'] || ''} pattern="^[\w.]+@([\w-]+\.)+[\w-]{2,4}$" data-error="Email format incorrect." />

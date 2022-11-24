@@ -73,9 +73,7 @@ const useForm = (callback: Function): FormHookInterface => {
           break;
         case 'logIn':
           console.log('Sending credentials for login...');
-          break;
-        case 'verifyUser':
-          console.log('Verifying user...');
+          callback(args[0], args[1]);
           break;
         case 'logOut':
           console.log('Sending logout...');
