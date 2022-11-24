@@ -153,4 +153,9 @@ class RodauthMain < Rodauth::Rails::Auth
     # reset_password_deadline_interval Hash[hours: 6]
     # verify_login_change_deadline_interval Hash[days: 2]
   end
+
+  ## Expose email verification token
+  def verify_account_email_token
+    token_param_value(verify_account_key_value)
+  end
 end
