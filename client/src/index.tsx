@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { AuthProvider } from './providers/AuthProvider';
+import { createContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import Hero from './components/Hero';
@@ -39,6 +40,9 @@ const router = createBrowserRouter([
   }
 ])
 
+export const BaseUrlContext = createContext<string|null>(null);
+const baseUrl = 'http://localhost:3000';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -46,7 +50,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <BaseUrlContext.Provider value={baseUrl}>
+        <RouterProvider router={router} />
+      </BaseUrlContext.Provider>
     </AuthProvider>
   </React.StrictMode>
 );

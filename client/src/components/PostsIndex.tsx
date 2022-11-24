@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import { useNavigate } from 'react-router-dom';
+import { BaseUrlContext } from '../index';
 
 interface PostInterface {
     id:	number;
@@ -15,6 +16,7 @@ function PostsIndex() {
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const baseUrl = useContext<string | null>(BaseUrlContext);
 
   /** Removing this just to test what my session cookie does.
   useEffect(() => {
@@ -26,7 +28,7 @@ function PostsIndex() {
   */
 
   async function getPosts() {
-    const data = await fetch('http://localhost:3000/posts',
+    const data = await fetch(`${baseUrl}/posts`,
       {
         mode: 'cors',
         headers: {
