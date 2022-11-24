@@ -10,7 +10,7 @@ const baseUrl = 'http://localhost:3000'
 
 export type User = {
   login: string,
-  status: 'verified' | 'unverified' | 'closed',
+  status: 1 | 2 | 3, // unverified, verified, closed
   name: string,
 }
 
@@ -82,7 +82,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     await fetch(`${baseUrl}/verify-account`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({"key": key})
     }).then(response => response.json()).then(data => {

@@ -11,7 +11,7 @@ function Header() {
         <Link to='/signup'>Sign Up</Link>
         <Link to='/signin'>Sign In</Link>
       </nav>
-      { user && <span>Hello { user.name }!</span>}
+      { user && <span>Hello { user.name }! { user.status === 1 && "We're still waiting to confirm your account." }</span> }
     </div>
   );
 }
