@@ -38,6 +38,13 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    let localUser = localStorage.getItem('user');
+    if (localUser) {
+      setUser(JSON.parse(localUser));
+    }
+  }, [])
+
+  useEffect(() => {
     console.log('AuthContext user changed!');
     console.log(user);
   }, [user]);
@@ -50,10 +57,12 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: requestData
     }).then(response => response.json()).then(data => {
       console.log('Got a response:', data);
       setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       console.log('Set user in state');
     }).catch(error => console.log(error));
   }
@@ -66,16 +75,31 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: requestData
     }).then(response => response.json()).then(data => {
       console.log('Got a response:', data);
       setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       console.log('Set user in state');
     }).catch(error => console.log(error));
   }
 
   async function logOut(): Promise<void> {
     setUser(null);
+    localStorage.removeItem('user');
+    await fetch(`${baseUrl}/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      console.log('Server session destroyed, removing local session.');
+      setUser(null);
+      localStorage.removeItem('user');
+    }).catch(error => console.log(error));
   }
 
   async function verifyUser(key: string): Promise<void> {
@@ -84,9 +108,11 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({"key": key})
     }).then(response => response.json()).then(data => {
       setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       console.log('User updated after verification.');
     }).catch(error => console.log(error));
   }
