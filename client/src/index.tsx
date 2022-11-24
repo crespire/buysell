@@ -8,6 +8,7 @@ import Hero from './components/Hero';
 import Signup from './components/Signup';
 import Signin from './components/SignIn';
 import AccountVerify from './components/AccountVerify';
+import PostsIndex from './components/PostsIndex';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'verify-account/:token',
         element: <AccountVerify />,
+      },
+      {
+        path: 'posts',
+        element: <PostsIndex />,
       }
     ]
   }
