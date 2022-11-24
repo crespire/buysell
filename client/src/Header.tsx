@@ -12,8 +12,8 @@ function Header() {
         <Link to='/signin'>Sign In</Link>
         <Link to='/posts'>Posts Index</Link>
       </nav>
-      <button onClick={() => logOut()}>Clear frontend user</button>
-      { user && <span>Hello { user.name }! { user.status === 1 && "We're still waiting to confirm your account." }</span> }
+      <button onClick={() => logOut()}>Sign Out</button>
+      { user && <p>Hello { user.name }! { user.status === 1 && "We're still waiting to confirm your account." }</p> }
     </div>
   );
 }

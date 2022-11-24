@@ -86,8 +86,11 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   }
 
   async function logOut(): Promise<void> {
-    setUser(null);
-    localStorage.removeItem('user');
+    if (user === null) {
+      console.log('No user set.');
+      return;
+    }
+
     await fetch(`${baseUrl}/logout`, {
       method: 'POST',
       headers: {
