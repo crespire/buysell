@@ -39,7 +39,7 @@ function PostsIndex() {
       }).then((response) => response.json())
       .catch((err) => console.log('Error:', err));
 
-      if (!data.error) {
+      if (data && !data.error) {
         setPosts(data);
       }
   }
