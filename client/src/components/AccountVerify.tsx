@@ -9,7 +9,7 @@ function AccountVerify() {
 
   useEffect(() => {
     if (user === null) { return }
-    if ([1, 3].includes(user.status)) { return }
+    if ([1].includes(user.status)) { return } // unverified, needs to verify.
 
     navigate('/');
   }, [user, navigate])
