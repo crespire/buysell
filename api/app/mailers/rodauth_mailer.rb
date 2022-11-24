@@ -6,7 +6,6 @@ class RodauthMailer < ApplicationMailer
     @rodauth.instance_variable_set(:@account, { id: account_id })
     @rodauth.instance_variable_set(:@verify_account_key_value, key)
     @email_link = "#{FRONTEND_BASE_URL}/verify-account/#{@rodauth.verify_account_email_token}"
-    # @email_link = email_link(name, :verify_account, account_id, key)
     @account = find_account(name, account_id)
 
     mail to: @account.email, subject: rodauth(name).verify_account_email_subject
