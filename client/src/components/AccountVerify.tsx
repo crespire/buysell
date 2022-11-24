@@ -8,9 +8,10 @@ function AccountVerify() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user !== null) {
-      navigate('/');
-    }
+    if (user === null) { return }
+    if ([1, 3].includes(user.status)) { return }
+
+    navigate('/');
   }, [user, navigate])
 
   return (

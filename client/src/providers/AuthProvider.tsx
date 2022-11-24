@@ -39,7 +39,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
 
   useEffect(() => {
     let localUser = localStorage.getItem('user');
-    if (localUser) {
+    if (localUser && localUser !== undefined) {
       setUser(JSON.parse(localUser));
     }
   }, [])
