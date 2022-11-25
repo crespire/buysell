@@ -1,12 +1,17 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show update destroy ]
-  before_action :authenticate, only: %i[index create update destroy]
+  before_action :set_post, only: %i[show]
+  before_action :scoped_set_post, only: %i[update destroy]
+  before_action :authenticate, only: %i[create update destroy]
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.includes(:account).all
 
-    render json: @posts
+    render json: @posts, include: {
+      account: {
+        only: [:name]
+      }
+    }
   end
 
   # GET /posts/1
@@ -43,7 +48,11 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.include(:account).find(params[:id])
+    end
+
+    def scoped_set_post
+      @post = current_account.posts.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
