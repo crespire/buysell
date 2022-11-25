@@ -2,7 +2,6 @@ import { PostProps } from "../@types/post";
 
 function Post(props: PostProps) {
   const { post } = props;
-  if (post === undefined) { return <></>; }
 
   return (
     <article>

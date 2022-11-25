@@ -5,7 +5,7 @@ import { PostModel } from "../@types/post";
 import Post from "./Post";
 
 function PostsIndex() {
-  const [posts, setPosts] = useState<PostModel[]>([]);
+  const [posts, setPosts] = useState<PostModel[] | null>(null);
   const { user } = useAuth();
   const baseUrl = useContext<string | null>(BaseUrlContext);
 
@@ -18,18 +18,25 @@ function PostsIndex() {
         },
         credentials: 'include',
         
-      }).then((response) => response.json())
-      .catch((err) => console.log('Error:', err));
+      })
+    .then((response) => response.json())
+    .catch((err) => {
+      setPosts([]);
+      console.log('Error:', err);
+    });
 
-      if (data && !data.error) {
-        setPosts(data);
-      }
+    if (data && !data.error) {
+      setPosts(data);
+    }
   }
 
   useEffect(() => {
     getPosts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
+
+  if (!posts) return <p>Loading...</p>;
+  if (posts.length === 0) return <p>No posts found.</p>;
 
   return (
     <div>
