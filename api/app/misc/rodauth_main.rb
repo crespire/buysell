@@ -87,12 +87,12 @@ class RodauthMain < Rodauth::Rails::Auth
     # ==> Validation
     # Override default validation error messages.
     # no_matching_login_message "user with this email address doesn't exist"
-    # already_an_account_with_this_login_message "user with this email address already exists"
+    already_an_account_with_this_login_message "user with this email address already exists"
     # password_too_short_message { "needs to have at least #{password_minimum_length} characters" }
     # login_does_not_meet_requirements_message { "invalid email#{", #{login_requirement_message}" if login_requirement_message}" }
 
     # Change minimum number of password characters required when creating an account.
-    # password_minimum_length 8
+    password_minimum_length 8
 
     # ==> Remember Feature
     # Remember all logged in users.
@@ -112,15 +112,20 @@ class RodauthMain < Rodauth::Rails::Auth
     # ==> Hooks
     # Validate custom fields in the create account form.
     before_create_account do
+      # Validate custom name property
       name = param_or_nil('name')
       min_name_length = 3
       max_name_length = 36
 
       if name && !name.length.between?(min_name_length, max_name_length)
-        throw_error_status(422, 'name', "must be between #{min_name_length} and #{max_name_length} characters, got: #{name.length}")
+        throw_error_status(422, 'name', "invalid name, must be between #{min_name_length} and #{max_name_length} characters, got: #{name.length}")
       end
 
       account[:name] = name || 'user'
+
+      # Validate password requirements
+      password = param_or_nil('password')
+      throw_error_status(422, 'password', 'invalid password, must contain at least 1 digit') unless password =~ /\d/
     end
 
     # Return JSON user object after certain actions with some fields held back
