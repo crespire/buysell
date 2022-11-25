@@ -3,7 +3,7 @@ interface AccountIncludesModel {
 }
 
 export interface PostProps {
-  post?: PostModel;
+  post: PostModel;
 }
 
 export interface PostModel {
