@@ -1,31 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { useAuth } from "../providers/AuthProvider";
-import { useNavigate } from 'react-router-dom';
 import { BaseUrlContext } from '../index';
-
-interface PostInterface {
-    id:	number;
-    title: string;
-    body: string;
-    created_at: string;
-    updated_at: string;
-    account_id: number;
-}
+import { PostModel } from "../@types/post";
+import Post from "./Post";
 
 function PostsIndex() {
-  const [posts, setPosts] = useState<PostInterface[]>([]);
+  const [posts, setPosts] = useState<PostModel[]>([]);
   const { user } = useAuth();
-  const navigate = useNavigate();
   const baseUrl = useContext<string | null>(BaseUrlContext);
-
-  /** Removing this just to test what my session cookie does.
-  useEffect(() => {
-    if (user === null || [1, 3].includes(user?.status)) { 
-      console.log('User not authorized or wrong status.');
-      navigate('/');
-    }
-  }, [user, navigate])
-  */
 
   async function getPosts() {
     const data = await fetch(`${baseUrl}/posts`,
@@ -46,18 +28,13 @@ function PostsIndex() {
 
   useEffect(() => {
     getPosts();
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   return (
     <div>
-      Page is not auth'd by front end. Making request to backend on a protected endpoint.
       { posts.map((post) => {
-        return (
-          <div key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-          </div>
-        )
+        return <Post key={post.id} post={post} />
       })}
     </div>
   );

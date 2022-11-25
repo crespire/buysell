@@ -1,6 +1,15 @@
-function Post() {
+import { PostProps } from "../@types/post";
+
+function Post(props: PostProps) {
+  const { post } = props;
+  if (post === undefined) { return <></>; }
+
   return (
-    <></>
+    <article>
+      <header>{ post.title }</header>
+      <span>By { post.account.name }, posted on { post.created_at }</span>
+      <p>{ post.body }</p>
+    </article>
   );
 }
 

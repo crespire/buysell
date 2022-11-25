@@ -5,7 +5,6 @@ import { AuthProvider } from './providers/AuthProvider';
 import { createContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import Hero from './components/Hero';
 import Signup from './components/Signup';
 import Signin from './components/SignIn';
 import AccountVerify from './components/AccountVerify';
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Hero />,
+        element: <PostsIndex />,
       },
       {
         path: 'signup',
@@ -31,10 +30,6 @@ const router = createBrowserRouter([
       {
         path: 'verify-account/:token',
         element: <AccountVerify />,
-      },
-      {
-        path: 'posts',
-        element: <PostsIndex />,
       }
     ]
   }

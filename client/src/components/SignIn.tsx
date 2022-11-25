@@ -10,7 +10,7 @@ function Signin() {
 
   useEffect(() => {
     if(user) {
-      navigate('/posts');
+      navigate('/');
     }
   }, [user, navigate])
 

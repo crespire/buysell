@@ -1,9 +1,18 @@
 import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Signup() {
-  const { signUp } = useAuth();
+  const { user, signUp } = useAuth();
+  const navigate = useNavigate();
   const { values, errors, handleChange, handleSubmit, handleBlur } = useForm(signUp);
+
+  useEffect(() => {
+    if(user) {
+      navigate('/');
+    }
+  }, [user, navigate])
 
   return (
     <div>

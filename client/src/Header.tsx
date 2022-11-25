@@ -8,12 +8,19 @@ function Header() {
     <div>
       <nav>
         <Link to='/'>Home</Link>
-        <Link to='/signup'>Sign Up</Link>
-        <Link to='/signin'>Sign In</Link>
-        <Link to='/posts'>Posts Index</Link>
+        { user === null 
+          ? <>
+              <Link to='/signup'>Sign Up</Link>
+              <Link to='/signin'>Sign In</Link>
+            </>
+          : <>
+              <span>Hello { user.name }</span>
+              <Link to="/post/new">New Post</Link>
+              <button onClick={() => logOut()}>Sign Out</button>
+            </>
+        }
       </nav>
-      <button onClick={() => logOut()}>Sign Out</button>
-      { user && <p>Hello { user.name }! { user.status === 1 && "We're still waiting to confirm your account." }</p> }
+      { user && user.status === 1 && <p>We're still waiting to confirm your account.</p> }
     </div>
   );
 }
