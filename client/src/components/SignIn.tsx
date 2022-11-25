@@ -1,9 +1,18 @@
 import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Signin() {
-  const { logIn } = useAuth();
+  const { user, logIn } = useAuth();
+  const navigate = useNavigate();
   const { values, errors, handleChange, handleSubmit, handleBlur } = useForm(logIn);
+
+  useEffect(() => {
+    if(user) {
+      navigate('/posts');
+    }
+  }, [user, navigate])
 
   return (
     <div>
