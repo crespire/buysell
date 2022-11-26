@@ -37,6 +37,24 @@ export function useAuth(): AuthContextModel {
 export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
+  /** TODO: "beforeUnload" listener here to delete local storage user
+   * 
+   * Because we load the AuthProvider component as the root component, it's
+   * probably a good place for us to do this app 'global' type of cleanup.
+   * 
+  */
+
+  /** TODO: Add time to live for localStorage user
+   * 
+   * I think we should add an expiry for the local user object so that we don't
+   * have a user persisted in local state while our session cookie from the API
+   * only lasts for the session.
+   * 
+   * I think it makes sense then to consolidate the localStorage functions into
+   * helper methods here so we can keep all the logic in one place.
+   * 
+   */
+
   useEffect(() => {
     let localUser = localStorage.getItem('user');
     if (localUser && localUser !== undefined) {
