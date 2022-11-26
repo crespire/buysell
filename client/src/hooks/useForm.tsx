@@ -31,6 +31,11 @@ const useForm = (callback: Function): FormHookInterface => {
       setErrors(newErrors);
     };
 
+    // Property 'pattern' doesn't exist on <textarea>, so hacky regex validation
+    if (!pattern && property === 'body') {
+      pattern = '.{5,}';
+    };
+
     const regex = new RegExp(pattern);
     regex.test(value)
       ? errorRemover()
