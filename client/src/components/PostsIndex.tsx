@@ -3,6 +3,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { BaseUrlContext } from '../index';
 import { PostModel } from "../@types/post";
 import Post from "./Post";
+import PostForm from "./PostForm";
 
 function PostsIndex() {
   const [posts, setPosts] = useState<PostModel[] | null>(null);
@@ -40,6 +41,7 @@ function PostsIndex() {
 
   return (
     <div>
+      { user && <PostForm /> }
       { posts.map((post) => {
         return <Post key={post.id} post={post} />
       })}
