@@ -1,12 +1,8 @@
 import { ChangeEventHandler, FocusEventHandler, useState } from 'react';
 
-interface KeyedStateInterface {
-  [property: string]: string
-}
-
 interface FormHookInterface {
-  values: KeyedStateInterface;
-  errors: KeyedStateInterface;
+  values: Record<string, any>;
+  errors: Record<string, any>;
   handleChange: ChangeEventHandler;
   handleSubmit: (e:React.SyntheticEvent, ...args:string[]) => void;
   handleBlur: FocusEventHandler;
@@ -19,9 +15,9 @@ interface InputFieldValuesInterface {
   validationMsg: string;
 }
 
-const useForm = (callback: Function): FormHookInterface => {
-  const [values, setValues] = useState<KeyedStateInterface>({});
-  const [errors, setErrors] = useState<KeyedStateInterface>({});
+const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
+  const [values, setValues] = useState<Record<string, any>>(defaultValues);
+  const [errors, setErrors] = useState<Record<string, any>>({});
   const [touched, setTouched] = useState<string[]>([]);
 
   const validate = (property:string, value:string, pattern:string, message:string): void => {
