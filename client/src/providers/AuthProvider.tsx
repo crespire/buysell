@@ -37,19 +37,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserModel | null>(null);
   const baseUrl = useContext(BaseUrlContext);
 
-  // Clean up localStorage on window close.
-  useEffect(() => {
-    const onClose = () => {
-      localStorage.clear();
-    };
-
-    window.addEventListener('beforeunload', onClose);
-
-    return () => {
-      window.removeEventListener('beforeunload', onClose);
-    }
-  }, []);
-
   /** TODO: Add time to live for localStorage user
    * 
    * I think we should add an expiry for the local user object so that we don't
@@ -83,11 +70,11 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       return null;
     }
 
-    return JSON.parse(item.user);
+    return item.user;
   }
 
   useEffect(() => {
-    let localUser = getWithExpiry('user')
+    let localUser = getWithExpiry('user');
     if (localUser) {
       setUser(localUser);
     }
