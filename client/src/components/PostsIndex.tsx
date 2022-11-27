@@ -34,7 +34,7 @@ function PostsIndex() {
   useEffect(() => {
     getPosts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [])
 
   if (!posts) return <p>Loading...</p>;
   if (posts.length === 0) return <p>No posts found.</p>;

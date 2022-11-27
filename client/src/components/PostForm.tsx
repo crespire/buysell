@@ -21,6 +21,7 @@ function PostForm() {
         <label htmlFor="body">Body: </label>
         <textarea id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
         { errors.body && <p>{ errors.body }</p> }
+        <button type="submit">Post!</button>
       </form>
     </div>
     
