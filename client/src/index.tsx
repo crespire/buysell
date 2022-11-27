@@ -9,6 +9,7 @@ import Signup from './components/Signup';
 import Signin from './components/SignIn';
 import AccountVerify from './components/AccountVerify';
 import PostsIndex from './components/PostsIndex';
+import PostForm from './components/PostForm';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'verify-account/:token',
         element: <AccountVerify />,
+      },
+      { // TODO: Test path
+        path: 'post-form-test',
+        element: <PostForm />,
       }
     ]
   }
