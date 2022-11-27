@@ -49,10 +49,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BaseUrlContext.Provider value={baseUrl}>
+    <BaseUrlContext.Provider value={baseUrl}>
+      <AuthProvider>
         <RouterProvider router={router} />
-      </BaseUrlContext.Provider>
-    </AuthProvider>
+      </AuthProvider>
+    </BaseUrlContext.Provider>
   </React.StrictMode>
 );

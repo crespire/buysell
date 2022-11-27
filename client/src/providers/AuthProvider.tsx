@@ -5,13 +5,12 @@ import {
   useContext,
   createContext
 } from 'react';
+import { BaseUrlContext } from '..';
 
-const baseUrl = 'http://localhost:3000'
-
-export type User = {
-  login: string,
-  status: 1 | 2 | 3, // unverified, verified, closed
-  name: string,
+export interface UserModel {
+  login: string;
+  status: 1 | 2 | 3; // unverified, verified, closed
+  name: string;
 }
 
 export interface AuthProviderProps {
@@ -19,7 +18,7 @@ export interface AuthProviderProps {
 }
 
 export interface AuthContextModel {
-  user: User | null;
+  user: UserModel | null;
   signUp: (email: string, password: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
   verifyUser: (key: string ) => Promise<void>;
@@ -35,7 +34,8 @@ export function useAuth(): AuthContextModel {
 }
 
 export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserModel | null>(null);
+  const baseUrl = useContext(BaseUrlContext);
 
   // Clean up localStorage on window close.
   useEffect(() => {
@@ -61,7 +61,8 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
    * 
    */
 
-  const setWithExpiry = (key: string, value: object, ttl=604800000): void => {
+  const oneDay = 86_400_000;
+  const setWithExpiry = (key: string, value: object, ttl=(oneDay * 2)): void => {
     const now = new Date().getTime();
     const item = {
       user: value,
@@ -70,7 +71,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     localStorage.setItem(key, JSON.stringify(item));
   }
 
-  const getWithExpiry = (key: string): User | null => {
+  const getWithExpiry = (key: string): UserModel | null => {
     const rawItem = localStorage.getItem(key);
     if (!rawItem) { return null }
 
