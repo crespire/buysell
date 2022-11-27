@@ -37,12 +37,18 @@ export function useAuth(): AuthContextModel {
 export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
-  /** TODO: "beforeUnload" listener here to delete local storage user
-   * 
-   * Because we load the AuthProvider component as the root component, it's
-   * probably a good place for us to do this app 'global' type of cleanup.
-   * 
-  */
+  // Clean up localStorage on window close.
+  useEffect(() => {
+    const onClose = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener('beforeunload', onClose);
+
+    return () => {
+      window.removeEventListener('beforeunload', onClose);
+    }
+  }, []);
 
   /** TODO: Add time to live for localStorage user
    * 
@@ -55,10 +61,34 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
    * 
    */
 
+  const setWithExpiry = (key: string, value: object, ttl=604800000): void => {
+    const now = new Date().getTime();
+    const item = {
+      user: value,
+      expiry: now + ttl,
+    }
+    localStorage.setItem(key, JSON.stringify(item));
+  }
+
+  const getWithExpiry = (key: string): User | null => {
+    const rawItem = localStorage.getItem(key);
+    if (!rawItem) { return null }
+
+    const item = JSON.parse(rawItem);
+    const now = new Date().getTime();
+
+    if (now > item.expiry) {
+      localStorage.remoteItem(key);
+      return null;
+    }
+
+    return JSON.parse(item.user);
+  }
+
   useEffect(() => {
-    let localUser = localStorage.getItem('user');
-    if (localUser && localUser !== undefined) {
-      setUser(JSON.parse(localUser));
+    let localUser = getWithExpiry('user')
+    if (localUser) {
+      setUser(localUser);
     }
   }, [])
 
@@ -80,7 +110,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     }).then(response => response.json()).then(data => {
       console.log('Got a response:', data);
       setUser(data.user);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      setWithExpiry('user', data.user);
       console.log('Set user in state');
     }).catch(error => console.log(error));
   }
@@ -98,7 +128,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     }).then(response => response.json()).then(data => {
       console.log('Got a response:', data);
       setUser(data.user);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      setWithExpiry('user', data.user);
       console.log('Set user in state');
     }).catch(error => console.log(error));
   }
@@ -133,7 +163,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       body: JSON.stringify({"key": key})
     }).then(response => response.json()).then(data => {
       setUser(data.user);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      setWithExpiry('user', data.user);
       console.log('User updated after verification.');
     }).catch(error => console.log(error));
   }
