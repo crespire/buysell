@@ -9,18 +9,25 @@ function PostForm() {
   const submitForm = () => {
     // fetch to submit post content
   }
-  const { values, errors, handleBlur, handleChange, handleSubmit } = useForm(submitForm);
+  const defaultPostValues = {
+    'status': 1,
+  };
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useForm(submitForm, defaultPostValues);
 
   return (
-    <div>
+    <div className="flex flex-col p-2">
       <h1>New Post</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title: </label>
-        <input id="title" name="title" type="text" value={values['title'] || ''} onBlur={handleBlur} onChange={handleChange} pattern=".{3,}" minLength={3} required={true} data-error="Title must be at least 3 characters long." />
-        { errors.title && <p>{ errors.title }</p> }
-        <label htmlFor="body">Body: </label>
-        <textarea id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
-        { errors.body && <p>{ errors.body }</p> }
+      <form className="flex flex-col p-2 align-center justify-center" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title">Title: </label>
+          <input id="title" name="title" type="text" value={values['title'] || ''} onBlur={handleBlur} onChange={handleChange} pattern=".{3,}" minLength={3} required={true} data-error="Title must be at least 3 characters long." />
+          { errors.title && <p>{ errors.title }</p> }
+        </div>
+        <div>
+          <label htmlFor="body">Body: </label>
+          <textarea id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
+          { errors.body && <p>{ errors.body }</p> }`
+        </div>
         <button type="submit">Post!</button>
       </form>
     </div>
