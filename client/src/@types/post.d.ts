@@ -12,5 +12,6 @@ export interface PostModel {
   body: string;
   created_at: string;
   updated_at: string;
+  status: 1 | 2 | 3; // draft, published, closed
   account: AccountIncludesModel;
 }
