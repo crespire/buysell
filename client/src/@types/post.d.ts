@@ -1,4 +1,5 @@
-interface AccountIncludesModel {
+// Stripped down user model for post index end point
+interface UserIncludesModel {
   name: string;
 }
 
@@ -13,5 +14,5 @@ export interface PostModel {
   created_at: string;
   updated_at: string;
   status: 1 | 2 | 3; // draft, published, closed
-  account: AccountIncludesModel;
+  account: UserIncludesModel;
 }
