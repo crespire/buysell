@@ -66,7 +66,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     const now = new Date().getTime();
 
     if (now > item.expiry) {
-      localStorage.remoteItem(key);
+      localStorage.removeItem(key);
       return null;
     }
 

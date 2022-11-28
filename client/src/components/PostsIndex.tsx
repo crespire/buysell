@@ -41,7 +41,6 @@ function PostsIndex() {
 
   return (
     <div>
-      { user && <PostForm /> }
       { posts.map((post) => {
         return <Post key={post.id} post={post} />
       })}

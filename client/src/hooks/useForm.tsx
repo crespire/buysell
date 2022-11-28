@@ -79,6 +79,10 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
         case 'logOut':
           console.log('Sending logout...');
           break;
+        case 'submitForm':
+          console.log('Submitting new post...');
+          callback();
+          break;
         default:
           console.log('Callback name not recognized, calling without args.');
           callback();

@@ -32,8 +32,8 @@ const router = createBrowserRouter([
         path: 'verify-account/:token',
         element: <AccountVerify />,
       },
-      { // TODO: Test path
-        path: 'post-form-test',
+      { 
+        path: 'posts/new',
         element: <PostForm />,
       }
     ]

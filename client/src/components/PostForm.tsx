@@ -2,17 +2,39 @@ import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
 import { BaseUrlContext } from '..';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function PostForm() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const baseUrl = useContext(BaseUrlContext);
-  const submitForm = () => {
-    // fetch to submit post content
+  const submitForm = async () => {
+    const requestData = JSON.stringify(
+      {
+        'title': values['title'],
+        'body': values['body'],
+        'status': values['status'],
+      }
+    );
+    await fetch(`${baseUrl}/posts`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: requestData
+    }).then(response => response.json()).then(data => {
+      console.log('Response:', data);
+      navigate('/');
+    }).catch(err => console.log('Error:', err));
   }
   const defaultPostValues = {
     'status': 1,
   };
   const { values, errors, handleBlur, handleChange, handleSubmit } = useForm(submitForm, defaultPostValues);
+
+  if (!user) { return <p>You must be authorized to use this page.</p>; }
 
   return (
     <div className="flex flex-col p-2">
