@@ -3,7 +3,6 @@ import useForm from '../hooks/useForm';
 import { BaseUrlContext } from '..';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { arrayBuffer } from 'stream/consumers';
 
 function PostForm() {
   const { user } = useAuth();
@@ -12,14 +11,17 @@ function PostForm() {
   const submitForm = async () => {
     const requestData = new FormData();
     
+    // Capture all form data except file uploads
     for (const [key, value] of Object.entries(values)) {
       if (key === 'images') { continue; }
 
       requestData.append(`post[${key}]`, value);
     }
 
+    // Adds default status of 'draft'
     requestData.append("post[status]", 'draft');
 
+    // Adds file blobs to form data
     for (let i = 0; i < values['images'].length; i++) {
       requestData.append('post[images][]', values['images'][i], values['images'][i].name);
     }
