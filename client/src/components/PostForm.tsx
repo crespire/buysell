@@ -3,6 +3,7 @@ import useForm from '../hooks/useForm';
 import { BaseUrlContext } from '..';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { arrayBuffer } from 'stream/consumers';
 
 function PostForm() {
   const { user } = useAuth();
@@ -19,14 +20,19 @@ function PostForm() {
 
     requestData.append("post[status]", 'draft');
 
-    // Todo
-    // values['files'] is a FileList with blobs.
-    // How do I get this sent to the Rails API?
-    // It's currently being sent a string '[object FileList]'
+    for (let i = 0; i < values['images'].length; i++) {
+      requestData.append('post[images][]', values['images'][i], values['images'][i].name);
+    }
 
+    // Debug rendering of FormData
     console.log('Built data object:');
     for (const pair of requestData.entries())  {
-      console.log(pair[0], pair[1]);
+      if (pair[0] === 'post[images][]') {
+        console.log('File:');
+        console.log(pair[1]);
+      } else {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }      
     }
 
     await fetch(`${baseUrl}/posts`, {
