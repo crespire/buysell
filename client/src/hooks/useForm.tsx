@@ -63,6 +63,10 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     });
   };
 
+  const handleFiles = null; // file field handler.
+
+  const handleAsForm = null; // TODO: formData handler?
+
   const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
     e.preventDefault();
 
