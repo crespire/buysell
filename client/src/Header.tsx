@@ -16,6 +16,7 @@ function Header() {
           : <>
               <span>Hello { user.name }</span>
               <button onClick={() => logOut()}>Sign Out</button>
+              <Link to='/posts/new'>New Post</Link>
             </>
         }
       </nav>

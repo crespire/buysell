@@ -9,19 +9,16 @@ function PostForm() {
   const navigate = useNavigate();
   const baseUrl = useContext(BaseUrlContext);
   const submitForm = async () => {
-    const requestData = JSON.stringify(
-      {
-        'title': values['title'],
-        'body': values['body'],
-        'status': values['status'],
-      }
-    );
+    const requestData = new FormData();
+    
+    for (const [key, value] of Object.entries(values)) {
+      requestData.append(`post[${key}]`, value);
+    }
+
+    requestData.append("post[status]", 'draft');
+
     await fetch(`${baseUrl}/posts`, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
       credentials: 'include',
       body: requestData
     }).then(response => response.json()).then(data => {
@@ -29,10 +26,7 @@ function PostForm() {
       navigate('/');
     }).catch(err => console.log('Error:', err));
   }
-  const defaultPostValues = {
-    'status': 1,
-  };
-  const { values, errors, handleBlur, handleChange, handleSubmit } = useForm(submitForm, defaultPostValues);
+  const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(submitForm);
 
   if (!user) { return <p>You must be authorized to use this page.</p>; }
 
@@ -49,6 +43,10 @@ function PostForm() {
           <label htmlFor="body">Body: </label>
           <textarea id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
           { errors.body && <p>{ errors.body }</p> }`
+        </div>
+        <div>
+          <label htmlFor="images">Pictures: </label>
+          <input type="file" name="images" accept="image/*" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
         </div>
         <button type="submit">Post!</button>
       </form>

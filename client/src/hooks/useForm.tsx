@@ -4,6 +4,7 @@ interface FormHookInterface {
   values: Record<string, any>;
   errors: Record<string, any>;
   handleChange: ChangeEventHandler;
+  handleFiles: ChangeEventHandler;
   handleSubmit: (e:React.SyntheticEvent, ...args:string[]) => void;
   handleBlur: FocusEventHandler;
 }
@@ -63,9 +64,21 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     });
   };
 
-  const handleFiles = null; // file field handler.
+  // Handler for file upload
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
 
-  const handleAsForm = null; // TODO: formData handler?
+    const target = e.target as HTMLInputElement;
+    const property = target.name;
+    const files = target.files;
+
+    console.log(files);
+
+    setValues({
+      ...values,
+      [property]: files,
+    });
+  };
 
   const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
     e.preventDefault();
@@ -113,7 +126,13 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     });
   }
 
-  return {values, errors, handleChange, handleSubmit, handleBlur};
+  return {
+    values,
+    errors,
+    handleChange,
+    handleFiles,
+    handleSubmit,
+    handleBlur};
 };
 
 export default useForm;
