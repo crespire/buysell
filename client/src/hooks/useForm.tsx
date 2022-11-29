@@ -72,8 +72,6 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     const property = target.name;
     const files = target.files;
 
-    console.log(files);
-
     setValues({
       ...values,
       [property]: files,

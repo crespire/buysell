@@ -12,10 +12,22 @@ function PostForm() {
     const requestData = new FormData();
     
     for (const [key, value] of Object.entries(values)) {
+      if (key === 'images') { continue; }
+
       requestData.append(`post[${key}]`, value);
     }
 
     requestData.append("post[status]", 'draft');
+
+    // Todo
+    // values['files'] is a FileList with blobs.
+    // How do I get this sent to the Rails API?
+    // It's currently being sent a string '[object FileList]'
+
+    console.log('Built data object:');
+    for (const pair of requestData.entries())  {
+      console.log(pair[0], pair[1]);
+    }
 
     await fetch(`${baseUrl}/posts`, {
       method: 'POST',
@@ -33,7 +45,7 @@ function PostForm() {
   return (
     <div className="flex flex-col p-2">
       <h1>New Post</h1>
-      <form className="flex flex-col p-2 align-center justify-center" onSubmit={handleSubmit}>
+      <form className="flex flex-col p-2 align-center justify-center" onSubmit={handleSubmit} encType='multipart/form-data'>
         <div>
           <label htmlFor="title">Title: </label>
           <input id="title" name="title" type="text" value={values['title'] || ''} onBlur={handleBlur} onChange={handleChange} pattern=".{3,}" minLength={3} required={true} data-error="Title must be at least 3 characters long." />
