@@ -3,7 +3,6 @@ import { useAuth } from "../providers/AuthProvider";
 import { BaseUrlContext } from '../index';
 import { PostModel } from "../@types/post";
 import Post from "./Post";
-import PostForm from "./PostForm";
 
 function PostsIndex() {
   const [posts, setPosts] = useState<PostModel[] | null>(null);

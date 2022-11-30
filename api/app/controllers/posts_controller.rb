@@ -5,14 +5,14 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.includes(:account, :images_blobs).all
+    @posts = Post.includes(:account).all
 
-    render json: @posts, include: [{ account: { only: [:name] } }, :images_blobs]
+    render json: @posts, include: [{ account: { only: [:name] } }]
   end
 
   # GET /posts/1
   def show
-    render json: @post, include: [{ account: { only: [:name] } }, :images_blobs]
+    render json: @post, include: [{ account: { only: [:name] } }]
   end
 
   # POST /posts
@@ -44,7 +44,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.includes(:account, :images_blobs).find(params[:id])
+      @post = Post.includes(:account).find(params[:id])
     end
 
     def scoped_set_post
