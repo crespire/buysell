@@ -5,9 +5,9 @@ function Post(props: PostProps) {
 
   return (
     <article>
-      <header>{ post.title }</header>
-      <span>By { post.account.name }, posted on { post.created_at }</span>
-      <p>{ post.body }</p>
+      <header>{ post?.title }</header>
+      <span>By { post?.account?.name }, posted on { post?.created_at }</span>
+      <p>{ post?.body }</p>
     </article>
   );
 }
