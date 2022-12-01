@@ -10,7 +10,7 @@ class Post < ApplicationRecord
   has_many_attached :images
 
   def image_urls
-    return unless images.size.positive?
+    return {} unless images.size.positive?
 
     images.each_with_object({}) do |file, hash|
       path = Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
