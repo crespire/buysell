@@ -5,14 +5,17 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.includes(:account).all
+    @posts = Post.includes(:account, :images_attachments, :images_blobs).all
+    @posts = @posts.map do |post|
+      post.as_json.merge({ account: { name: post.account.name }, images: post.image_urls })
+    end
 
-    render json: @posts, include: [{ account: { only: [:name] } }]
+    render json: @posts
   end
 
   # GET /posts/1
   def show
-    render json: @post, include: [{ account: { only: [:name] } }]
+    render json: @post
   end
 
   # POST /posts
@@ -42,17 +45,20 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.includes(:account).find(params[:id])
-    end
 
-    def scoped_set_post
-      @post = current_account.posts.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.includes(:account, :images_attachments, :images_blobs).find(params[:id])
+    @post = @post.as_json.merge({ account: { name: @post.account.name }, images: @post.image_urls })
+  end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:title, :body, :status, images: [])
-    end
+  # Scoped post set
+  def scoped_set_post
+    @post = current_account.posts.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(:title, :body, :status, images: [])
+  end
 end
