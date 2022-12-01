@@ -9,11 +9,13 @@ class Post < ApplicationRecord
   belongs_to :account
   has_many_attached :images
 
-  def generate_image_urls
-    return unless images.count.positive?
+  def image_urls
+    return unless images.size.positive?
 
-    images.each_with_object([]) do |file, array|
-      array << Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
+    images.each_with_object({}) do |file, hash|
+      path = Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
+      filename = path.split('/').last
+      hash[filename] = path
     end
   end
 end
