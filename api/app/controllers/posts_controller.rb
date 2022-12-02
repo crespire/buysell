@@ -3,6 +3,8 @@ class PostsController < ApplicationController
   before_action :scoped_set_post, only: %i[update destroy]
   before_action :authenticate, only: %i[create update destroy]
 
+  # The index and show routes should always return an array of posts
+
   # GET /posts
   def index
     @posts = Post.includes(:account, :images_attachments, :images_blobs).all
@@ -15,12 +17,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    render json: @post
+    render json: [@post]
   end
 
   # POST /posts
   def create
-    puts params
     @post = current_account.posts.build(post_params)
 
     if @post.save

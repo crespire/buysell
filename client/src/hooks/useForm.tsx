@@ -130,7 +130,8 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     handleChange,
     handleFiles,
     handleSubmit,
-    handleBlur};
+    handleBlur
+  };
 };
 
 export default useForm;
