@@ -4,6 +4,7 @@ import { PostModel } from '../@types/post';
 interface PostFetchHookInterface {
   posts: PostModel[] | null;
   refetch: Function;
+  deletePost: (id: number) => void;
 }
 
 const useFetchPosts = (url:string): PostFetchHookInterface => {
@@ -37,9 +38,19 @@ const useFetchPosts = (url:string): PostFetchHookInterface => {
     }
   }
 
+  const deletePost = (id: number): void => {
+    // Delete Post on Backend.
+    setPosts((prev) => {
+      if (!prev) { return null }
+
+      return prev.filter((post) => post.id === id)
+    });
+  }
+
   return {
     posts,
     refetch,
+    deletePost
   };
 };
 
