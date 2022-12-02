@@ -1,6 +1,7 @@
 // Stripped down user model for post index end point
 interface UserIncludesModel {
   name: string;
+  id: number;
 }
 
 export interface PostProps {

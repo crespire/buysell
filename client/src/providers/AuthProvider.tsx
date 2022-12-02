@@ -11,6 +11,7 @@ export interface UserModel {
   login: string;
   status: 1 | 2 | 3; // unverified, verified, closed
   name: string;
+  id: number;
 }
 
 export interface AuthProviderProps {
