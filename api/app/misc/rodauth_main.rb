@@ -129,7 +129,7 @@ class RodauthMain < Rodauth::Rails::Auth
     end
 
     # Return JSON user object after certain actions with some fields held back
-    fields_held_back = %i[password_hash id]
+    fields_held_back = %i[password_hash]
     after_login do
       json_response.merge!(user: account.as_json(except: fields_held_back))
     end

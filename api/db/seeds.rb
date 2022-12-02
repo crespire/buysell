@@ -8,3 +8,5 @@
 
 user = Account.create(status: 'verified', name: 'test_user1', email: 'test1@test.com', password: 'pass1234')
 user.posts.build(title: 'Test Title', body: 'Test Body Content', status: 'draft').save
+
+Account.create(status: 'verified', name: 'test_user2', email: 'test2@test.com', password: 'pass1234')

@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.includes(:account, :images_attachments, :images_blobs).all
     @posts = @posts.map do |post|
-      post.as_json.merge({ account: { name: post.account.name }, images: post.image_urls })
+      post.as_json.merge({ account: { name: post.account.name, id: post.account.id }, images: post.image_urls })
     end
 
     render json: @posts
@@ -50,7 +50,7 @@ class PostsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.includes(:account, :images_attachments, :images_blobs).find(params[:id])
-    @post = @post.as_json.merge({ account: { name: @post.account.name }, images: @post.image_urls })
+    @post = @post.as_json.merge({ account: { name: @post.account.name, id: @post.account.id }, images: @post.image_urls })
   end
 
   # Scoped post set
