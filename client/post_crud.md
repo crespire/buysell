@@ -21,3 +21,11 @@ Some thoughts:
 2) Keeping the store sync'd with the backend might be a little easier. Possible to build a scoped index to pull all the resources that the user can access. This might involve some scoping on the Rails side as well.
 
 3) Could either a) poll the backend periodically, OR b) pubsub it with a websocket.
+
+# React Query
+Seems like global state management for this kind of dynamic library is probably not good. Would probably be a good idea for data that doesn't change much (like store inventory).
+
+I think the way forward here is to use React Query.
+
+https://www.youtube.com/watch?v=seU46c6Jz7E
+
