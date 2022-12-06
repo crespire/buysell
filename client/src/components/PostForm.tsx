@@ -66,7 +66,7 @@ function PostForm() {
         </div>
         <div>
           <label htmlFor="images">Pictures: </label>
-          <input type="file" name="images" accept="image/*" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
+          <input type="file" name="images" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
         </div>
         <button type="submit">Post!</button>
       </form>
