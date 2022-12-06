@@ -12,8 +12,10 @@ class Post < ApplicationRecord
   def image_urls
     return {} unless images.size.positive?
 
+    ActiveStorage::Current.host = 'http://localhost:3000'
     images.each_with_object({}) do |file, hash|
-      path = Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
+      #path = Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
+      path = file.url
       filename = path.split('/').last
       hash[filename] = path
     end

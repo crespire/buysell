@@ -7,7 +7,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.includes(:account, :images_attachments, :images_blobs).all
+    @posts = Post.includes(:account).all.with_attached_images
     @posts = @posts.map do |post|
       post.as_json.merge({ account: { name: post.account.name, id: post.account.id }, images: post.image_urls })
     end

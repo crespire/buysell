@@ -40,5 +40,8 @@ module Api
     config.session_store :cookie_store, key: '_buysell_session', expires: 2.days.from_now
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+
+    # ActiveStorage URLs
+    config.active_storage.urls_expire_in 1.week
   end
 end

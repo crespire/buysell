@@ -21,8 +21,7 @@ const useFetchPosts = (url:string): PostFetchHookInterface => {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
-
+        credentials: 'include'
       })
     .then((response) => response.json())
     .catch((err) => {

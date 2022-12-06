@@ -16,7 +16,7 @@ function Post(props: PostProps) {
       <p>{ post?.body }</p>
       { post?.images && (
         <ul>
-          { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={baseUrl + path} alt={name} /></li>) }
+          { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={baseUrl + path} alt={name} /></li> ) }
         </ul>
       )}
     </article>
