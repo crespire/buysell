@@ -16,7 +16,7 @@ class Post < ApplicationRecord
     allowed_types = %w[image/jpeg image/gif image/png image/webp image/apng]
     images.each do |image|
       unless image.content_type.in?(allowed_types)
-        errors.add(:errors, "Image type \"#{image.content_type}\" is disallowed, accepted formats: #{allowed_types.join(', ')}")
+        errors.add(:errors, "#{image.name}'s type '#{image.content_type}' is disallowed, accepted formats: #{allowed_types.join(', ')}")
         image.purge_later
       end
     end
