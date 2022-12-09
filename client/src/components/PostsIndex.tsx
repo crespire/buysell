@@ -1,18 +1,21 @@
-import { useContext } from "react";
-import { BaseUrlContext } from '../index';
 import Post from "./Post";
-import useFetchPosts from "../hooks/useFetchPosts";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPosts } from "../providers/PostsApi";
+import { PostModel } from "../@types/post";
 
 function PostsIndex() {
-  const baseUrl = useContext<string | null>(BaseUrlContext);
-  const { posts } = useFetchPosts(`${baseUrl}/posts`);
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+  });
+  console.log(data);
 
-  if (posts === null) return <p>Loading...</p>;
-  if (posts?.length === 0) return <p>No posts found.</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError && error instanceof Error) return <p>Error: {error.message} </p>;
 
   return (
     <div>
-      { posts?.map((post) => {
+      { data?.map((post: PostModel) => {
         return <Post key={post.id} post={post} />
       })}
     </div>

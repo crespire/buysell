@@ -5,7 +5,7 @@ interface UserIncludesModel {
 }
 
 export interface PostProps {
-  post?: PostModel;
+  post?: PostModel | Record<string, any>;
 }
 
 export interface PostModel {
@@ -16,5 +16,5 @@ export interface PostModel {
   updated_at: string | null;
   status: 1 | 2 | 3 | null; // draft, published, closed
   account: UserIncludesModel | null;
-  images: string[] | null;
+  images: Record<string, string> | null;
 }

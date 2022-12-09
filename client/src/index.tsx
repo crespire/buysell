@@ -46,7 +46,7 @@ const router = createBrowserRouter([
 ])
 
 export const BaseUrlContext = createContext<string|null>(null);
-const baseUrl = 'http://localhost:3000';
+export const baseUrl = 'http://localhost:3000';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

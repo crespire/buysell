@@ -1,18 +1,21 @@
 import { useParams } from 'react-router-dom';
-import { BaseUrlContext } from "..";
-import { useContext } from 'react';
 import Post from "./Post";
-import useFetchPosts from "../hooks/useFetchPosts";
+import { getPost } from '../providers/PostsApi';
+import { useQuery } from '@tanstack/react-query';
 
 function SinglePost(): JSX.Element {
-  const baseUrl = useContext(BaseUrlContext);
   const { id } = useParams();
-  const { posts } = useFetchPosts(`${baseUrl}/posts/${id}`);
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => getPost(id)
+  });
 
-  if (posts === null) return <p>Loading...</p>;
-  if (posts.length === 0) return <p>Post not found.</p>
+  console.log(data);
 
-  return <Post key={posts[0].id} post={posts[0]} />;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError && error instanceof Error) return <p>Post not found: {error.message}</p>
+
+  return <Post key={data?.id} post={data} />;
 }
 
 export default SinglePost;

@@ -12,11 +12,11 @@ function Post(props: PostProps) {
     <article>
       <header>{ post?.title }</header>
       <span>By { post?.account?.name }, posted on { post?.created_at }</span>
-      { user?.id === post?.account?.id && <span>Delete</span> }
+      { user && user?.id === post?.account?.id && <span>Delete</span> }
       <p>{ post?.body }</p>
       { post?.images && (
         <ul>
-          { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={baseUrl + path} alt={name} /></li> ) }
+          { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={`${baseUrl}${path}`} alt={name} /></li> ) }
         </ul>
       )}
     </article>
