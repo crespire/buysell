@@ -8,7 +8,7 @@ function PostForm() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const baseUrl = useContext(BaseUrlContext);
-  const submitForm = async () => {
+  const addPost = async () => {
     const requestData = new FormData();
     
     // Capture all form data except file uploads
@@ -50,7 +50,7 @@ function PostForm() {
       navigate('/');
     }).catch(err => console.log('Error:', err));
   }
-  const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(submitForm);
+  const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(addPost);
 
   if (!user) { return <p>You must be authorized to use this page.</p>; }
 
