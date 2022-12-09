@@ -21,9 +21,13 @@ function PostForm() {
     // Adds default status of 'draft'
     requestData.append("post[status]", 'draft');
 
-    // Adds file blobs to form data
-    for (let i = 0; i < values['images'].length; i++) {
-      requestData.append('post[images][]', values['images'][i], values['images'][i].name);
+    if (values['images']) {
+      // Adds file blobs to form data
+      for (let i = 0; i < values['images'].length; i++) {
+        requestData.append('post[images][]', values['images'][i], values['images'][i].name);
+      }
+    } else {
+      requestData.append('post[images][]', '');
     }
 
     // Debug rendering of FormData

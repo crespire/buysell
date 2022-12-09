@@ -14,7 +14,7 @@ function Post(props: PostProps) {
       <span>By { post?.account?.name }, posted on { post?.created_at }</span>
       { user && user?.id === post?.account?.id && <span>Delete</span> }
       <p>{ post?.body }</p>
-      { post?.images && (
+      { Object.keys(post?.images).length > 0 && (
         <ul>
           { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={`${baseUrl}${path}`} alt={name} /></li> ) }
         </ul>
