@@ -3,8 +3,6 @@ class PostsController < ApplicationController
   before_action :scoped_set_post, only: %i[update destroy]
   before_action :authenticate, only: %i[create update destroy]
 
-  # The index and show routes should always return an array of posts
-
   # GET /posts
   def index
     @posts = Post.includes(:account).all.with_attached_images
