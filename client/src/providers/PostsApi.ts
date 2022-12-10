@@ -34,3 +34,18 @@ export async function getPost(id?: string): Promise<PostModel> {
 
   return data;
 };
+
+export async function deletePost(id: string): Promise<void> {
+  const response = await fetch(`${baseUrl}/posts/${id}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error(`${response.statusText} ${response.text}`);
+  }
+}
