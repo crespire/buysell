@@ -42,6 +42,6 @@ module Api
     config.middleware.use config.session_store, config.session_options
 
     # ActiveStorage URLs
-    config.active_storage.urls_expire_in 1.week
+    config.active_storage.urls_expire_in 24.hours
   end
 end

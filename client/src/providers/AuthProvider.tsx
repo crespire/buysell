@@ -38,19 +38,8 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserModel | null>(null);
   const baseUrl = useContext(BaseUrlContext);
 
-  /** TODO: Add time to live for localStorage user
-   * 
-   * I think we should add an expiry for the local user object so that we don't
-   * have a user persisted in local state while our session cookie from the API
-   * only lasts for the session.
-   * 
-   * I think it makes sense then to consolidate the localStorage functions into
-   * helper methods here so we can keep all the logic in one place.
-   * 
-   */
-
-  const oneDay = 86_400_000;
-  const setWithExpiry = (key: string, value: object, ttl=(oneDay * 2)): void => {
+  const oneDay = 86_400_000; // 24 hours
+  const setWithExpiry = (key: string, value: object, ttl=(oneDay)): void => {
     const now = new Date().getTime();
     const item = {
       user: value,
