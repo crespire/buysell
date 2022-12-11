@@ -37,7 +37,7 @@ module Api
     config.api_only = true
 
     # JSON Session
-    config.session_store :cookie_store, key: '_buysell_session', expires: 2.days.from_now
+    config.session_store :cookie_store, key: '_buysell_session', expires: 24.hours.from_now
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
 
