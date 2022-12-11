@@ -2,7 +2,7 @@ import { PostProps } from "../@types/post";
 import { useAuth } from "../providers/AuthProvider";
 import { BaseUrlContext } from "..";
 import { useContext } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePost } from "../providers/PostsApi";
 import { useNavigate } from "react-router";
 
@@ -14,7 +14,7 @@ function Post(props: PostProps) {
   const baseUrl = useContext(BaseUrlContext);
   const deletePostMutation = useMutation({
     mutationFn: deletePost,
-    onSuccess: () => {
+    onSettled: () => { 
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       navigate('/')
     }
