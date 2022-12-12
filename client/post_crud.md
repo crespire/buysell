@@ -29,3 +29,9 @@ I think the way forward here is to use React Query.
 
 https://www.youtube.com/watch?v=seU46c6Jz7E
 
+# Post Edit
+First pass
+* Retrieve post and pre-fill form
+* Add Edit post action to PostApi.ts - this filters out all the generated fields so we only touch the ones Rails expects.
+
+Currently, all text fields are updating. Challenge remaining: how to handle files.

@@ -6,25 +6,13 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.includes(:account).all.with_attached_images
-    @posts = @posts.map do |post|
-      post.as_json.merge({ account: {
-                             name: post.account.name,
-                             id: post.account.id
-                           },
-                           images: post.image_urls })
-    end
-
+    @posts = @posts.map(&:include_resources)
     render json: @posts
   end
 
   # GET /posts/1
   def show
-    @post = @post.as_json.merge({ account: {
-                                    name: @post.account.name,
-                                    id: @post.account.id
-                                  },
-                                  images: @post.image_urls })
-    render json: @post
+    render json: include_resources(@post)
   end
 
   # POST /posts
@@ -41,7 +29,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      render json: @post
+      render json: include_resources(@post)
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -66,6 +54,14 @@ class PostsController < ApplicationController
   # Scoped post set
   def scoped_set_post
     @post = current_account.admin? ? set_post : current_account.posts.find(params[:id])
+  end
+
+  def include_resources(post)
+    post.as_json.merge({ account: {
+                           name: post.account.name,
+                           id: post.account.id
+                         },
+                         images: post.image_urls })
   end
 
   # Only allow a list of trusted parameters through.

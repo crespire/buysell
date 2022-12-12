@@ -1,4 +1,5 @@
-import { ChangeEventHandler, FocusEventHandler, useState } from 'react';
+import { ChangeEventHandler, FocusEventHandler, useEffect, useState } from 'react';
+import { PostModel } from '../@types/post';
 
 interface FormHookInterface {
   values: Record<string, any>;
@@ -16,10 +17,16 @@ interface InputFieldValuesInterface {
   validationMsg: string;
 }
 
-const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
+const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHookInterface => {
   const [values, setValues] = useState<Record<string, any>>(defaultValues);
   const [errors, setErrors] = useState<Record<string, any>>({});
   const [touched, setTouched] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (Object.keys(defaultValues).length > 0) {
+      setValues(defaultValues);
+    }    
+  }, [defaultValues])
 
   const validate = (property:string, value:string, pattern:string, message:string): void => {
     const errorRemover = (): void => {
@@ -82,6 +89,7 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
     e.preventDefault();
 
     if (Object.keys(errors).length === 0 && Object.keys(values).length > 0) {
+      console.log(callback);
       switch(callback.name) {
         case 'signUp':
           console.log('Submitting sign up...');
@@ -99,8 +107,21 @@ const useForm = (callback: Function, defaultValues = {}): FormHookInterface => {
           callback();
           break;
         default:
-          console.log('Callback name not recognized, calling without args.');
-          callback();
+          // Is Mutation?
+          if (callback.hasOwnProperty('mutate')) {
+            console.log('Mutation found');
+            let postUpdate = {
+              'id': values['id'],
+              'title': values['title'],
+              'body': values['body'],
+              'status': values['status'],
+              'images': values['images'],
+            }
+            callback.mutate(postUpdate);
+          } else {
+            console.log('Callback name not recognized, calling without args.');
+            callback();
+          }
       }
       console.log('Submitted');
     } else {

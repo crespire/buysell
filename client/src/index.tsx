@@ -11,6 +11,7 @@ import AccountVerify from './components/AccountVerify';
 import PostsIndex from './components/PostsIndex';
 import PostForm from './components/PostForm';
 import SinglePost from './components/SinglePost';
+import PostEditForm from './components/PostEditForm';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,11 @@ const router = createBrowserRouter([
       {
         path: 'posts/:id',
         element: <SinglePost />,
-      }
+      },
+      {
+        path: 'posts/:id/edit',
+        element: <PostEditForm />
+      },
     ]
   }
 ])
