@@ -63,7 +63,7 @@ function PostEditForm() {
             <option value="closed">Closed</option>
           </select>
         </div>
-        <button type="submit">Post!</button>
+        <button type="submit">Update!</button>
       </form>
     </div>
     

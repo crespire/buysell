@@ -6,7 +6,9 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.includes(:account).all.with_attached_images
-    @posts = @posts.map(&:include_resources)
+    @posts = @posts.map do |post|
+      include_resources(post)
+    end
     render json: @posts
   end
 

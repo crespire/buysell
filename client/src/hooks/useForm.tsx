@@ -110,14 +110,7 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
           // Is Mutation?
           if (callback.hasOwnProperty('mutate')) {
             console.log('Mutation found');
-            let postUpdate = {
-              'id': values['id'],
-              'title': values['title'],
-              'body': values['body'],
-              'status': values['status'],
-              'images': values['images'],
-            }
-            callback.mutate(postUpdate);
+            callback.mutate(values);
           } else {
             console.log('Callback name not recognized, calling without args.');
             callback();

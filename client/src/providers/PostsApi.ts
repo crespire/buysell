@@ -51,10 +51,7 @@ export async function deletePost(id: string): Promise<void> {
 }
 
 export async function editPost(post: Record<string, any>): Promise<PostModel> {
-  console.log('Mutation edit post');
-  console.log(post);
   const postData = processPost(post);
-  console.log(postData);
   const response = await fetch(`${baseUrl}/posts/${post.id}`, {
     method: 'PATCH',
     mode: 'cors',
