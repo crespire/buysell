@@ -7,7 +7,11 @@ class PostsController < ApplicationController
   def index
     @posts = Post.includes(:account).all.with_attached_images
     @posts = @posts.map do |post|
-      post.as_json.merge({ account: { name: post.account.name, id: post.account.id }, images: post.image_urls })
+      post.as_json.merge({ account: {
+                             name: post.account.name,
+                             id: post.account.id
+                           },
+                           images: post.image_urls })
     end
 
     render json: @posts
@@ -15,6 +19,11 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    @post = @post.as_json.merge({ account: {
+                                    name: @post.account.name,
+                                    id: @post.account.id
+                                  },
+                                  images: @post.image_urls })
     render json: @post
   end
 
@@ -40,20 +49,23 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
-    @post.destroy
+    if @post.destroy
+      render json: { 'success': 'Post was deleted.' }, status: :ok
+    else
+      render json: { 'error': 'Post not deleted.' }, status: :internal_server_error
+    end
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = Post.includes(:account, :images_attachments, :images_blobs).find(params[:id])
-    @post = @post.as_json.merge({ account: { name: @post.account.name, id: @post.account.id }, images: @post.image_urls })
+    @post = Post.includes(:account).with_attached_images.find(params[:id])
   end
 
   # Scoped post set
   def scoped_set_post
-    @post = current_account.posts.find(params[:id])
+    @post = current_account.admin? ? set_post : current_account.posts.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

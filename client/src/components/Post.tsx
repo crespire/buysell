@@ -24,7 +24,7 @@ function Post(props: PostProps) {
     <article>
       <header>{ post?.title }</header>
       <span>By { post?.account?.name }, posted on { post?.created_at }</span>
-      { user && user?.id === post?.account?.id && <button onClick={() => deletePostMutation.mutate(post?.id)}>Delete</button> }
+      { user && (user.id === post?.account?.id || user.admin) && <button onClick={() => deletePostMutation.mutate(post?.id)}>Delete</button> }
       <p>{ post?.body }</p>
       { Object.keys(post?.images).length > 0 && (
         <ul>

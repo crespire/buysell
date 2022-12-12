@@ -8,6 +8,7 @@ import {
 import { BaseUrlContext } from '..';
 
 export interface UserModel {
+  admin: boolean;
   login: string;
   status: 1 | 2 | 3; // unverified, verified, closed
   name: string;
