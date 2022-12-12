@@ -28,7 +28,8 @@ function Post(props: PostProps) {
         <>
           <button onClick={() => navigate(`/posts/${post?.id}/edit`)}>Edit</button>
           <button onClick={() => deletePostMutation.mutate(post?.id)}>Delete</button>
-        </> }
+        </>
+      }
       <p>{ post?.body }</p>
       { Object.keys(post?.images).length > 0 && (
         <ul>
