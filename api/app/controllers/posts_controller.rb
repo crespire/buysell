@@ -30,7 +30,24 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
+    if @post.update(post_params.reject { |k| k['images'] || k['to_purge'] })
+
+      # Purge images if requested
+      if post_params[:to_purge].present?
+        post_params[:to_purge].each do |target|
+          @post.images.each do |image|
+            image.purge if image.filename == target
+          end
+        end
+      end
+
+      # Add new images if requested
+      if post_params[:images].present?
+        post_params[:images].each do |image|
+          @post.images.attach(image)
+        end
+      end
+
       render json: include_resources(@post)
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -53,7 +70,7 @@ class PostsController < ApplicationController
     @post = Post.includes(:account).with_attached_images.find(params[:id])
   end
 
-  # Scoped post set
+  # Scoped post set: admin can set any, or use current account posts
   def scoped_set_post
     @post = current_account.admin? ? set_post : current_account.posts.find(params[:id])
   end
