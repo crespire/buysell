@@ -25,7 +25,7 @@ function PostEditForm() {
     }
   });
 
-  const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(editPostMutation, data);
+  const { values, errors, handleBlur, handleChange, handleFiles, updateFiles, handleSubmit } = useForm(editPostMutation, data);
 
   /**
    * grab post ID from params
@@ -52,9 +52,27 @@ function PostEditForm() {
           { errors.body && <p>{ errors.body }</p> }`
         </div>
         <div>
-          <label htmlFor="images">Pictures: </label>
+          <label htmlFor="images">Add New Pictures: </label>
           <input type="file" name="images" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
-        </div>
+          { values['images'] && Object.keys(values['images']).length > 0 && !(values['images'] instanceof FileList) && (
+              <div>Current Images to Delete:
+                <ul>
+                  {
+                    Object.entries<string[]>(values['images']).map(([name, path], index) => {
+                      return (
+                        <li key={`${index}${values[`to_purge`] ? values['to_purge'].includes(name) : false}`}>
+                          <input type="checkbox" checked={values[`to_purge`] ? values['to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />
+                          <label htmlFor={name}>&nbsp;{name}</label>
+                        </li>
+                      );
+                    })
+                  }
+                  
+                </ul>
+              </div>
+            )
+          }
+          </div>
         <div>
           <label htmlFor="status">Post Status</label>
           <select id="status" name="status" value={values['status'] || 'draft'} onBlur={handleBlur} onChange={handleChange}>

@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  attr_accessor :to_purge # virtual field to accomodate update
+
   enum :status, draft: 1, published: 2, closed: 3
 
   validates :body, presence: true
@@ -27,7 +29,6 @@ class Post < ApplicationRecord
 
     images.each_with_object({}) do |file, hash|
       path = Rails.application.routes.url_helpers.rails_blob_url(file, only_path: true)
-      # path = file.url
       filename = path.split('/').last
       hash[filename] = path
     end

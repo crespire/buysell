@@ -72,7 +72,7 @@ export async function editPost(post: Record<string, any>): Promise<PostModel> {
 
 function processPost(postValues: Record<string, any>): FormData {
   const requestData = new FormData();
-  const fieldsToUpdate = ['title', 'body', 'status', 'images'];
+  const fieldsToUpdate = ['title', 'body', 'status', 'images', 'to_purge'];
     
   // Capture edit form data except file uploads
   for (const [key, value] of Object.entries(postValues)) {

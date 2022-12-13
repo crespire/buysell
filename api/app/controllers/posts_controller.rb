@@ -30,6 +30,7 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
+    puts params[:filesToPurge]
     if @post.update(post_params)
       render json: include_resources(@post)
     else
@@ -68,6 +69,6 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :body, :status, images: [])
+    params.require(:post).permit(:title, :body, :status, :to_purge, images: [])
   end
 end

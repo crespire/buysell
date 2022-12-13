@@ -6,6 +6,7 @@ interface FormHookInterface {
   errors: Record<string, any>;
   handleChange: ChangeEventHandler;
   handleFiles: ChangeEventHandler;
+  updateFiles: ChangeEventHandler;
   handleSubmit: (e:React.SyntheticEvent, ...args:string[]) => void;
   handleBlur: FocusEventHandler;
 }
@@ -85,6 +86,42 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
     });
   };
 
+  // Handler for file update
+  const updateFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const target = e.target as HTMLInputElement;
+    const checked = target.checked;
+    const fileName = target.name;
+
+    if (checked) {
+      setValues(prevState => {
+        let { to_purge, ...rest } = prevState;
+        let updatedFiles;
+
+        if (to_purge) {
+          updatedFiles = to_purge.concat(fileName)
+        } else {
+          updatedFiles = [fileName]
+        }
+
+        return {...rest, 'to_purge': updatedFiles};
+      })
+    } else {
+      setValues(prevState => {
+        let { to_purge, ...rest } = prevState;
+
+        if (to_purge) {
+          let updatedFiles = to_purge.filter((file: string) => file !== fileName)
+
+          return {...rest, 'to_purge': updatedFiles}
+        }
+      })
+    }
+    // if target is checked, add to a deleteFile list
+    // if target is not checked, remove from deleteFile list if present
+  }
+
   const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
     e.preventDefault();
 
@@ -143,6 +180,7 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
     errors,
     handleChange,
     handleFiles,
+    updateFiles,
     handleSubmit,
     handleBlur
   };
