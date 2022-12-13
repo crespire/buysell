@@ -1,7 +1,5 @@
 import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
-import { BaseUrlContext } from '..';
-import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editPost, getPost } from '../providers/PostsApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -58,7 +56,7 @@ function PostEditForm() {
               <div>Current Images to Delete:
                 <ul>
                   {
-                    Object.entries<string[]>(values['images']).map(([name, path], index) => {
+                    Object.entries<string[]>(values['images']).map(([name, _], index) => {
                       return (
                         <li key={`${index}${values[`to_purge`] ? values['to_purge'].includes(name) : false}`}>
                           <input type="checkbox" checked={values[`to_purge`] ? values['to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />

@@ -1,5 +1,4 @@
 import { ChangeEventHandler, FocusEventHandler, useEffect, useState } from 'react';
-import { PostModel } from '../@types/post';
 
 interface FormHookInterface {
   values: Record<string, any>;
@@ -118,9 +117,7 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
         }
       })
     }
-    // if target is checked, add to a deleteFile list
-    // if target is not checked, remove from deleteFile list if present
-  }
+  };
 
   const handleSubmit = (e: React.SyntheticEvent, ...args: string[]): void => {
     e.preventDefault();
