@@ -30,7 +30,6 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    puts params[:filesToPurge]
     if @post.update(post_params)
       render json: include_resources(@post)
     else
