@@ -51,15 +51,15 @@ function PostEditForm() {
         </div>
         <div>
           <label htmlFor="images">Add New Pictures: </label>
-          <input type="file" name="images" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
-          { values['images'] && Object.keys(values['images']).length > 0 && !(values['images'] instanceof FileList) && (
+          <input type="file" name="images_to_add" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
+          { values['images'] && Object.keys(values['images']).length > 0 && (
               <div>Current Images to Delete:
                 <ul>
                   {
                     Object.entries<string[]>(values['images']).map(([name, _], index) => {
                       return (
-                        <li key={`${index}${values[`to_purge`] ? values['to_purge'].includes(name) : false}`}>
-                          <input type="checkbox" checked={values[`to_purge`] ? values['to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />
+                        <li key={`${index}${values[`images_to_purge`] ? values['images_to_purge'].includes(name) : false}`}>
+                          <input type="checkbox" checked={values[`images_to_purge`] ? values['images_to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />
                           <label htmlFor={name}>&nbsp;{name}</label>
                         </li>
                       );

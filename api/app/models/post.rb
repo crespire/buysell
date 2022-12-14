@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  attr_accessor :to_purge # virtual field to accomodate update
+  attr_accessor :images_to_purge # virtual field to accomodate update
 
   enum :status, draft: 1, published: 2, closed: 3
 

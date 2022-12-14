@@ -30,11 +30,11 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params.reject { |k| k['images'] || k['to_purge'] })
+    if @post.update(post_params.reject { |k| k['images'] || k['images_to_purge'] })
 
       # Purge images if requested
-      if post_params[:to_purge].present?
-        post_params[:to_purge].each do |target|
+      if post_params[:images_to_purge].present?
+        post_params[:images_to_purge].each do |target|
           @post.images.each do |image|
             image.purge if image.filename == target
           end
@@ -85,6 +85,6 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :body, :status, :to_purge, images: [])
+    params.require(:post).permit(:title, :body, :status, images_to_purge: [], images: [])
   end
 end

@@ -95,25 +95,25 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
 
     if (checked) {
       setValues(prevState => {
-        let { to_purge, ...rest } = prevState;
+        let { images_to_purge, ...rest } = prevState;
         let updatedFiles;
 
-        if (to_purge) {
-          updatedFiles = to_purge.concat(fileName)
+        if (images_to_purge) {
+          updatedFiles = images_to_purge.concat(fileName)
         } else {
           updatedFiles = [fileName]
         }
 
-        return {...rest, 'to_purge': updatedFiles};
+        return {...rest, 'images_to_purge': updatedFiles};
       })
     } else {
       setValues(prevState => {
-        let { to_purge, ...rest } = prevState;
+        let { images_to_purge, ...rest } = prevState;
 
-        if (to_purge) {
-          let updatedFiles = to_purge.filter((file: string) => file !== fileName)
+        if (images_to_purge) {
+          let updatedFiles = images_to_purge.filter((file: string) => file !== fileName)
 
-          return {...rest, 'to_purge': updatedFiles}
+          return {...rest, 'images_to_purge': updatedFiles}
         }
       })
     }

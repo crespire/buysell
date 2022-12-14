@@ -72,23 +72,31 @@ export async function editPost(post: Record<string, any>): Promise<PostModel> {
 
 function processPost(postValues: Record<string, any>): FormData {
   const requestData = new FormData();
-  const fieldsToUpdate = ['title', 'body', 'status', 'images', 'to_purge'];
+  const fieldsToUpdate = ['title', 'body', 'status'];
     
   // Capture edit form data except file uploads
   for (const [key, value] of Object.entries(postValues)) {
-    if (key === 'images') { continue; }
     if (!fieldsToUpdate.includes(key)) { continue; }
 
     requestData.append(`post[${key}]`, value);
   }
 
-  if (postValues['images']) {
+  if (postValues['images_to_add']) {
     // Adds file blobs to form data
-    for (let i = 0; i < postValues['images'].length; i++) {
-      requestData.append('post[images][]', postValues['images'][i], postValues['images'][i].name);
+    for (let i = 0; i < postValues['images_to_add'].length; i++) {
+      requestData.append('post[images][]', postValues['images_to_add'][i], postValues['images_to_add'][i].name);
     }
   } else {
     requestData.append('post[images][]', '');
+  }
+
+  if (postValues['images_to_purge']) {
+    postValues['images_to_purge'].forEach((name: string) => {
+      requestData.append('post[images_to_purge][]', name);
+    })
+    
+  } else {
+    requestData.append('post[images_to_purge][]', '');
   }
 
   return requestData;
