@@ -9,10 +9,17 @@ A sample marketplace application. API in Rails, Frontend with React Typescript.
 
 Pages: Home, Login, Sign Up, Listings, Listing, New Listing, Dashboard
 
-Home: Hero page, prompt to sign up or sign in  
-Login: Login form  
-Sign Up: sign up form  
-Listings: Index of all listings  
-Listing: Detail card for listing  
-New Listing: Entry form for new listing  
-User Dash: show own posts, allow update password
+* Login: Login form
+* Sign Up: sign up form
+* Listings: Index of all listings
+* Listing: Detail card for listing
+* New Listing: Entry form for new listing
+* Edit Listing: Form to edit listing
+* User Dash:
+  * Show own posts
+  * Allow update password
+  * Allow update email
+
+Current pending functionality:
+* Display by post status
+* User Dashboard
