@@ -7,6 +7,7 @@ function PostsIndex() {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    staleTime: 60 * 1000,
   });
   console.log(data);
 
