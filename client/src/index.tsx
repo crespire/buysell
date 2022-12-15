@@ -34,6 +34,10 @@ const router = createBrowserRouter([
         path: 'verify-account/:token',
         element: <AccountVerify />,
       },
+      {
+        path: 'reset-password/:token',
+        // element: <PasswordResetForm />,
+      },
       { 
         path: 'posts/new',
         element: <PostForm />,

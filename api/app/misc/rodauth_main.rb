@@ -1,4 +1,6 @@
 class RodauthMain < Rodauth::Rails::Auth
+  FRONT_END_URL = 'http://localhost:3001'
+
   configure do
     # List of authentication features that are loaded.
     enable :create_account, :verify_account, :verify_account_grace_period,
@@ -99,12 +101,7 @@ class RodauthMain < Rodauth::Rails::Auth
     after_login { remember_login }
 
     # Or only remember users that have ticked a "Remember Me" checkbox on login.
-    after_login { remember_login if param_or_nil("remember") }
-
-    # Extend user's remember period when remembered via a cookie
-    extend_remember_deadline? true
-    # Or only remember users that have ticked a "Remember Me" checkbox on login.
-    after_login { remember_login if param_or_nil("remember") }
+    # after_login { remember_login if param_or_nil("remember") }
 
     # Extend user's remember period when remembered via a cookie
     extend_remember_deadline? true
@@ -157,10 +154,14 @@ class RodauthMain < Rodauth::Rails::Auth
     # verify_account_grace_period 3.days
     # reset_password_deadline_interval Hash[hours: 6]
     # verify_login_change_deadline_interval Hash[days: 2]
-  end
 
-  ## Expose email verification token
-  def verify_account_email_token
-    token_param_value(verify_account_key_value)
+    # Update email links
+    verify_account_email_link do
+      "#{FRONT_END_URL}/verify-account/#{token_param_value(verify_account_key_value)}"
+    end
+
+    reset_password_email_link do
+      "#{FRONT_END_URL}/reset-password/#{token_param_value(reset_password_key_value)}"
+    end
   end
 end

@@ -7,6 +7,6 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 user = Account.create(status: 'verified', name: 'test_user1', email: 'test1@test.com', password: 'pass1234', admin: true)
-user.posts.build(title: 'Test Title', body: 'Test Body Content', status: 'draft').save
+user.posts.build(title: 'Test Title', body: 'Test Body Content', status: 'published').save
 
 Account.create(status: 'verified', name: 'test_user2', email: 'test2@test.com', password: 'pass1234')
