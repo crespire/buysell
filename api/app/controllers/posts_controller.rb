@@ -1,11 +1,20 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show]
   before_action :scoped_set_post, only: %i[update destroy]
-  before_action :authenticate, only: %i[create update destroy]
+  before_action :authenticate, only: %i[user_index create update destroy]
 
   # GET /posts
   def index
-    @posts = Post.includes(:account).all.with_attached_images
+    @posts = Post.includes(:account).where(status: 'published').with_attached_images
+    @posts = @posts.map do |post|
+      include_resources(post)
+    end
+    render json: @posts
+  end
+
+  # GET /myposts
+  def user_index
+    @posts = current_account.posts.all.includes(:account).with_attached_images
     @posts = @posts.map do |post|
       include_resources(post)
     end
