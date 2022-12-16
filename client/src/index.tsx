@@ -12,6 +12,8 @@ import PostsIndex from './components/PostsIndex';
 import PostForm from './components/PostForm';
 import SinglePost from './components/SinglePost';
 import PostEditForm from './components/PostEditForm';
+import PasswordReset from './components/PasswordReset';
+import RequestPasswordReset from './components/RequestPasswordReset';
 
 const router = createBrowserRouter([
   {
@@ -35,8 +37,12 @@ const router = createBrowserRouter([
         element: <AccountVerify />,
       },
       {
+        path: 'reset-password/',
+        element: <RequestPasswordReset />
+      },
+      {
         path: 'reset-password/:token',
-        // element: <PasswordResetForm />,
+        element: <PasswordReset />,
       },
       { 
         path: 'posts/new',

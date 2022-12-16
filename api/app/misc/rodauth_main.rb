@@ -46,7 +46,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # two_factor_auth_return_to_requested_location? true # if using MFA
 
     # Autologin the user after they have reset their password.
-    # reset_password_autologin? true
+    reset_password_autologin? true
 
     # Delete the account record when the user has closed their account.
     # delete_account_on_close? true
@@ -136,6 +136,10 @@ class RodauthMain < Rodauth::Rails::Auth
     end
 
     after_verify_account do
+      json_response.merge!(user: account.as_json(except: fields_held_back))
+    end
+
+    after_reset_password do
       json_response.merge!(user: account.as_json(except: fields_held_back))
     end
 

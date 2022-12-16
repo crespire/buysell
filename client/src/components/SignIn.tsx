@@ -2,6 +2,7 @@ import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Signin() {
   const { user, logIn } = useAuth();
@@ -33,7 +34,7 @@ function Signin() {
         </div>
         <button className="p-2 border border-solid border-black" type="submit">Login</button>
       </form>
-      
+      <Link to="/reset-password">Help, I forgot my password</Link>
     </div>
     
   );

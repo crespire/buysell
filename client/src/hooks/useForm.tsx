@@ -140,6 +140,14 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
           console.log('Submitting new post...');
           callback();
           break;
+        case 'requestResetPassword':
+          console.log('Requesting reset on password...');
+          callback(args[0]);
+          break;
+        case 'doResetPassword':
+          console.log('Resetting password...');
+          callback(args[0], args[1]);
+          break;
         default:
           // Is Mutation?
           if (callback.hasOwnProperty('mutate')) {

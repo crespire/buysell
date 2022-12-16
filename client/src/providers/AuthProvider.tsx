@@ -21,10 +21,13 @@ export interface AuthProviderProps {
 
 export interface AuthContextModel {
   user: UserModel | null;
+  authErrors: Record<string, any> | null;
   signUp: (email: string, password: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
   verifyUser: (key: string ) => Promise<void>;
   logOut: () => Promise<void>;
+  requestResetPassword: (login: string) => Promise<void>;
+  doResetPassword: (key: string, newPass: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextModel>(
@@ -37,6 +40,7 @@ export function useAuth(): AuthContextModel {
 
 export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserModel | null>(null);
+  const [authErrors, setAuthErrors] = useState<Record<string, any> | null>(null);
   const baseUrl = useContext(BaseUrlContext);
 
   const oneDay = 86_400_000; // 24 hours
@@ -147,13 +151,51 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     }).catch(error => console.log(error));
   }
 
+  async function requestResetPassword(login: string): Promise<void> {
+    const response = await fetch(`${baseUrl}/reset-password-request`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({"login": login})
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    }
+  }
+
+  async function doResetPassword(key: string, newPass: string): Promise<void> {
+    const response = await fetch(`${baseUrl}/reset-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({"key": key, "password": newPass})
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
+      setUser(data.user);
+      setWithExpiry('user', data.user);
+      console.log('User updated after password reset.');
+    }
+  }
+
   const values = {
     user,
+    authErrors,
     signUp,
     logIn,
     logOut,
     verifyUser,
-    //resetPassword
+    requestResetPassword,
+    doResetPassword
   }
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }
