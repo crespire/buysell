@@ -127,11 +127,11 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
       switch(callback.name) {
         case 'signUp':
           console.log('Submitting sign up...');
-          callback(args[0], args[1]);
+          callback(...args);
           break;
         case 'logIn':
           console.log('Sending credentials for login...');
-          callback(args[0], args[1]);
+          callback(...args);
           break;
         case 'logOut':
           console.log('Sending logout...');
@@ -142,11 +142,11 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
           break;
         case 'requestResetPassword':
           console.log('Requesting reset on password...');
-          callback(args[0]);
+          callback(...args);
           break;
         case 'doResetPassword':
           console.log('Resetting password...');
-          callback(args[0], args[1]);
+          callback(...args);
           break;
         default:
           // Is Mutation?

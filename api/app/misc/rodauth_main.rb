@@ -118,11 +118,21 @@ class RodauthMain < Rodauth::Rails::Auth
         throw_error_status(422, 'name', "invalid name, must be between #{min_name_length} and #{max_name_length} characters, got: #{name.length}")
       end
 
+      if name && !name.match?(/\A\w+\Z/)
+        throw_error_status(422, 'name', 'invalid name, must only contain word characters') 
+      end
+
+      # Default username if none provided
       account[:name] = name || 'user'
 
       # Validate password requirements
       password = param_or_nil('password')
       throw_error_status(422, 'password', 'invalid password, must contain at least 1 digit') unless password =~ /\d/
+    end
+
+    before_change_password do
+      password = param_or_nil('new-password')
+      throw_error_status(422, 'new-password', 'invalid new password, must contain at least 1 digit') unless password =~ /\d/
     end
 
     # Return JSON user object after certain actions with some fields held back

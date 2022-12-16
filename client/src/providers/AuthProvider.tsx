@@ -22,7 +22,7 @@ export interface AuthProviderProps {
 export interface AuthContextModel {
   user: UserModel | null;
   authErrors: Record<string, any> | null;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, name: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
   verifyUser: (key: string ) => Promise<void>;
   logOut: () => Promise<void>;
@@ -80,9 +80,18 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     console.log(user);
   }, [user]);
 
-  async function signUp(email: string, password: string): Promise<void> {
-    const requestData = JSON.stringify({"login": email, "password": password});
-    await fetch(`${baseUrl}/create-account`, {
+  async function signUp(email: string, password: string, name: string): Promise<void> {
+    let userData: Record<string, string> = {
+      "login": email,
+      "password": password,
+    }
+
+    if (name.length > 0) { // Rails set to fill in default if empty
+      userData['name'] = name;
+    }
+
+    const requestData = JSON.stringify(userData);
+    const response = await fetch(`${baseUrl}/create-account`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -90,17 +99,21 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       },
       credentials: 'include',
       body: requestData
-    }).then(response => response.json()).then(data => {
-      console.log('Got a response:', data);
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
+      console.log('Sign up successful.');
       setUser(data.user);
       setWithExpiry('user', data.user);
-      console.log('Set user in state');
-    }).catch(error => console.log(error));
+    }
   }
 
   async function logIn(email: string, password: string): Promise<void> {
     const requestData = JSON.stringify({"login": email, "password": password});
-    await fetch(`${baseUrl}/login`, {
+    const response = await fetch(`${baseUrl}/login`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -108,12 +121,16 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       },
       credentials: 'include',
       body: requestData
-    }).then(response => response.json()).then(data => {
-      console.log('Got a response:', data);
+    })
+    const data = await response.json();
+
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
+      console.log('Login successful.');
       setUser(data.user);
       setWithExpiry('user', data.user);
-      console.log('Set user in state');
-    }).catch(error => console.log(error));
+    }
   }
 
   async function logOut(): Promise<void> {
@@ -122,33 +139,43 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       return;
     }
 
-    await fetch(`${baseUrl}/logout`, {
+    const response = await fetch(`${baseUrl}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       credentials: 'include'
-    }).then(response => response.json()).then(data => {
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
       console.log(data);
       console.log('Server session destroyed, removing local session.');
       setUser(null);
       localStorage.removeItem('user');
-    }).catch(error => console.log(error));
+    }
   }
 
   async function verifyUser(key: string): Promise<void> {
-    await fetch(`${baseUrl}/verify-account`, {
+    const response = await fetch(`${baseUrl}/verify-account`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
       body: JSON.stringify({"key": key})
-    }).then(response => response.json()).then(data => {
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
       setUser(data.user);
       setWithExpiry('user', data.user);
       console.log('User updated after verification.');
-    }).catch(error => console.log(error));
+    }
   }
 
   async function requestResetPassword(login: string): Promise<void> {
