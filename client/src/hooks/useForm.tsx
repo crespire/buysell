@@ -123,42 +123,14 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
     e.preventDefault();
 
     if (Object.keys(errors).length === 0 && Object.keys(values).length > 0) {
-      console.log(callback);
-      switch(callback.name) {
-        case 'signUp':
-          console.log('Submitting sign up...');
-          callback(...args);
-          break;
-        case 'logIn':
-          console.log('Sending credentials for login...');
-          callback(...args);
-          break;
-        case 'logOut':
-          console.log('Sending logout...');
-          break;
-        case 'submitForm':
-          console.log('Submitting new post...');
-          callback();
-          break;
-        case 'requestResetPassword':
-          console.log('Requesting reset on password...');
-          callback(...args);
-          break;
-        case 'doResetPassword':
-          console.log('Resetting password...');
-          callback(...args);
-          break;
-        default:
-          // Is Mutation?
-          if (callback.hasOwnProperty('mutate')) {
-            console.log('Mutation found');
-            callback.mutate(values);
-          } else {
-            console.log('Callback name not recognized, calling without args.');
-            callback();
-          }
+      // Is Mutation?
+      if (callback.hasOwnProperty('mutate')) {
+        console.log('Mutation found');
+        callback.mutate(values);
+      } else {
+        console.log('Calling function with args');
+        callback(...args);
       }
-      console.log('Submitted');
     } else {
       console.log("Didn't pass validation, did nothing.");
     }
