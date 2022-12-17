@@ -18,6 +18,23 @@ export async function fetchPosts(): Promise<PostModel[]> {
   return data;
 };
 
+export async function fetchUserPosts(): Promise<PostModel[]> {
+  const response = await fetch(`${baseUrl}/myposts`, {
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(`${response.status} ${data.exception.split(':').at(-1).trim().replace('>', '')}`);
+  }
+
+  return data;
+};
+
 export async function getPost(id?: string): Promise<PostModel> {
   const response = await fetch(`${baseUrl}/posts/${id}`, {
       mode: 'cors',
