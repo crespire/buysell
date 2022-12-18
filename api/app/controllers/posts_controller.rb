@@ -86,7 +86,7 @@ class PostsController < ApplicationController
 
   def include_resources(post)
     post.as_json.merge({ account: {
-                           login: post.account.email,
+                           email: post.account.email,
                            id: post.account.id
                          },
                          images: post.image_urls })
