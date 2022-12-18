@@ -23,7 +23,7 @@ function Post(props: PostProps) {
   return (
     <article>
       <header>{ post?.title }</header>
-      <span>Posted on { post?.created_at }</span>
+      <span>By { post?.account?.name } posted on { post?.created_at }</span>
       { user && (user.id === post?.account?.id || user.admin) && 
         <>
           <button onClick={() => navigate(`/posts/${post?.id}/edit`)}>Edit</button>

@@ -108,6 +108,24 @@ class RodauthMain < Rodauth::Rails::Auth
     # ==> Hooks
     # Validate custom fields in the create account form.
     before_create_account do
+      # Validate custom name property
+      # This only validates on initial account creation.
+      # We will use a Rails controller and validate in-model with ActiveRecord for updates
+      name = param_or_nil('name')
+      min_name_length = 3
+      max_name_length = 36
+
+      if name && !name.length.between?(min_name_length, max_name_length)
+        throw_error_status(422, 'name', "invalid name, must be between #{min_name_length} and #{max_name_length} characters, got: #{name.length}")
+      end
+
+      if name && !name.match?(/\A\w+\Z/)
+        throw_error_status(422, 'name', 'invalid name, must only contain word characters') 
+      end
+
+      # Default username if none provided
+      account[:name] = name || 'user'
+
       # Validate password requirements
       password = param_or_nil('password')
       throw_error_status(422, 'password', 'invalid password, must contain at least 1 digit') unless password =~ /\d/

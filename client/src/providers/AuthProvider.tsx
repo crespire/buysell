@@ -9,7 +9,8 @@ import { BaseUrlContext } from '..';
 
 export interface UserModel {
   admin: boolean;
-  email: string;
+  login: string;
+  name: string;
   status: 1 | 2 | 3; // unverified, verified, closed
   id: number;
 }
@@ -80,11 +81,16 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     console.log(user);
   }, [user]);
 
-  async function signUp(email: string, password: string): Promise<void> {
+  async function signUp(email: string, password: string, name: string): Promise<void> {
     let userData: Record<string, string> = {
       "login": email,
       "password": password,
     }
+
+    if (name.length > 0 ) {
+      userData['name'] = name;
+    }
+
     const requestData = JSON.stringify(userData);
     const response = await fetch(`${baseUrl}/create-account`, {
       method: 'POST',

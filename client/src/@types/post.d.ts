@@ -1,6 +1,6 @@
 // Stripped down user model for post index end point
 interface UserIncludesModel {
-  email: string;
+  name: string;
   id: number;
 }
 

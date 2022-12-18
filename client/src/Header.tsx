@@ -14,7 +14,7 @@ function Header() {
               <Link to='/signin'>Sign In</Link>
             </>
           : <>
-              <span>Hello <Link to='/dashboard'>{ user.email }</Link></span>
+              <span>Hello <Link to='/dashboard'>{ user.name }</Link></span>
               <Link to='/account'>Edit Account</Link>
               <button onClick={() => logOut()}>Sign Out</button>
               <Link to='/posts/new'>New Post</Link>
