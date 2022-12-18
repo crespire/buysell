@@ -16,12 +16,12 @@ function Header() {
           : <>
               <span>Hello <Link to='/dashboard'>{ user.name }</Link></span>
               <Link to='/account'>Edit Account</Link>
-              <button onClick={() => logOut()}>Sign Out</button>
+              { [2, 'verified'].includes(user.status) && <button onClick={() => logOut()}>Sign Out</button> }
               <Link to='/posts/new'>New Post</Link>
             </>
         }
       </nav>
-      { user && user.status === 1 && <p>We're still waiting to confirm your account.</p> }
+      { user && user.status === 1 && <p className="text-red-800">Please confirm your account by checking your email and clicking the link!</p> }
     </div>
   );
 }

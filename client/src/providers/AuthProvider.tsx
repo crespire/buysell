@@ -11,7 +11,7 @@ export interface UserModel {
   admin: boolean;
   login: string;
   name: string;
-  status: 1 | 2 | 3; // unverified, verified, closed
+  status: string | number; // 1 unverified | 2 verified | 3 closed
   id: number;
 }
 
@@ -22,13 +22,14 @@ export interface AuthProviderProps {
 export interface AuthContextModel {
   user: UserModel | null;
   authErrors: Record<string, any> | null;
+  authSuccess: Record<string, any> | null;
   signUp: (email: string, password: string, name: string) => Promise<void>;
   logIn: (email: string, password: string) => Promise<void>;
   verifyUser: (key: string ) => Promise<void>;
   logOut: () => Promise<void>;
   requestResetPassword: (login: string) => Promise<void>;
   doResetPassword: (key: string, newPass: string) => Promise<void>;
-  updatePassword: (password: string, newPass: string) => Promise<void>;
+  updateUser: (password: string, newPass: string, name: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextModel>(
@@ -42,6 +43,7 @@ export function useAuth(): AuthContextModel {
 export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
   const [user, setUser] = useState<UserModel | null>(null);
   const [authErrors, setAuthErrors] = useState<Record<string, any> | null>(null);
+  const [authSuccess, setAuthSuccess] = useState<Record<string, string> | null>(null);
   const baseUrl = useContext(BaseUrlContext);
 
   const oneDay = 86_400_000; // 24 hours
@@ -215,34 +217,64 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     }
   }
 
-  async function updatePassword(password: string, newPass: string): Promise<void> {
-    const response = await fetch(`${baseUrl}/change-password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({"password": password, "new-password": newPass})
-    });
-    const data = await response.json();
-    
-    if (!response.ok) {
-      setAuthErrors(data);
-    } else {
-      console.log('User password updated.');
+  async function updateUser(password: string, newPass = '', name = ''): Promise<void> {
+    async function doPasswordUpdate(password: string, newPass: string): Promise<void> {
+      const response = await fetch(`${baseUrl}/change-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({"password": password, "new-password": newPass})
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setAuthErrors(data);
+      } else {
+        setAuthSuccess({'password': 'password updated'});
+      }
+    };
+
+    async function doNameUpdate(password: string, name: string): Promise<void> {
+      const response = await fetch(`${baseUrl}/account`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({"account": {"name": name}})
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setAuthErrors(data);
+      } else {
+        setUser(data);
+        setAuthSuccess({'username': 'username updated'});
+      }
+    };
+
+    if (newPass.length > 0) {
+      doPasswordUpdate(password, newPass);
+    }
+
+    if (name.length > 0) {
+      doNameUpdate(password, name);
     }
   }
 
   const values = {
     user,
     authErrors,
+    authSuccess,
     signUp,
     logIn,
     logOut,
     verifyUser,
     requestResetPassword,
     doResetPassword,
-    updatePassword
+    updateUser
   }
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }
