@@ -38,11 +38,6 @@ function Signup() {
           <input className="border-b border-black border-solid" type="password" required name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern={`^${values['pass']}$`} data-error="Passwords must match." />
           { errors.passconf && <p className="text-red-500">{errors.passconf}</p> }
         </div>
-        <div className="p-2">
-          <label htmlFor="name">Username: </label>
-          <input className="border-b border-black border-solid" type="text" name="name" onChange={handleChange} onBlur={handleBlur} value={values['name'] || ''} pattern="^\w{3,36}$|^$" data-error="Must be between 3 and 36 characters, and only contain word characters." />
-          { errors.name && <p className="text-red-500">{errors.name}</p> }
-        </div>
         <button className="p-2 border border-solid border-black" type="submit">Submit</button>
       </form>
       

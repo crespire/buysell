@@ -56,7 +56,7 @@ function PostForm() {
 
   return (
     <div className="flex flex-col p-2">
-      <h1>New Post</h1>
+      <h1 className="text-2xl">New Post</h1>
       <form className="flex flex-col p-2 align-center justify-center" onSubmit={handleSubmit} encType='multipart/form-data'>
         <div>
           <label htmlFor="title">Title: </label>

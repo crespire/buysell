@@ -9,9 +9,8 @@ import { BaseUrlContext } from '..';
 
 export interface UserModel {
   admin: boolean;
-  login: string;
+  email: string;
   status: 1 | 2 | 3; // unverified, verified, closed
-  name: string;
   id: number;
 }
 
@@ -80,16 +79,11 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     console.log(user);
   }, [user]);
 
-  async function signUp(email: string, password: string, name: string): Promise<void> {
+  async function signUp(email: string, password: string): Promise<void> {
     let userData: Record<string, string> = {
       "login": email,
       "password": password,
     }
-
-    if (name.length > 0) { // Rails set to fill in default if empty
-      userData['name'] = name;
-    }
-
     const requestData = JSON.stringify(userData);
     const response = await fetch(`${baseUrl}/create-account`, {
       method: 'POST',

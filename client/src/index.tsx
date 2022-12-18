@@ -14,6 +14,8 @@ import SinglePost from './components/SinglePost';
 import PostEditForm from './components/PostEditForm';
 import PasswordReset from './components/PasswordReset';
 import RequestPasswordReset from './components/RequestPasswordReset';
+import UserDashboard from './components/UserDashboard';
+import UserUpdate from './components/UserUpdate';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
         path: 'posts/:id/edit',
         element: <PostEditForm />
       },
+      {
+        path: 'dashboard',
+        element: <UserDashboard />
+      },
+      {
+        path: 'account',
+        element: <UserUpdate />
+      }
     ]
   }
 ])

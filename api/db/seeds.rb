@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = Account.create(status: 'verified', name: 'test_user1', email: 'test1@test.com', password: 'pass1234', admin: true)
+user = Account.create(status: 'verified', email: 'test1@test.com', password: 'pass1234', admin: true)
 user.posts.build(title: 'Test Title', body: 'Test Body Content', status: 'published').save
 
-Account.create(status: 'verified', name: 'test_user2', email: 'test2@test.com', password: 'pass1234')
+Account.create(status: 'verified', email: 'test2@test.com', password: 'pass1234')
