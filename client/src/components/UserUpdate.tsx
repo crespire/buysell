@@ -38,7 +38,14 @@ function UserUpdate() {
           <input className="border-b border-black border-solid" type="password" required name="passconf" onChange={handleChange} onBlur={handleBlur} value={values['passconf'] || ''} pattern={`^${values['new-password']}$`} data-error="Passwords must match." />
           { errors.passconf && <p className="text-red-500">{errors.passconf}</p> }
         </div>
-        { authErrors && <div className="text-red-800">There was an error trying to change your password.<br />The field { authErrors['field-error'][0] } has error: { authErrors['field-error'][1] }.</div> }
+        { authErrors && (
+            <div className="text-red-800">
+              There was an error trying to change your password.<br />
+              No changes were made.<br />
+              The field { authErrors['field-error'][0] } has error: { authErrors['field-error'][1] }.
+            </div>
+          )
+        }
         <button className="p-2 border border-solid border-black" type="submit">Submit</button>
       </form>
     </div>
