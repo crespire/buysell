@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Signin() {
-  const { user, logIn } = useAuth();
+  const { user, authErrors, logIn } = useAuth();
   const navigate = useNavigate();
   const { values, errors, handleChange, handleSubmit, handleBlur } = useForm(logIn);
 
@@ -19,6 +19,7 @@ function Signin() {
     <div>
       <h1 className="text-2xl">Sign In</h1>
       <form className="flex flex-col align-center justify-center space-x-2" onSubmit={(e) => {handleSubmit(e, values['email'], values['pass'])}}>
+      { authErrors && <div className="text-red-800">Something went wrong, check the requirements and try again.</div> }
         <ul className="list-inside list-disc">
           <li>All fields are required.</li>
         </ul>

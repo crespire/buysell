@@ -27,6 +27,7 @@ export interface AuthContextModel {
   logOut: () => Promise<void>;
   requestResetPassword: (login: string) => Promise<void>;
   doResetPassword: (key: string, newPass: string) => Promise<void>;
+  updatePassword: (password: string, newPass: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextModel>(
@@ -208,6 +209,24 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     }
   }
 
+  async function updatePassword(password: string, newPass: string): Promise<void> {
+    const response = await fetch(`${baseUrl}/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({"password": password, "new-password": newPass})
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setAuthErrors(data);
+    } else {
+      console.log('User password updated.');
+    }
+  }
+
   const values = {
     user,
     authErrors,
@@ -216,7 +235,8 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     logOut,
     verifyUser,
     requestResetPassword,
-    doResetPassword
+    doResetPassword,
+    updatePassword
   }
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
 }

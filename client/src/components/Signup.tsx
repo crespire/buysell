@@ -40,9 +40,7 @@ function Signup() {
         </div>
         <button className="p-2 border border-solid border-black" type="submit">Submit</button>
       </form>
-      
     </div>
-    
   );
 }
 
