@@ -2,6 +2,8 @@ class RodauthMain < Rodauth::Rails::Auth
   FRONT_END_URL = 'http://localhost:3001'
 
   configure do
+    enable :internal_request
+
     # List of authentication features that are loaded.
     enable :create_account, :verify_account, :verify_account_grace_period,
            :login, :logout, :remember, :json, :reset_password,

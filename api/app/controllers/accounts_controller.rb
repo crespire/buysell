@@ -3,6 +3,9 @@ class AccountsController < ApplicationController
 
   # PATCH /account/1
   def update
+    rodauth = Rodauth::Rails.rodauth(account: current_account)
+    render json: { 'error' => 'wrong password' }, status: :unauthorized and return unless rodauth.password_match?(params[:account][:password])
+
     if current_account.update(account_params.reject { |k| k['password'] })
       render json: current_account.to_json(except: :password_hash)
     else
@@ -13,6 +16,6 @@ class AccountsController < ApplicationController
   private
   # Only allow a list of trusted parameters through.
   def account_params
-    params.require(:account).permit(:name)
+    params.require(:account).permit(:password, :name)
   end
 end
