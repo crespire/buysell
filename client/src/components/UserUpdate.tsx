@@ -14,24 +14,19 @@ function UserUpdate() {
     }
   }, []);
 
-  useEffect(() => {
-    if (authSuccess && Object.keys(authSuccess).length > 0) {
-      navigate('/');
-    }
-  }, [navigate, authSuccess])
-
   return (
     <div>
-      <h1 className="text-2xl">Change Password</h1>
+      <h1 className="text-2xl">Update Profile</h1>
       { authErrors && <div className="text-red-800">Something went wrong, check the requirements and try again.</div> }
+      { authSuccess && <div className="text-green-800">Changes were successful!</div> }
       <form className="flex flex-col align-center justify-center space-x-2" onSubmit={(e) => {handleSubmit(e, values['password'], values['new-password'], values['name'])}}>
         <ul className="list-inside list-disc">
-          <li>Current password must be provided to update password.</li>
+          <li>Current password must be provided to update information.</li>
           <li>Password must be 8 characters long and contain at least one digit.</li>
         </ul>
         <div className="p-2">
-          <label htmlFor="email">Password:</label>
-          <input className="border-b border-black border-solid" type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values['password'] || ''} pattern="^(?=.*\d).{8,}$|^$" data-error="Minimum length is 8, and must contain a digit." />
+          <label htmlFor="email">Password*:</label>
+          <input className="border-b border-black border-solid" required type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values['password'] || ''} pattern="^(?=.*\d).{8,}$|^$" data-error="Minimum length is 8, and must contain a digit." />
           { errors.password && <p className="text-red-500">{errors.password}</p> }
         </div>
         <div className="p-2">
