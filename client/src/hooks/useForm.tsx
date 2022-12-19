@@ -125,14 +125,12 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
     if (Object.keys(errors).length === 0 && Object.keys(values).length > 0) {
       // Is Mutation?
       if (callback.hasOwnProperty('mutate')) {
-        console.log('Mutation found');
         callback.mutate(values);
       } else {
-        console.log('Calling function with args');
         callback(...args);
       }
     } else {
-      console.log("Didn't pass validation, did nothing.");
+      console.warn("Form has validation errors, did not submit.");
     }
   };
 

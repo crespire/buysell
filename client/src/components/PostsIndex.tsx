@@ -9,7 +9,6 @@ function PostsIndex() {
     queryFn: fetchPosts,
     staleTime: 60 * 1000,
   });
-  console.log(data);
 
   if (isLoading) return <p>Loading...</p>;
   if (isError && error instanceof Error) return <p>Error: {error.message} </p>;

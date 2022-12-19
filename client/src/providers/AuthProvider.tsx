@@ -76,12 +76,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     if (localUser) {
       setUser(localUser);
     }
-  }, [])
-
-  useEffect(() => {
-    console.log('AuthContext user changed!');
-    console.log(user);
-  }, [user]);
+  }, []);
 
   async function signUp(email: string, password: string, name: string): Promise<void> {
     let userData: Record<string, string> = {
@@ -108,7 +103,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     if (!response.ok) {
       setAuthErrors(data);
     } else {
-      console.log('Sign up successful.');
       setUser(data.user);
       setWithExpiry('user', data.user);
     }
@@ -130,7 +124,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     if (!response.ok) {
       setAuthErrors(data);
     } else {
-      console.log('Login successful.');
       setUser(data.user);
       setWithExpiry('user', data.user);
     }
@@ -138,7 +131,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
 
   async function logOut(): Promise<void> {
     if (user === null) {
-      console.log('No user set.');
       return;
     }
 
@@ -154,8 +146,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     if (!response.ok) {
       setAuthErrors(data);
     } else {
-      console.log(data);
-      console.log('Server session destroyed, removing local session.');
       setUser(null);
       localStorage.removeItem('user');
     }
@@ -177,7 +167,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     } else {
       setUser(data.user);
       setWithExpiry('user', data.user);
-      console.log('User updated after verification.');
     }
   }
 
@@ -213,7 +202,6 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
     } else {
       setUser(data.user);
       setWithExpiry('user', data.user);
-      console.log('User updated after password reset.');
     }
   }
 
@@ -232,7 +220,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
       if (!response.ok) {
         setAuthErrors(data);
       } else {
-        setAuthSuccess({'password': 'password updated'});
+        setAuthSuccess({'success': 'password updated'});
       }
     };
 
@@ -243,7 +231,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({"account": {"name": name}})
+        body: JSON.stringify({"account": {"password": password, "name": name}})
       });
       const data = await response.json();
       
@@ -251,7 +239,7 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
         setAuthErrors(data);
       } else {
         setUser(data);
-        setAuthSuccess({'username': 'username updated'});
+        setAuthSuccess({'success': 'username updated'});
       }
     };
 
