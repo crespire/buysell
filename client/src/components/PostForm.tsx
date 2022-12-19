@@ -30,25 +30,17 @@ function PostForm() {
       requestData.append('post[images][]', '');
     }
 
-    // Debug rendering of FormData
-    console.log('Built data object:');
-    for (const pair of requestData.entries())  {
-      if (pair[0] === 'post[images][]') {
-        console.log('File:');
-        console.log(pair[1]);
-      } else {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }      
-    }
-
-    await fetch(`${baseUrl}/posts`, {
+    const response = await fetch(`${baseUrl}/posts`, {
       method: 'POST',
       credentials: 'include',
       body: requestData
-    }).then(response => response.json()).then(data => {
-      console.log('Response:', data);
+    });
+    
+    if (!response.ok) {
+      throw new Error(`${response.status} Response: ${await response.text()}`);
+    } else {
       navigate('/');
-    }).catch(err => console.log('Error:', err));
+    }
   }
   const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(addPost);
 
