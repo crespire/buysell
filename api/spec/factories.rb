@@ -3,6 +3,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     name { Faker::Name.first_name }
     password { Faker::Internet.password }
+    status { 'verified' }
 
     trait :admin do
       admin { true }
@@ -24,7 +25,7 @@ FactoryBot.define do
       end
 
       after(:create) do |account, evaluator|
-        evaluator.amount.times { create :post, :public, account: account }
+        evaluator.amount.times { create :post, :published, account: account }
       end
     end
   end
