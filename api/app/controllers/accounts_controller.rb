@@ -5,7 +5,7 @@ class AccountsController < ApplicationController
   def update
     rodauth = Rodauth::Rails.rodauth(account: current_account)
     unless rodauth.password_match?(params[:account][:password])
-      render json: { 'error' => 'wrong password' }, status: :unauthorized and return
+      render json: { 'error' => 'problem with password' }, status: :unauthorized and return
     end
 
     if current_account.update(account_params.reject { |k| k['password'] })
