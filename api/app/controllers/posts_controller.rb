@@ -37,7 +37,7 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1
+  # PATCH /posts/1
   def update
     if @post.update(post_params.reject { |k| k['images'] || k['images_to_purge'] })
 
@@ -81,6 +81,8 @@ class PostsController < ApplicationController
 
   # Scoped post set: admin can set any, or use current account posts
   def scoped_set_post
+    render json: { 'error': 'Please login to continue' }, status: :unauthorized and return if current_account.nil?
+
     @post = current_account.admin? ? set_post : current_account.posts.find(params[:id])
   end
 
