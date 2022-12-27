@@ -14,7 +14,7 @@ function PostsIndex() {
   if (isError && error instanceof Error) return <p>Error: {error.message} </p>;
 
   return (
-    <div>
+    <div data-testid="post-index">
       { data?.map((post: PostModel) => {
         return <Post key={post.id} post={post} />
       })}
