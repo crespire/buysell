@@ -1,3 +1,5 @@
+/// <reference types="cypress"/>
+
 describe('Post Index', () => {
   it('displays public posts', () => {
     cy.visit('/')
