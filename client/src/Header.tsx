@@ -8,16 +8,21 @@ function Header() {
     <div>
       <nav>
         <Link to='/'>Home</Link>
-        { user === null 
+        { user === null || user === undefined
           ? <>
               <Link to='/signup'>Sign Up</Link>
               <Link to='/signin'>Sign In</Link>
             </>
           : <>
               <span>Hello <Link to='/dashboard'>{ user.name }</Link></span>
-              <Link to='/account'>Edit Account</Link>
-              { [2, 'verified'].includes(user.status) && <button onClick={() => logOut()}>Sign Out</button> }
-              <Link to='/posts/new'>New Post</Link>
+              { [2, 'verified'].includes(user.status) && (
+                  <>
+                    <Link to='/account'>Edit Account</Link>
+                    <Link to='/posts/new'>New Post</Link>
+                  </>
+                )
+              }
+              <button onClick={() => logOut()}>Sign Out</button>              
             </>
         }
       </nav>
