@@ -8,7 +8,7 @@ function Header() {
     <div>
       <nav>
         <Link to='/'>Home</Link>
-        { user === null || user === undefined
+        { user === null
           ? <>
               <Link to='/signup'>Sign Up</Link>
               <Link to='/signin'>Sign In</Link>
