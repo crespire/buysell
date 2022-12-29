@@ -9,7 +9,7 @@ describe('Register User', () => {
     cy.get('input[name=pass]').type('pass1234');
     cy.get('input[name=passconf]').type('pass1234');
     cy.get('input[name=name]').type('testuser1');
-    cy.intercept('POST', '/create-account', { fixture: 'user.json' }).as('userCreate');
+    cy.intercept('POST', '/create-account', { fixture: 'new_user.json' }).as('userCreate');
     cy.get('form').submit();
     cy.location('pathname').should('eq', '/');
     cy.contains('Hello testuser1').should('be.visible');
