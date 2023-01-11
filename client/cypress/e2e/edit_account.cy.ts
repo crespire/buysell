@@ -11,15 +11,37 @@ describe('Edit User', () => {
       cy.intercept('POST', '/login', { fixture: 'verified_user.json' }).as('userLogin');
       cy.get('form').submit();
       cy.location('pathname').should('eq', '/');
+      cy.get("a[href='/account']").click();
+      cy.location('pathname').should('eq', '/account');
     })
 
     it('allows the user to change their username', () => {
-      cy.get("a[href='/account']").click();
-      cy.location('pathname').should('eq', '/account');
+      cy.get("input[name='name']").type('testuserupdate');
+      cy.intercept('PATCH', '/account', { fixture: 'updated_name_user.json' }).as('userNameUpdate');
+      cy.get('form').submit();
+      cy.get('.authinfo').should('contain', 'Changes were successful!');
     });
 
-    it.skip('does not allow users to set a non-allowed username', () => {
-      // test with an invalid user name
+    it('does not allow users to set an invalid username', () => {
+      cy.get("input[name='name']").type('tu');
+      cy.get("input[name='password']").type('somepassword12');
+      cy.get('p.error').should('contain', 'Must be between 3 and 36 characters, and only contain word characters.');
+      cy.get("button[type='submit'").click();
+      cy.get('input:invalid').should('have.length', 1)
+      cy.get("input[name='name']").clear();
+      cy.get('p.error').should('not.exist');
+      cy.get("input[name='name']").type('invalid!');
+      cy.get("input[name='password']").clear().type('somepassword12');
+      cy.get('p.error').should('contain', 'Must be between 3 and 36 characters, and only contain word characters.');
+      cy.get("button[type='submit'").click();
+      cy.get('input:invalid').should('have.length', 1)
+      cy.get("input[name='name']").clear();
+      cy.get('p.error').should('not.exist');
+      cy.get("input[name='name'").type('averylongusernamethatshouldbetoolongyes');
+      cy.get("input[name='password']").clear().type('somepassword12');
+      cy.get('p.error').should('contain', 'Must be between 3 and 36 characters, and only contain word characters.');
+      cy.get("button[type='submit'").click();
+      cy.get('input:invalid').should('have.length', 1)
     });
 
     it.skip('allows a user to change their password', () => {
