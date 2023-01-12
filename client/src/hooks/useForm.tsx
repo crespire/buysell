@@ -129,6 +129,7 @@ const useForm = (callback: any, defaultValues: Record<string, any> = {}): FormHo
       } else {
         callback(...args);
       }
+      setValues(defaultValues); // Resets form after success
     } else {
       console.warn("Form has validation errors, did not submit.");
     }
