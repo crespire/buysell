@@ -45,7 +45,12 @@ describe('Edit User', () => {
     });
 
     it.skip('allows a user to change their password', () => {
-      // test with a valid password
+      cy.get("input[name='password']").type('pass1234');
+      cy.get("input[name='new-password']").type('password8');
+      cy.get("input[name='passconf']").type('password8');
+      cy.intercept('PATCH', '/account', { fixture: 'password_change_success.json' }).as('userPasswordSuccess');
+      cy.get('form').submit();
+      cy.get('.authinfo').should('contain', 'Changes were successful!');
     });
 
     it.skip('does not allow users to set a non-allowed password', () => {
