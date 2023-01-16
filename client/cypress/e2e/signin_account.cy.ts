@@ -1,7 +1,7 @@
 /// <reference types="cypress"/>
 
-describe('Register User', () => {
-  it('Correctly signs in a registered user', () => {
+describe('Registered User', () => {
+  it('correctly signs in a registered user', () => {
     cy.visit('/')
     cy.contains('Sign In').click();
     cy.location('pathname').should('eq', '/signin');
@@ -14,4 +14,6 @@ describe('Register User', () => {
     cy.contains('Edit Account').should('be.visible');
     cy.contains('New Post').should('be.visible');
   });
+
+  // should reset password
 });
