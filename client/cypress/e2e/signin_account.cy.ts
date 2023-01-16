@@ -15,5 +15,17 @@ describe('Registered User', () => {
     cy.contains('New Post').should('be.visible');
   });
 
-  // should reset password
+  it('should allow a user to reset their password', () => {
+    cy.visit('/signin');
+    cy.get("a[href='/reset-password']").click();
+    cy.location('pathname').should('eq', '/reset-password');
+    cy.get("input[name='email']").type('testuser@test.com');
+    cy.intercept('POST', '/reset-password-request', { "success": "An email has been sent to you with a link to reset the password for your account." }).as('userPassResetRequest');
+    cy.get('form').submit();
+    cy.visit('reset-password/:token');
+    cy.get("input[name='pass']").type('password1');
+    cy.get("input[name='passconf']").type('password1');
+    cy.intercept('POST', '/reset-password', { fixture: 'verified_user.json' }).as('userResetPassSuccess');
+    cy.get('form').submit();
+  });
 });
