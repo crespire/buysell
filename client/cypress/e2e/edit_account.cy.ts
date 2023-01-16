@@ -8,7 +8,7 @@ describe('Edit User', () => {
       cy.location('pathname').should('eq', '/signin');
       cy.get('input[name=email]').type("testuser@test.com");
       cy.get('input[name=pass]').type('pass1234');
-      cy.intercept('POST', '/login', { fixture: 'verified_user.json' }).as('userLogin');
+      cy.intercept('POST', '/login', { statusCode: 200, fixture: 'verified_user.json' }).as('userLogin');
       cy.get('form').submit();
       cy.location('pathname').should('eq', '/');
       cy.get("a[href='/account']").click();
@@ -17,7 +17,7 @@ describe('Edit User', () => {
 
     it('allows the user to change their username', () => {
       cy.get("input[name='name']").type('testuserupdate');
-      cy.intercept('PATCH', '/account', { fixture: 'updated_name_user.json' }).as('userNameUpdate');
+      cy.intercept('PATCH', '/account', { statusCode: 200, fixture: 'updated_name_user.json' }).as('userNameUpdate');
       cy.get('form').submit();
       cy.get('.authinfo').should('contain', 'Changes were successful!');
     });
@@ -51,7 +51,7 @@ describe('Edit User', () => {
       cy.get("input[name='password']").type('pass1234');
       cy.get("input[name='new-password']").type('password8');
       cy.get("input[name='passconf']").type('password8');
-      cy.intercept('POST', '/change-password', { fixture: 'password_change_success.json' }).as('userPasswordSuccess');
+      cy.intercept('POST', '/change-password', { statusCode: 200, fixture: 'password_change_success.json' }).as('userPasswordSuccess');
       cy.get("button[type='submit'").click();
       cy.get('.authinfo').should('contain', 'Changes were successful!');
     });

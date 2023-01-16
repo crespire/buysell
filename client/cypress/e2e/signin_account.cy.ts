@@ -7,7 +7,7 @@ describe('Registered User', () => {
     cy.location('pathname').should('eq', '/signin');
     cy.get('input[name=email]').type("testuser@test.com");
     cy.get('input[name=pass]').type('pass1234');
-    cy.intercept('POST', '/login', { fixture: 'verified_user.json' }).as('userLogin');
+    cy.intercept('POST', '/login', { statusCode: 200, fixture: 'verified_user.json' }).as('userLogin');
     cy.get('form').submit();
     cy.location('pathname').should('eq', '/');
     cy.contains('Hello testuser1').should('be.visible');
@@ -25,7 +25,7 @@ describe('Registered User', () => {
     cy.visit('reset-password/:token');
     cy.get("input[name='pass']").type('password1');
     cy.get("input[name='passconf']").type('password1');
-    cy.intercept('POST', '/reset-password', { fixture: 'verified_user.json' }).as('userResetPassSuccess');
+    cy.intercept('POST', '/reset-password', { statusCode: 200, fixture: 'verified_user.json' }).as('userResetPassSuccess');
     cy.get('form').submit();
   });
 });
