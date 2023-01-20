@@ -12,3 +12,5 @@ Areas to test
 * Post create
 * Post edit
 * Post delete
+
+For posts, how do I automate testing file operations like upload, etc? Have I also validated it on the server side?
