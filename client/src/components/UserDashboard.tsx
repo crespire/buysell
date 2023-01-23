@@ -11,7 +11,7 @@ function UserDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', 'dashboard'],
     queryFn: fetchUserPosts,
     staleTime: 60 * 1000,
   });

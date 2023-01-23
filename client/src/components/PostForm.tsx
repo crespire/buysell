@@ -3,11 +3,13 @@ import useForm from '../hooks/useForm';
 import { BaseUrlContext } from '..';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 function PostForm() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const baseUrl = useContext(BaseUrlContext);
+  const queryClient = useQueryClient();
   const addPost = async () => {
     const requestData = new FormData();
     
@@ -39,6 +41,7 @@ function PostForm() {
     if (!response.ok) {
       throw new Error(`${response.status} Response: ${await response.text()}`);
     } else {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
       navigate('/');
     }
   }
