@@ -61,6 +61,14 @@ function PostForm() {
           { errors.body && <p>{ errors.body }</p> }`
         </div>
         <div>
+          <label htmlFor="status">Post Status</label>
+          <select id="status" name="status" value={values['status'] || 'draft'} onBlur={handleBlur} onChange={handleChange}>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div>
           <label htmlFor="images">Pictures: </label>
           <input type="file" name="images" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
         </div>
