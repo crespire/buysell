@@ -17,12 +17,17 @@ describe('New Post', () => {
     })
   
     it('makes a new post with text only', () => {
-      // expect new post button
-      // click new post
-      // expect path to be
-      // fill in form with text only
-      // cy.intercept('POST', '/posts', { statusCode: 200, fixture: 'posts.json' });
-      // visit 
+      cy.get('nav').should('include.text', 'New Post');
+      cy.contains('New Post').click();
+      cy.location('pathname').should('eq', '/posts/new');
+      cy.get("input[name='title']").type('Test Post');
+      cy.get("textarea[name='body']").type('Test Post Body');
+      cy.get("select[name='status'").select('Published');
+      cy.intercept('POST', '/posts', { statusCode: 200, fixture: 'new_post.json' });
+      cy.get('form').submit();
+      cy.intercept('GET', '/posts', { statusCode: 200, fixture: 'new_post.json' });
+      cy.location('pathname').should('eq', '/');
+      cy.get('[data-testid="post-index"]').contains('Test 1 Title')
     });
 
     it.skip('makes a new post with images', () => {

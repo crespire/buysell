@@ -7,9 +7,9 @@
     "updated_at": "Rails date string updated_at",
     "status": 2,
     "account": {
-      "name": "user1",
+      "name": "testuser1",
       "id": 1
     },
     "images": []
   }
-]  
+]
