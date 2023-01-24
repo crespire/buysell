@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "title": "Test Post With Image",
+    "body": "Test Post With Image Body",
+    "created_at": "Rails date string created_at",
+    "updated_at": "Rails date string updated_at",
+    "status": 2,
+    "account": {
+      "name": "testuser1",
+      "id": 1
+    },
+    "images": ["/testimage.png"]
+  }
+]

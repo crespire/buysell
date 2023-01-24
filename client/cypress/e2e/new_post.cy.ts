@@ -2,7 +2,7 @@
 
 describe('New Post', () => {
   context('With a registered user', () => {
-    before(() => {
+    beforeEach(() => {
       cy.visit('/')
       cy.contains('Sign In').click();
       cy.location('pathname').should('eq', '/signin');
@@ -30,8 +30,19 @@ describe('New Post', () => {
       cy.get('[data-testid="post-index"]').contains('Test 1 Title')
     });
 
-    it.skip('makes a new post with images', () => {
-      //
+    it('makes a new post with images', () => {
+      cy.get('nav').should('include.text', 'New Post');
+      cy.contains('New Post').click();
+      cy.get("input[name='title']").type('Test Post With Image');
+      cy.get("textarea[name='body']").type('Test Post With Image Body');
+      cy.get("select[name='status']").select('Published');
+      cy.get('input[type=file]').selectFile('cypress/fixtures/testimage.png');
+      cy.intercept('POST', '/posts', { statusCode: 200, fixture: 'new_image_post.json' });
+      cy.get('form').submit();
+      cy.intercept('GET', '/posts', { statusCode: 200, fixture: 'new_image_post.json' });
+      cy.location('pathname').should('eq', '/');
+      cy.get('[data-testid="post-index"]').contains('Test Post With Image');
+      cy.get("img[src='http://localhost:3000/testimage.png']").should('be.visible');
     });
   });  
 });
