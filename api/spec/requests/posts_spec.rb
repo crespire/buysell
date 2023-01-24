@@ -69,6 +69,9 @@ RSpec.describe "Posts", type: :request do
         expect(JSON.parse(response.body)).to include('body' => sample_post['body']).and include('title' => sample_post['title'])
       end
 
+      # write a sample request with a PDF attachment
+      # write a sample request malformed data
+
       it 'is a protected endpoint' do
         sample_post = { 'title' => 'hello, this is another test', 'body' => 'test content for another test post' }
         post '/logout', headers: @headers
@@ -93,6 +96,9 @@ RSpec.describe "Posts", type: :request do
         expect(response.status).to eq(200)
         expect(JSON.parse(response.body)).to include('title' => update['title']).and include('body' => update['body'])
       end
+
+      # write a sample request with a PDF attachment
+      # write a sample request malformed data
 
       it 'is a protected end point' do
         target_post = @user.posts.first
