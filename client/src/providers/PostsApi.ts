@@ -81,7 +81,8 @@ export async function editPost(post: Record<string, any>): Promise<PostModel> {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(`${response.status} ${data.exception.split(':').at(-1).trim().replace('>', '')}`);
+    console.log(data);
+    throw new Error(`${response.status}: ${data['errors'][0]}`);
   }
 
   return data;

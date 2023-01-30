@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
   # PATCH /posts/1
   def update
-    if @post.update(post_params.reject { |k| k['images'] || k['images_to_purge'] })
+    if @post.update(post_params)
 
       # Purge images if requested
       if post_params[:images_to_purge].present?
@@ -50,10 +50,10 @@ class PostsController < ApplicationController
         end
       end
 
-      # Add new images if requested
+      # Add new files if requested
       if post_params[:images].present?
-        post_params[:images].each do |image|
-          @post.images.attach(image)
+        post_params[:images].each do |file|
+          @post.images.attach(file)
         end
       end
 
