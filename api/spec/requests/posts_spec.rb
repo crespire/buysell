@@ -69,8 +69,23 @@ RSpec.describe "Posts", type: :request do
         expect(JSON.parse(response.body)).to include('body' => sample_post['body']).and include('title' => sample_post['title'])
       end
 
-      # write a sample request with a PDF attachment
-      # write a sample request malformed data
+      it 'returns a new post when provided an image' do
+        sample_post = { 'post' => { 'title' => 'hello', 'body' => 'test body with test.png', 'images' => [fixture_file_upload('test.png', 'image/png')] } }
+        post '/posts', params: sample_post, headers: @headers
+
+        expect(response.status).to eq(201)
+        response_json = JSON.parse(response.body)
+        expect(response_json.keys).to include('images')
+        expect(response_json['images']).to include('test.png')
+      end
+
+      it 'returns an error when provided an invalid file type' do
+        sample_post = { 'post' => { 'title' => 'hello', 'body' => 'test body with test.pdf', 'images' => [fixture_file_upload('test.pdf', 'application/pdf')] } }
+        post '/posts', params: sample_post, headers: @headers
+
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)).to include('errors')
+      end
 
       it 'is a protected endpoint' do
         sample_post = { 'title' => 'hello, this is another test', 'body' => 'test content for another test post' }
@@ -97,8 +112,8 @@ RSpec.describe "Posts", type: :request do
         expect(JSON.parse(response.body)).to include('title' => update['title']).and include('body' => update['body'])
       end
 
-      # write a sample request with a PDF attachment
-      # write a sample request malformed data
+      # Validate user can add images to post
+      # Validate invalid file types on edit
 
       it 'is a protected end point' do
         target_post = @user.posts.first

@@ -31,7 +31,7 @@ class PostsController < ApplicationController
     @post = current_account.posts.build(post_params)
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: include_resources(@post), status: :created, location: @post
     else
       render json: @post.errors, status: :unprocessable_entity
     end
