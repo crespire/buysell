@@ -112,8 +112,25 @@ RSpec.describe "Posts", type: :request do
         expect(JSON.parse(response.body)).to include('title' => update['title']).and include('body' => update['body'])
       end
 
-      # Validate user can add images to post
-      # Validate invalid file types on edit
+      it 'returns an updated post with image' do
+        target_post = @user.posts.first
+        update = { 'post' => { 'images' => [fixture_file_upload('test.png', 'image/png')] } }
+        patch "/posts/#{target_post.id}", params: update, headers: @headers
+
+        expect(response.status).to eq(200)
+        response_json = JSON.parse(response.body)
+        expect(response_json.keys).to include('images')
+        expect(response_json['images']).to include('test.png')
+      end
+
+      it 'returns an error when trying to update post with invalid file type' do
+        target_post = @user.posts.first
+        update = { 'post' => { 'images' => [fixture_file_upload('test.pdf', 'application/pdf')] } }
+        patch "/posts/#{target_post.id}", params: update, headers: @headers
+
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)).to include('errors')
+      end
 
       it 'is a protected end point' do
         target_post = @user.posts.first
