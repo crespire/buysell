@@ -13,9 +13,17 @@ describe('Edit Post', () => {
       cy.location('pathname').should('eq', '/');
       cy.get("a[href='/account']").click();
       cy.location('pathname').should('eq', '/account');
-      // intercept index post call and provide a post we can edit
+      cy.intercept('GET', '/posts', { statusCode: 200, fixture: 'posts_index.json' }).as('editPostIndex');
       cy.visit('/');
       cy.get('nav').should('include.text', 'testuser1');
-    })
+    });
+
+    it('does not show edit on a non-owned post', () => {
+      // check that post ID 4 is not editable
+    });
+
+    it('allows a user to edit their post', () => {
+      // check for post edit
+    });
   })
 }

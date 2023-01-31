@@ -24,5 +24,32 @@
       "id": 1
     },
     "images": []
+  },
+  {
+    "id": 3,
+    "title": "Post To Edit Title",
+    "body": "Post To Edit Body",
+    "created_at": "Rails date string created_at",
+    "updated_at": "Rails date string updated_at",
+    "status": 2,
+    "account": {
+      "name": "testuser1",
+      "id": 1
+    },
+    "images": []
+  },
+
+  {
+    "id": 3,
+    "title": "Post From Another User",
+    "body": "Post That We Can't Edit because it's not ours.",
+    "created_at": "Rails date string created_at",
+    "updated_at": "Rails date string updated_at",
+    "status": 2,
+    "account": {
+      "name": "testuser2",
+      "id": 2
+    },
+    "images": []
   }
-]  
+]
