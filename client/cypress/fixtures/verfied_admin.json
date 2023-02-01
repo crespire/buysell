@@ -1,0 +1,10 @@
+{
+
+  "user": {
+    "admin": true,
+    "login": "testuser@test.com",
+    "name": "testuser1",
+    "status": 2,
+    "id": 1
+  } 
+}
