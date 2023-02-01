@@ -19,11 +19,17 @@ describe('Edit Post', () => {
     });
 
     it('does not show edit on a non-owned post', () => {
-      // check that post ID 4 is not editable
+      cy.contains('Post From Another User').should('be.visible');
+      cy.contains('By testuser2 posted on').should('not.contain.text', 'Edit');
     });
 
     it('allows a user to edit their post', () => {
-      // check for post edit
+      cy.contains('Post To Edit Title').should('be.visible');
+      cy.intercept('GET', '/posts/3', { statusCode: 200, fixture: 'to_edit_post.json' }).as('editPostLoad');
+      cy.contains('button', 'Edit').click();
+      cy.location('pathname').should('eq', '/posts/3/edit');
+      cy.contains('Edit Post').should('be.visible');
+      cy.contains('Post To Edit Body').should('be.visible');
     });
   })
-}
+});

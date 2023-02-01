@@ -5,12 +5,13 @@
     "body": "Test Post 1 Body",
     "created_at": "Rails date string created_at",
     "updated_at": "Rails date string updated_at",
+    "account_id": 2,
     "status": 2,
     "account": {
       "name": "user1",
-      "id": 1
+      "id": 2
     },
-    "images": []
+    "images": {}
   },
   {
     "id": 2,
@@ -18,38 +19,41 @@
     "body": "Test Post 2 Body",
     "created_at": "Rails date string created_at",
     "updated_at": "Rails date string updated_at",
+    "account_id": 2,
     "status": 2,
     "account": {
       "name": "user1",
-      "id": 1
+      "id": 2
     },
-    "images": []
+    "images": {}
   },
   {
     "id": 3,
     "title": "Post To Edit Title",
     "body": "Post To Edit Body",
-    "created_at": "Rails date string created_at",
+    "created_at": "creation_time",
     "updated_at": "Rails date string updated_at",
+    "account_id": 1,
     "status": 2,
     "account": {
       "name": "testuser1",
       "id": 1
     },
-    "images": []
+    "images": {}
   },
 
   {
-    "id": 3,
+    "id": 4,
     "title": "Post From Another User",
     "body": "Post That We Can't Edit because it's not ours.",
     "created_at": "Rails date string created_at",
     "updated_at": "Rails date string updated_at",
+    "account_id": 2,
     "status": 2,
     "account": {
       "name": "testuser2",
       "id": 2
     },
-    "images": []
+    "images": {}
   }
 ]

@@ -1,6 +1,6 @@
 {
   "user": {
-    "admin": true,
+    "admin": false,
     "login": "testuser@test.com",
     "name": "testuser1",
     "status": 2,
