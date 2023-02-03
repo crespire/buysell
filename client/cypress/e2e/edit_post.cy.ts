@@ -37,5 +37,8 @@ describe('Edit Post', () => {
       cy.location('pathname').should('eq', '/posts/3');
       cy.get('p').should('include.text', 'I have made an edit');
     });
+
+    // Add a test to add an image
+    // Add a test to add a PDF
   });
 });
