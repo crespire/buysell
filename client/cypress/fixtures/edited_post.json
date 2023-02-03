@@ -1,0 +1,14 @@
+{
+  "id": 3,
+  "title": "Post To Edit Title",
+  "body": "Post To Edit Body I have made an edit",
+  "created_at": "creation_time",
+  "updated_at": "Rails date string updated_at",
+  "account_id": 1,
+  "status": 2,
+  "account": {
+    "name": "testuser1",
+    "id": 1
+  },
+  "images": {}
+}

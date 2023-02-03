@@ -30,6 +30,12 @@ describe('Edit Post', () => {
       cy.location('pathname').should('eq', '/posts/3/edit');
       cy.contains('Edit Post').should('be.visible');
       cy.contains('Post To Edit Body').should('be.visible');
+      cy.get("textarea[name='body']").type(' I have made an edit');
+      cy.intercept('PATCH', '/posts/3', { statusCode: 200, fixture: 'edited_post.json' }).as('editedPostPatchResponse');
+      cy.intercept('GET', '/posts/3', { statusCode: 200, fixture: 'edited_post.json' }).as('editedPostGet');
+      cy.get('form').submit();
+      cy.location('pathname').should('eq', '/posts/3');
+      cy.get('p').should('include.text', 'I have made an edit');
     });
-  })
+  });
 });
