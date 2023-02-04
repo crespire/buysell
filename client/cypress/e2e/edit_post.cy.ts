@@ -38,7 +38,27 @@ describe('Edit Post', () => {
       cy.get('p').should('include.text', 'I have made an edit');
     });
 
-    // Add a test to add an image
-    // Add a test to add a PDF
+    it('prevents a user from editing a post to be invalid', () => {
+      cy.contains('Post To Edit Title').should('be.visible');
+      cy.intercept('GET', '/posts/3', { statusCode: 200, fixture: 'to_edit_post.json' }).as('editPostLoad');
+      cy.contains('button', 'Edit').click();
+      cy.location('pathname').should('eq', '/posts/3/edit');
+      cy.contains('Edit Post').should('be.visible');
+      cy.contains('Post To Edit Body').should('be.visible');
+      cy.get("textarea[name='body']").clear().type('123');
+      cy.get('input[name=title]').click();
+      cy.contains('Body must be at least 5 characters long.').should('be.visible');
+      cy.get("textarea[name='body']").clear().type('I have made an edit');
+      cy.contains('Body must be at least 5 characters long.').should('not.exist');
+      cy.get("input[name='title']").clear().type('12');
+      cy.get("textarea[name='body']").click();
+      cy.contains('Title must be at least 3 characters long.').should('be.visible');
+      cy.get("input[name='title']").clear().type('Fixed title');
+      cy.get('textarea').click();
+      cy.contains('Title must be at least 3 characters long.').should('not.exist');
+    });
+
+    // Add a test for invalid edits
+    // Add a test to add a file.
   });
 });
