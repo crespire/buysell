@@ -58,7 +58,29 @@ describe('Edit Post', () => {
       cy.contains('Title must be at least 3 characters long.').should('not.exist');
     });
 
-    // Add a test for invalid edits
-    // Add a test to add a file.
+    it('allows a user to add an image to the post', () => {
+      cy.contains('Post To Edit Title').should('be.visible');
+      cy.intercept('GET', '/posts/3', { statusCode: 200, fixture: 'to_edit_post.json' }).as('editPostLoad');
+      cy.contains('button', 'Edit').click();
+      cy.location('pathname').should('eq', '/posts/3/edit');
+      cy.contains('Edit Post').should('be.visible');
+      cy.contains('Post To Edit Body').should('be.visible');
+      cy.get('input[type=file]').selectFile('cypress/fixtures/testimage.png');
+      cy.get('input[type=file]').should('include.value', 'testimage.png');
+    });
+
+    it('allows a user to delete an image already attached to a post', () => {
+      cy.contains('Post To Edit Title').should('be.visible');
+      cy.intercept('GET', '/posts/3', { statusCode: 200, fixture: 'to_edit_post_with_image.json' }).as('editPostWithImageLoad');
+      cy.contains('button', 'Edit').click();
+      cy.location('pathname').should('eq', '/posts/3/edit');
+      cy.contains('Edit Post').should('be.visible');
+      cy.contains('Post To Edit Body').should('be.visible');
+      cy.contains('Current Images to Delete').should('be.visible');
+      cy.get('form').submit();
+      cy.intercept('PATCH', '/posts/3', (request) => {
+        expect(request.body).to.include('images_to_purge');
+      });
+    });
   });
 });
