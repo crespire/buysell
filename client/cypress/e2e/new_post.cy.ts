@@ -22,8 +22,11 @@ describe('New Post', () => {
       cy.location('pathname').should('eq', '/posts/new');
       cy.get("input[name='title']").type('Test Post');
       cy.get("textarea[name='body']").type('Test Post Body');
-      cy.get("select[name='status'").select('Published');
-      cy.intercept('POST', '/posts', { statusCode: 200, fixture: 'new_post.json' });
+      cy.get("select[name='status']").select('published');
+      cy.intercept('POST', '/posts', (request) => {
+        expect(request.body).to.match(/Test Post Body/);
+        request.reply({ statusCode: 201, fixture: 'new_post.json' });
+      });
       cy.get('form').submit();
       cy.intercept('GET', '/posts', { statusCode: 200, fixture: 'new_post.json' });
       cy.location('pathname').should('eq', '/');
@@ -34,9 +37,17 @@ describe('New Post', () => {
       cy.location('pathname').should('eq', '/posts/new');
       cy.get("input[name='title']").type('Test Post With Image');
       cy.get("textarea[name='body']").type('Test Post With Image Body');
-      cy.get("select[name='status']").select('Published');
+      cy.get("select[name='status']").select('published');
       cy.get('input[type=file]').selectFile('cypress/fixtures/testimage.png');
-      cy.intercept('POST', '/posts', { statusCode: 200, fixture: 'new_image_post.json' });
+      cy.intercept('POST', '/posts', (request) => {
+        // Strange behaviour with binary data in Cypress. FormData with a png
+        // is sent as an ArrayBuffer, which makes it difficult to run assertions
+        // like the previous test which had text in the request body I could use
+        // matchers on. As a work-around, I have simply asserted the content-type
+        // is correct in the headers, as I know this works in a real e2e situation.
+        expect(request.headers).property('content-type').to.include('multipart/form-data');
+        request.reply({ statusCode: 201, fixture: 'new_image_post.json' });
+      });
       cy.get('form').submit();
       cy.intercept('GET', '/posts', { statusCode: 200, fixture: 'new_image_post.json' });
       cy.location('pathname').should('eq', '/');
