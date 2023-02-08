@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 function App() {
 
   return (
-    <main className="App">
+    <main className="App container mx-auto">
       <QueryClientProvider client={queryClient}>
         <Header />
         <Outlet />
