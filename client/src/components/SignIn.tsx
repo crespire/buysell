@@ -35,6 +35,7 @@ function Signin() {
         </div>
         <button className="p-2 border border-solid border-black" type="submit">Login</button>
       </form>
+      <Link to='/signup'>Need an account?</Link>
       <Link to="/reset-password">Help, I forgot my password</Link>
     </div>
     

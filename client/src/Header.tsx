@@ -10,19 +10,19 @@ function Header() {
         <Link to='/'>Home</Link>
         { user === null
           ? <>
-              <Link to='/signup'>Sign Up</Link>
               <Link to='/signin'>Sign In</Link>
+              <Link to='/signin'>New Post</Link>
             </>
           : <>
-              <span>Hello <Link to='/dashboard'>{ user.name }</Link></span>
               { [2, 'verified'].includes(user.status) && (
                   <>
                     <Link to='/account'>Edit Account</Link>
-                    <Link to='/posts/new'>New Post</Link>
                   </>
                 )
               }
-              <button onClick={() => logOut()}>Sign Out</button>              
+              <span><Link to='/dashboard'>{ user.name[0] }</Link></span>
+              <button onClick={() => logOut()}>Sign Out</button> 
+              <Link to='/posts/new'>New Post</Link>
             </>
         }
       </nav>
