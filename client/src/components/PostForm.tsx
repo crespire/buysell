@@ -1,7 +1,7 @@
 import { useAuth } from '../providers/AuthProvider';
 import useForm from '../hooks/useForm';
 import { BaseUrlContext } from '..';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -44,7 +44,11 @@ function PostForm() {
   }
   const { values, errors, handleBlur, handleChange, handleFiles, handleSubmit } = useForm(addPost);
 
-  if (!user) { return <p>You must be authorized to use this page.</p>; }
+  useEffect(() => {
+    if (!user) {
+      navigate('/signin');
+    }
+  }, []);
 
   return (
     <div className="flex flex-col p-2">
