@@ -79,7 +79,6 @@ function PostForm() {
         <button type="submit">Post!</button>
       </form>
     </div>
-    
   );
 }
 

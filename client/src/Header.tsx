@@ -14,13 +14,7 @@ function Header() {
               <Link to='/signup'>Sign Up</Link>
             </>
           : <>
-              { [2, 'verified'].includes(user.status) && (
-                  <>
-                    <Link to='/account'>Edit Account</Link>
-                  </>
-                )
-              }
-              <span><Link to='/dashboard'>{ user.name[0] }</Link></span>
+              <Link to='/dashboard'>{ user.name[0] }</Link>
               <button onClick={() => logOut()}>Sign Out</button> 
             </>
         }
