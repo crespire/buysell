@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import DropdownMenu from './components/Dropdown';
 import { useAuth } from './providers/AuthProvider';
 
 function Header() {
@@ -14,7 +15,17 @@ function Header() {
               <Link to='/signup'>Sign Up</Link>
             </>
           : <>
-              <Link to='/dashboard'>{ user.name[0] }</Link>
+              <DropdownMenu
+                className='user-menu'
+                links={[
+                  ['Dashboard', '/dashboard'],
+                  ['Edit Account', '/account']
+                ]}
+              >
+                <span>
+                  { user.name.charAt(0).toUpperCase() }
+                </span>
+              </DropdownMenu>
               <button onClick={() => logOut()}>Sign Out</button> 
             </>
         }
