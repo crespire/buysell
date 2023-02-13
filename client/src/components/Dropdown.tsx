@@ -19,8 +19,8 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
 
   // Close on outside click
   useEffect(() => {
-    function checkOutsideClick(event: any) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    function checkOutsideClick(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
