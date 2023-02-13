@@ -22,9 +22,7 @@ function Header() {
                   ['Edit Account', '/account']
                 ]}
               >
-                <span>
-                  { user.name.charAt(0).toUpperCase() }
-                </span>
+                <span>{ user.name.charAt(0).toUpperCase() }</span>
               </DropdownMenu>
               <button onClick={() => logOut()}>Sign Out</button> 
             </>

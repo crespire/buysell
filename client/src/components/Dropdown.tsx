@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useRef, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 interface DropdownMenuProps {
@@ -9,6 +9,7 @@ interface DropdownMenuProps {
 
 function DropdownMenu({className, links, children}: DropdownMenuProps) {
   let location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   // Close after navigation
@@ -16,8 +17,23 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
     setIsOpen(false);
   }, [location]);
 
+  // Close on outside click
+  useEffect(() => {
+    function checkOutsideClick(event: any) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('click', checkOutsideClick);
+
+    return () => {
+      document.removeEventListener('click', checkOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className={className}>
+    <div ref={menuRef} className={className}>
       <button onClick={() => setIsOpen(!isOpen)}>{ children }</button>
       { isOpen && (
         <ul>
