@@ -22,11 +22,11 @@ function Header() {
               links={[
                 { name: 'Dashboard', url: '/dashboard' },
                 { name: 'Edit Account', url: '/account' },
+                { name: 'Sign Out', action: () => logOut() }
               ]}
             >
               <div className="w-8 h-8 flex justify-center items-center rounded-full text-center bg-indigo-300">{ user.name.charAt(0).toUpperCase() }</div>
             </DropdownMenu>
-            <button onClick={() => logOut()}>Sign Out</button> 
           </>
       }
       <Link to='/posts/new'>New Post</Link>

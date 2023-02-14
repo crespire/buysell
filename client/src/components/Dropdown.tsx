@@ -1,9 +1,25 @@
-import { ReactNode, useRef, useEffect, useState } from "react";
+import { ReactNode, useRef, useEffect, useState, EventHandler } from "react";
 import { Link, useLocation } from "react-router-dom";
+
+interface BaseMenuItem {
+  name: string;
+}
+
+interface LinkItem extends BaseMenuItem {
+  url: string;
+  action?: never;
+}
+
+interface ButtonItem extends BaseMenuItem {
+  action: () => Promise<void>;
+  url?: never;
+}
+
+type MenuItem = LinkItem | ButtonItem;
 
 interface DropdownMenuProps {
   className: string;
-  links: { name: string, url: string  }[];
+  links: Array<MenuItem>;
   children?: ReactNode;
 }
 
@@ -41,13 +57,18 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
   }, []);
 
   return (
-    <div ref={menuRef} className={className}>
-      <button className="relative" onClick={() => setIsOpen(!isOpen)}>{ children }</button>
+    <div ref={menuRef} className={ "relative " + className}>
+      <button onClick={() => setIsOpen(!isOpen)}>{ children }</button>
       { isOpen && (
-        <ul className="absolute top-11 bg-white p-2 border b-slate-200">
+        <ul className="absolute w-max top-9 bg-white p-2 border b-slate-200">
          { links.map((link, index) => (          
             <li key={ index }>
-              <Link to={ link.url }>{ link.name }</Link>
+              { link.url && (
+                <Link to={ link.url }>{ link.name }</Link>
+              )}
+              { link.action && (
+                <button onClick={ link.action }>{ link.name }</button>
+              )}
             </li>
           ))}
         </ul>
