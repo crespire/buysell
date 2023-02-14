@@ -11,7 +11,9 @@ function App() {
     <main className="App container mx-auto">
       <QueryClientProvider client={queryClient}>
         <Header />
-        <Outlet />
+        <div className="px-2">
+          <Outlet />
+        </div>
         <Footer />
       </QueryClientProvider>
     </main>
