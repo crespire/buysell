@@ -27,6 +27,7 @@ function UserDashboard() {
 
   return (
     <div>
+      { user && user.status === 1 && <p className="verify text-red-800">Please confirm your account by checking your email and clicking the link!</p> }
       <Link to="/account">Edit Account</Link>
       <h1 className="text-2xl">Your Posts</h1>
       <section>

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 interface DropdownMenuProps {
   className: string;
-  links: Array<Array<string>>;
+  links: { name: string, url: string  }[];
   children?: ReactNode;
 }
 
@@ -34,12 +34,12 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
 
   return (
     <div ref={menuRef} className={className}>
-      <button onClick={() => setIsOpen(!isOpen)}>{ children }</button>
+      <button className="relative" onClick={() => setIsOpen(!isOpen)}>{ children }</button>
       { isOpen && (
-        <ul>
-          { links.map(([name, url]) => (
-            <li key={ name }>
-              <Link to={ url }>{ name }</Link>
+        <ul className="absolute top-11 bg-white p-2 border b-slate-200">
+         { links.map((link, index) => (          
+            <li key={ index }>
+              <Link to={ link.url }>{ link.name }</Link>
             </li>
           ))}
         </ul>
