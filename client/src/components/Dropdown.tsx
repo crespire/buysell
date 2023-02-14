@@ -17,18 +17,26 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
     setIsOpen(false);
   }, [location]);
 
-  // Close on outside click
+  // Additional usability
   useEffect(() => {
     function checkOutsideClick(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
-    }
+    };
+
+    function handleEscapeKey(event: KeyboardEvent) {
+      if (event.code === 'Escape') {
+        setIsOpen(false);
+      }
+    };
 
     document.addEventListener('click', checkOutsideClick);
+    document.addEventListener('keydown', handleEscapeKey);
 
     return () => {
       document.removeEventListener('click', checkOutsideClick);
+      document.removeEventListener('keydown', handleEscapeKey);
     };
   }, []);
 
