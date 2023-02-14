@@ -7,6 +7,10 @@ function Header() {
   return (
     <nav className="flex justify-around items-center h-12">
       <Link to='/'>Home</Link>
+      <form className="w-3/5">
+        <input className="w-4/5 px-1" type="text" placeholder="Search for..." name="search" />
+        <button className="w-1/5 px-1" type="submit">Go</button>
+      </form>
       { user === null
         ? <>
             <Link to='/signin'>Sign In</Link>
