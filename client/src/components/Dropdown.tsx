@@ -11,7 +11,7 @@ interface LinkItem extends BaseMenuItem {
 }
 
 interface ButtonItem extends BaseMenuItem {
-  action: () => Promise<void>;
+  action: () => void;
   url?: never;
 }
 
@@ -60,7 +60,7 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
     <div ref={menuRef} className={ "relative " + className}>
       <button onClick={() => setIsOpen(!isOpen)}>{ children }</button>
       { isOpen && (
-        <ul className="absolute w-max top-9 bg-white p-2 border b-slate-200">
+        <ul className="absolute w-fit top-9 bg-white p-2 border b-slate-200">
          { links.map((link, index) => (          
             <li key={ index }>
               { link.url && (
