@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
   # PATCH /posts/1
   def update
-    if @post.update(post_params)
+    if @post.update(post_params.reject { |k| k["images"] || k['images_to_purge'] })
 
       # Purge images if requested
       if post_params[:images_to_purge].present?
@@ -50,14 +50,20 @@ class PostsController < ApplicationController
         end
       end
 
+      skipped = {}
+      skipped[:update_error] = []
       # Add new files if requested
       if post_params[:images].present?
         post_params[:images].each do |file|
-          @post.images.attach(file)
+          if file.content_type.in?(Buysell::ACCEPTED_FILE_TYPES)
+            @post.images.attach(file)
+          else
+            skipped[:update_error] << "#{file.original_filename} was not added, type incorrect."
+          end
         end
       end
 
-      render json: include_resources(@post)
+      render json: include_resources(@post).merge(skipped)
     else
       render json: @post.errors, status: :unprocessable_entity
     end

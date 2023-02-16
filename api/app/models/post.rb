@@ -13,9 +13,8 @@ class Post < ApplicationRecord
   validate :image_types
 
   def image_types
-    allowed_types = %w[image/jpeg image/gif image/png image/webp image/apng]
     images.each do |file|
-      unless file.content_type.in?(allowed_types)
+      unless file.content_type.in?(Buysell::ACCEPTED_FILE_TYPES)
         errors.add(:errors, "#{file.filename}'s type '#{file.content_type}' is disallowed, accepted formats: #{allowed_types.join(', ')}")
         file.purge_later if file.id
       end
