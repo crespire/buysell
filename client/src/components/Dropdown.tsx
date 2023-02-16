@@ -11,7 +11,7 @@ interface LinkItem extends BaseMenuItem {
 }
 
 interface ButtonItem extends BaseMenuItem {
-  action: () => void;
+  action: () => unknown;
   url?: never;
 }
 
