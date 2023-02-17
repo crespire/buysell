@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePost } from "../providers/PostsApi";
 import { useNavigate } from "react-router";
 import DropdownMenu from "./Dropdown";
-import ImageViewer from "awesome-image-viewer";
+import ImageCarousel from "./ImageCarousel";
 
 function Post(props: PostProps) {
   const { post } = props;
@@ -22,6 +22,13 @@ function Post(props: PostProps) {
     }
   });
   const jsDate = new Date(Date.parse(post?.created_at));
+  const imageData: Array<any> = [];
+  if (post?.images) {
+    Object.entries(post.images).forEach((entry) => {
+      imageData.push({'mainUrl': `${baseUrl}${entry[1]}`, 'description': entry[0]})
+    });
+  }
+  console.log(imageData);
 
   return (
     <article>
@@ -41,12 +48,12 @@ function Post(props: PostProps) {
         }
       </section>
       <section className='post-body'>
-      <p>{ post?.body }</p>
-      { Object.keys(post?.images).length > 0 && (
-        <ul>
-          { Object.entries(post?.images).map(([name, path]) => <li key={name}><img src={`${baseUrl}${path}`} alt={name} /></li> ) }
-        </ul>
-      )}
+        <>
+          <p>{ post?.body }</p>
+          { imageData.length > 0 && (
+            <ImageCarousel images={imageData} />
+          )}
+       </>
       </section>
     </article>
   );
