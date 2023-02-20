@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface ImageCarouselProps {
-  images: Array<{ mainUrl: string; description: string }>;
+  images: Array<{ mainUrl: string; description?: string }>;
 }
 
 function ImageCarousel({ images }: ImageCarouselProps) {

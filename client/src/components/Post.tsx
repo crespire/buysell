@@ -22,13 +22,12 @@ function Post(props: PostProps) {
     }
   });
   const jsDate = new Date(Date.parse(post?.created_at));
-  const imageData: Array<any> = [];
+  const imageData: Array<{ 'mainUrl': string, 'description'?: string }> = [];
   if (post?.images) {
     Object.entries(post.images).forEach((entry) => {
       imageData.push({'mainUrl': `${baseUrl}${entry[1]}`, 'description': entry[0]})
     });
   }
-  console.log(imageData);
 
   return (
     <article>
