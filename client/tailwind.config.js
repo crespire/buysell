@@ -6,5 +6,11 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+
+  // daisyUI Config
+  daisyui: {
+    themes: ['corporate', 'business'],
+    darkTheme: 'business',
+  },
 }

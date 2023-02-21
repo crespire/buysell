@@ -36,7 +36,8 @@ function Post(props: PostProps) {
         By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}.` }
         { user && (user.id === post?.account?.id || user.admin) && 
           <DropdownMenu
-            className='post-tools px-1'
+            className='post-tools'
+            buttonClasses='btn btn-sm btn-block'
             links={[
             { name: 'Edit', url: `/posts/${post?.id}/edit` },
             { name: 'Delete', action: () => deletePostMutation.mutate(post?.id) }

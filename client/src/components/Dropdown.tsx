@@ -18,12 +18,13 @@ interface ButtonItem extends BaseMenuItem {
 type MenuItem = LinkItem | ButtonItem;
 
 interface DropdownMenuProps {
-  className: string;
+  buttonClasses?: string;
+  className?: string;
   links: Array<MenuItem>;
   children?: ReactNode;
 }
 
-function DropdownMenu({className, links, children}: DropdownMenuProps) {
+function DropdownMenu({buttonClasses, className, links, children}: DropdownMenuProps) {
   let location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -57,22 +58,20 @@ function DropdownMenu({className, links, children}: DropdownMenuProps) {
   }, []);
 
   return (
-    <div ref={menuRef} className={ "relative " + className}>
-      <button onClick={() => setIsOpen(!isOpen)}>{ children }</button>
-      { isOpen && (
-        <ul className="absolute w-fit top-9 bg-white p-2 border b-slate-200">
-         { links.map((link, index) => (          
-            <li key={ index }>
-              { link.url && (
-                <Link to={ link.url }>{ link.name }</Link>
-              )}
-              { link.action && (
-                <button onClick={ link.action }>{ link.name }</button>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div ref={menuRef} className={className ? `dropdown ${className}` : 'dropdown'}>
+      <label tabIndex={0} className={ buttonClasses }>{ children }</label>
+      <ul tabIndex={0} className="dropdown-content menu menu-compact p-2 shadow bg-primary-content rounded-box">
+       { links.map((link, index) => (          
+          <li key={ index }>
+            { link.url && (
+              <Link to={ link.url }>{ link.name }</Link>
+            )}
+            { link.action && (
+              <button onClick={ link.action }>{ link.name }</button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
