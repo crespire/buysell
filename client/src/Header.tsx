@@ -7,9 +7,11 @@ function Header() {
   return (
     <nav className="navbar flex justify-around items-center h-12">
       <Link to='/' className="btn btn-ghost">Home</Link>
-      <form className="w-3/5">
-        <input className="w-4/5 px-1 input input-bordered" type="text" placeholder="Search for..." name="search" />
-        <button className="w-1/5 px-1 btn btn-ghost" type="submit">Go</button>
+      <form className="form-control w-3/5">
+        <div className="input-group">
+          <input className="w-4/5 px-1 input input-bordered" type="text" placeholder="Search for..." name="search" />
+          <button className="w-1/5 px-1 btn btn-ghost" type="submit">Go</button>
+        </div>
       </form>
       { user === null
         ? <>

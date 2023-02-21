@@ -30,7 +30,7 @@ function Post(props: PostProps) {
   }
 
   return (
-    <article className="card lg:card-side bg-base-100 shadow-xl">
+    <article className="card lg:card-side bg-base-100">
       <div className="card-body">
         <header className="card-title">{ post?.title }</header>
         <section>
@@ -39,7 +39,7 @@ function Post(props: PostProps) {
             <ImageCarousel images={imageData} />
           )}
         </section>
-        <section className='card-actions navbar'>
+        <section className='card-actions navbar bg-base-200'>
           <div className="flex-1">
             By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}` }
           </div>
