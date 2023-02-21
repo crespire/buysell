@@ -30,31 +30,35 @@ function Post(props: PostProps) {
   }
 
   return (
-    <article>
-      <header>{ post?.title }</header>
-      <section className='post-info flex'>
-        By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}.` }
-        { user && (user.id === post?.account?.id || user.admin) && 
-          <DropdownMenu
-            className='post-tools'
-            buttonClasses='btn btn-sm btn-block'
-            links={[
-            { name: 'Edit', url: `/posts/${post?.id}/edit` },
-            { name: 'Delete', action: () => deletePostMutation.mutate(post?.id) }
-            ]}
-          >
-            &#10247;
-          </DropdownMenu>
-        }
-      </section>
-      <section className='post-body'>
-        <>
+    <article className="card lg:card-side bg-base-100 shadow-xl">
+      <div className="card-body">
+        <header className="card-title">{ post?.title }</header>
+        <section>
           <p>{ post?.body }</p>
           { imageData.length > 0 && (
             <ImageCarousel images={imageData} />
           )}
-       </>
-      </section>
+        </section>
+        <section className='card-actions navbar'>
+          <div className="flex-1">
+            By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}` }
+          </div>
+          <div className="flex-none">
+            { user && (user.id === post?.account?.id || user.admin) && 
+              <DropdownMenu
+                className='post-tools'
+                buttonClasses='btn btn-sm btn-ghost text-base font-normal'
+                links={[
+                  { name: 'Edit', url: `/posts/${post?.id}/edit` },
+                  { name: 'Delete', action: () => deletePostMutation.mutate(post?.id) }
+                ]}
+              >
+                &#10247;
+              </DropdownMenu>
+            }
+          </div>
+        </section>
+      </div>
     </article>
   );
 }
