@@ -10,8 +10,8 @@ function PostsIndex() {
     staleTime: 60 * 1000,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError && error instanceof Error) return <p>Error: {error.message} </p>;
+  if (isLoading) return <button className="btn loading" disabled>Loading posts...</button>;
+  if (isError && error instanceof Error) return <div className="alert alert-error">Error: {error.message} </div>;
 
   return (
     <div data-testid="post-index">
