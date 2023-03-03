@@ -17,6 +17,7 @@ function PostEditForm() {
     mutationFn: editPost,
     onSuccess: data => {
       queryClient.setQueryData(['post', id], data);
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
     onSettled: () => {
       navigate(`/posts/${id}`);

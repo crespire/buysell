@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.includes(:account).where(status: 'published').with_attached_images
+    @posts = Post.includes(:account).where(status: 'published').with_attached_images.order(:id)
     @posts = @posts.map do |post|
       include_resources(post)
     end
@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
   # GET /myposts
   def user_index
-    @posts = current_account.posts.all.includes(:account).with_attached_images
+    @posts = current_account.posts.all.includes(:account).with_attached_images.order(:id)
     @posts = @posts.map do |post|
       include_resources(post)
     end
@@ -55,6 +55,8 @@ class PostsController < ApplicationController
       # Add new files if requested
       if post_params[:images].present?
         post_params[:images].each do |file|
+          next unless file.respond_to?(:content_type)
+
           if file.content_type.in?(Buysell::ACCEPTED_FILE_TYPES)
             @post.images.attach(file)
           else
