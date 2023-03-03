@@ -20,7 +20,7 @@ function Header() {
           </>
         : <>
             <DropdownMenu
-              buttonClasses='btn btn-outline btn-circle'
+              buttonClasses='btn btn-circle btn-outline'
               links={[
                 { name: 'Dashboard', url: '/dashboard' },
                 { name: 'Edit Account', url: '/account' },

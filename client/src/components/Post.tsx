@@ -33,30 +33,30 @@ function Post(props: PostProps) {
     <article className="card rounded-none drop-shadow-lg lg:card-side odd:bg-base-100 even:bg-base-200 dark:border-accent/25 dark:border dark:border-solid dark:odd:bg-neutral dark:even:bg-neutral-focus last:drop-shadow-none">
       <div className="card-body">
         <header className="card-title">{ post?.title }</header>
+        <section className='card-actions navbar'>
+        <div className="flex-1">
+        By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}` }
+        </div>
+        <div className="flex-none">
+        { user && (user.id === post?.account?.id || user.admin) && 
+        <DropdownMenu
+        className='post-tools'
+        buttonClasses='btn btn-sm btn-ghost text-base font-normal'
+        links={[
+        { name: 'Edit', url: `/posts/${post?.id}/edit` },
+        { name: 'Delete', action: () => deletePostMutation.mutate(post?.id) }
+        ]}
+        >
+        &#10247;
+        </DropdownMenu>
+        }
+  </div>
+    </section>
         <section className="flex flex-col">
           <p>{ post?.body }</p>
           { imageData.length > 0 && (
             <ImageCarousel images={imageData} />
           )}
-        </section>
-        <section className='card-actions navbar bg-inherit'>
-          <div className="flex-1">
-            By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}` }
-          </div>
-          <div className="flex-none">
-            { user && (user.id === post?.account?.id || user.admin) && 
-              <DropdownMenu
-                className='post-tools'
-                buttonClasses='btn btn-sm btn-ghost text-base font-normal'
-                links={[
-                  { name: 'Edit', url: `/posts/${post?.id}/edit` },
-                  { name: 'Delete', action: () => deletePostMutation.mutate(post?.id) }
-                ]}
-              >
-                &#10247;
-              </DropdownMenu>
-            }
-          </div>
         </section>
       </div>
     </article>

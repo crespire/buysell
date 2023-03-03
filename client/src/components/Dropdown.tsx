@@ -60,8 +60,8 @@ function DropdownMenu({buttonClasses, className, links, children}: DropdownMenuP
   return (
     <div ref={menuRef} className={className ? `dropdown ${className}` : 'dropdown'}>
       <label tabIndex={0} className={ buttonClasses }>{ children }</label>
-      <ul tabIndex={0} className="dropdown-content menu menu-compact p-2 shadow bg-primary-content rounded-box">
-       { links.map((link, index) => (          
+      <ul tabIndex={0} className="dropdown-content menu menu-compact p-2 rounded-box bg-primary-content dark:bg-base-100">
+       { links.map((link, index) => (
           <li key={ index }>
             { link.url && (
               <Link to={ link.url }>{ link.name }</Link>
