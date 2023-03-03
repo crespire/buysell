@@ -16,8 +16,8 @@ function ImageCarousel({ images }: ImageCarouselProps) {
   };
 
   return (
-    <div className="p-2 bg-neutral-content dark:bg-base-300 flex flex-col justify-center content-center gap-3">
-      <img className="max-w-fit max-h-fit" src={images[currentIndex].mainUrl} alt={images[currentIndex].description} />
+    <div className="p-2 bg-neutral-content dark:bg-base-300 flex flex-col justify-center content-center gap-3 w-fit justify-self-center self-center">
+      <img className="mx-auto w-fit h-fit max-w-full max-h-full" src={images[currentIndex].mainUrl} alt={images[currentIndex].description} />
       <section className="flex justify-center content-center gap-x-3">
         <button onClick={handlePrevClick}>&#129128;</button>
         <span>{ currentIndex + 1 } of { images.length }</span>

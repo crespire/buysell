@@ -33,7 +33,7 @@ function Post(props: PostProps) {
     <article className="card rounded-none drop-shadow-lg lg:card-side odd:bg-base-100 even:bg-base-200 dark:border-accent/25 dark:border dark:border-solid dark:odd:bg-neutral dark:even:bg-neutral-focus last:drop-shadow-none">
       <div className="card-body">
         <header className="card-title">{ post?.title }</header>
-        <section>
+        <section className="flex flex-col">
           <p>{ post?.body }</p>
           { imageData.length > 0 && (
             <ImageCarousel images={imageData} />
