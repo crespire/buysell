@@ -14,7 +14,7 @@ export interface PostModel {
   body: string | null;
   created_at: string | null;
   updated_at: string | null;
-  status: 1 | 2 | 3 | null; // draft, published, closed
+  status: number | null; // draft, published, closed
   account: UserIncludesModel | null;
   images: Record<string, string> | null;
 }
