@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: buysell_api_production
-  username: api
-  password: <%= ENV["API_DATABASE_PASSWORD"] %>
+  database: <%= ENV["DATABASE_URL"]  %>
