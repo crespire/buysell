@@ -22,6 +22,8 @@ function Signin() {
       { authErrors && <div className="text-red-800">Something went wrong, check the requirements and try again.</div> }
         <ul className="list-inside list-disc">
           <li>All fields are required.</li>
+          <li>email: test@test.com</li>
+          <li>pass: pass1234</li>
         </ul>
         <div className="p-2">
           <label htmlFor="email">Email:</label>
