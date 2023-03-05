@@ -5,6 +5,7 @@ import { AuthProvider } from './providers/AuthProvider';
 import { createContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
+import RouteError from './components/RouteError';
 import Signup from './components/Signup';
 import Signin from './components/SignIn';
 import AccountVerify from './components/AccountVerify';
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <RouteError />,
     children: [
       {
         index: true,
