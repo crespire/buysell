@@ -31,7 +31,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -56,6 +56,9 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "api_production"
 
   config.action_mailer.perform_caching = false
+
+  # Set default host for mailer
+  config.action_mailer.default_url_options = { host: 'buysell.crespire.dev' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
