@@ -1,5 +1,5 @@
 class RodauthMain < Rodauth::Rails::Auth
-  FRONT_END_URL = 'http://localhost:3001'
+  FRONT_END_URL = 'https://buysell.crespire.dev'
 
   configure do
     enable :internal_request
