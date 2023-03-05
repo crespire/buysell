@@ -1,19 +1,11 @@
 import { useAuth } from '../providers/AuthProvider';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import useForm from '../hooks/useForm';
 
 function PasswordReset() {
-  const { user, authErrors, doResetPassword } = useAuth();
+  const { authErrors, doResetPassword } = useAuth();
   const { token } = useParams();
-  const navigate = useNavigate();
   const { values, errors, handleBlur, handleSubmit, handleChange } = useForm(doResetPassword);
-
-  useEffect(() => {
-    if (user === null) { return }
-
-    navigate('/');
-  }, [user, navigate])
 
   if (!token) { return <p className="alert alert-error">No token provided.</p> }
 
