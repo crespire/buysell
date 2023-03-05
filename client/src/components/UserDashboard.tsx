@@ -21,8 +21,8 @@ function UserDashboard() {
     }
   }, [])
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError && error instanceof Error) return <p>Error: {error.message} </p>;
+  if (isLoading) return <button className="btn loading">Loading...</button>;
+  if (isError && error instanceof Error) return <p className="alert alert-error">Error: {error.message} </p>;
 
   return (
     <div className="container flex flex-col justify-center content-center gap-y-3 bg-base-100">
