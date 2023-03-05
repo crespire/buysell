@@ -5,12 +5,16 @@ function Header() {
   const { user, logOut } = useAuth();
 
   return (
-    <nav className="navbar flex justify-around items-center h-12">
+    <nav className="navbar flex justify-around items-center h-12 gap-4">
       <Link to='/' className="btn btn-ghost">Home</Link>
-      <form className="form-control w-3/5">
+      <form className="form-control grow">
         <div className="input-group">
-          <input className="w-4/5 px-1 input input-bordered" type="text" placeholder="Search for..." name="search" />
-          <button className="w-1/5 px-1 btn btn-ghost" type="submit">Go</button>
+          <input className="input input-bordered grow" type="text" placeholder="Search..." name="search" />
+          <button className="btn btn-square" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
         </div>
       </form>
       { user === null
