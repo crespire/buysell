@@ -23,7 +23,7 @@ function Signin() {
         <div className="form-control">
           <label htmlFor="email" className="input-group">
             <span className="w-1/3">Email</span>
-            <input className="input input-bordered" type="text" required name="email" onChange={handleChange} onBlur={handleBlur} value={values['email'] || ''} pattern="^[\w.]+@([\w-]+\.)+[\w-]{2,4}$" data-error="Email format incorrect." />
+            <input className="input input-bordered w-full" type="text" required name="email" onChange={handleChange} onBlur={handleBlur} value={values['email'] || ''} pattern="^[\w.]+@([\w-]+\.)+[\w-]{2,4}$" data-error="Email format incorrect." />
           </label>
           { errors.email && (
             <p className="alert alert-error">{errors.email}</p> 
@@ -32,7 +32,7 @@ function Signin() {
         <div className="form-control">
           <label htmlFor="pass" className="input-group">
             <span className="w-1/3">Password</span>
-            <input className="input input-bordered" type="password" required name="pass" onChange={handleChange} onBlur={handleBlur} value={values['pass'] || ''} pattern="^.{8,}$" data-error="Must be filled in." />
+            <input className="input input-bordered w-full" type="password" required name="pass" onChange={handleChange} onBlur={handleBlur} value={values['pass'] || ''} pattern="^.{8,}$" data-error="Must be filled in." />
           </label>
           { errors.pass && <p className="alert alert-error">{errors.pass}</p> }
         </div>

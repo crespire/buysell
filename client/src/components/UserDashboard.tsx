@@ -25,7 +25,7 @@ function UserDashboard() {
   if (isError && error instanceof Error) return <p>Error: {error.message} </p>;
 
   return (
-    <div>
+    <div className="container flex flex-col justify-center content-center gap-y-3 bg-base-100">
       { user && user.status === 1 && <p className="verify alert alert-warning">Please confirm your account by checking your email and clicking the link!</p> }
       <h1 className="text-5xl">Your Posts</h1>
       <section>
