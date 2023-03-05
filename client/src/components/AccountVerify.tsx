@@ -17,8 +17,8 @@ function AccountVerify() {
   return (
     <div>
       { token
-        ? <button onClick={() => verifyUser(token)}className="p-2 border border-solid border-black" type="submit">Verify My Account!</button>
-        : <p>No token provided.</p>
+        ? <button onClick={() => verifyUser(token)}className="btn btn-primary" type="submit">Verify My Account!</button>
+        : <p className="alert alert-error">No token provided.</p>
       }
     </div>
     
