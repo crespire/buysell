@@ -5,7 +5,6 @@ import Post from "./Post";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserPosts } from "../providers/PostsApi";
 import { PostModel } from "../@types/post";
-import { Link } from "react-router-dom";
 
 function UserDashboard() {
   const { user } = useAuth();
@@ -28,7 +27,6 @@ function UserDashboard() {
   return (
     <div>
       { user && user.status === 1 && <p className="verify alert alert-warning">Please confirm your account by checking your email and clicking the link!</p> }
-      <Link className="btn" to="/account">Edit Account</Link>
       <h1 className="text-5xl">Your Posts</h1>
       <section>
         { data?.map((post: PostModel) => {
