@@ -32,36 +32,49 @@ function PostEditForm() {
    * How should we handle the files?
    */
 
-  if (!user) { return <p>You must be authorized to use this page.</p>; }
-  if (isLoading) return <p>Loading...</p>;
-  if (isError && error instanceof Error) return <p>Error: {error.message}</p>
+  if (!user) { return <p className="alert alert-warning">You must be authorized to use this page.</p>; }
+  if (isLoading) return <button className="btn loading">Loading...</button>;
+  if (isError && error instanceof Error) return <p className="alert alert-error">Error: {error.message}</p>
 
   return (
-    <div className="flex flex-col p-2">
-      <h1 className="text-2xl">Edit Post</h1>
-      <form className="flex flex-col p-2 align-center justify-center" onSubmit={handleSubmit} encType='multipart/form-data'>
-        <div>
-          <label htmlFor="title">Title: </label>
-          <input id="title" name="title" type="text" value={values['title'] || ''} onBlur={handleBlur} onChange={handleChange} pattern=".{3,}" minLength={3} required={true} data-error="Title must be at least 3 characters long." />
-          { errors.title && <p>{ errors.title }</p> }
+    <div className="flex flex-col p-4 gap-4 w-full max-w-screen-sm">
+      <h1 className="text-5xl">Edit Post</h1>
+      <form className="flex flex-col p-2 align-center justify-center gap-2" onSubmit={handleSubmit} encType='multipart/form-data'>
+        <div className="form-control w-full">
+          <label htmlFor="title" className="label">
+            <span className="label-text text-lg font-bold">Post Title</span>
+          </label>
+          <input className="input input-bordered w-full" id="title" name="title" type="text" value={values['title'] || ''} onBlur={handleBlur} onChange={handleChange} pattern=".{3,}" minLength={3} required={true} data-error="Title must be at least 3 characters long." />
+          { errors.title && (
+            <p className="alert alert-error">{ errors.title }</p>
+          )}
         </div>
-        <div>
-          <label htmlFor="body">Body: </label>
-          <textarea id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
-          { errors.body && <p>{ errors.body }</p> }`
+        <div className="form-control w-full">
+          <label htmlFor="body" className="label">
+            <span className="label-text text-lg font-bold">Post Body</span>
+          </label>
+          <textarea className="textarea textarea-bordered h-24 w-full" id="body" name="body" value={values['body'] || ''} onBlur={handleBlur} onChange={handleChange} minLength={5} required={true} data-error="Body must be at least 5 characters long." />
+          { errors.body && (
+            <p className="alert alert-error">{ errors.body }</p>
+          )}
         </div>
-        <div>
-          <label htmlFor="images">Add New Pictures: </label>
-          <input type="file" name="images_to_add" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
+        <div className="form-control w-full">
+          <label htmlFor="images" className="label">
+            <span className="label-text text-lg font-bold">Add New Pictures</span>
+          </label>
+          <input className="file-input file-input bordered w-full" type="file" name="images_to_add" accept="image/jpeg, image/gif, image/png, image/webp, image/apng" multiple={true} onBlur={handleBlur} onChange={handleFiles} />
           { values['images'] && Object.keys(values['images']).length > 0 && (
-              <div>Current Images to Delete:
+              <div className="form-control">
+                <span className="text-lg font-bold">Current Images to Delete</span>
                 <ul>
                   {
                     Object.entries<string[]>(values['images']).map(([name, _], index) => {
                       return (
                         <li key={`${index}${values[`images_to_purge`] ? values['images_to_purge'].includes(name) : false}`}>
-                          <input type="checkbox" checked={values[`images_to_purge`] ? values['images_to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />
-                          <label htmlFor={name}>&nbsp;{name}</label>
+                          <label className="label cursor-pointer flex gap-x-2">
+                            <input className="checkbox " type="checkbox" checked={values[`images_to_purge`] ? values['images_to_purge'].includes(name) : false} name={name} onBlur={handleBlur} onChange={updateFiles} />
+                            <span className="label-text text-start grow">{name}</span>
+                          </label>
                         </li>
                       );
                     })
@@ -72,15 +85,19 @@ function PostEditForm() {
             )
           }
           </div>
-        <div>
-          <label htmlFor="status">Post Status</label>
-          <select id="status" name="status" value={values['status'] || 'draft'} onBlur={handleBlur} onChange={handleChange}>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="closed">Closed</option>
-          </select>
+        <div className="form-control w-full">
+          <label htmlFor="status" className="input-group">
+            <span>Post Status</span>
+            <select className="select select-bordered grow" id="status" name="status" value={values['status'] || 'draft'} onBlur={handleBlur} onChange={handleChange}>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="closed">Closed</option>
+            </select>
+          </label>
         </div>
-        <button type="submit">Update!</button>
+        <div className="form-control w-full">
+          <button className="btn" type="submit">Update Post</button>
+        </div>
       </form>
     </div>
     
