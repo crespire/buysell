@@ -15,7 +15,7 @@ function Signin() {
   }, [user, navigate])
 
   return (
-    <div className="flex flex-col p-4 gap-4">
+    <div className="flex flex-col p-4 gap-4 w-full max-w-screen-sm">
       <h1 className="text-5xl">Sign In</h1>
       <div className="bg-info p-2">All fields are required.</div>
       <form className="flex flex-col align-center justify-center gap-2" onSubmit={(e) => {handleSubmit(e, values['email'], values['pass'])}}>

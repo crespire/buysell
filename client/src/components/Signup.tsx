@@ -15,7 +15,7 @@ function Signup() {
   }, [user, navigate])
 
   return (
-    <div className="flex flex-col p-4 gap-4">
+    <div className="flex flex-col p-4 gap-4 w-full max-w-screen-sm">
       <h1 className="text-5xl">Sign Up</h1>
       <ul className="bg-info p-2 list-inside list-disc">
         <li>Fields with * are required.</li>
