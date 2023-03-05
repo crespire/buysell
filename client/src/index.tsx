@@ -75,7 +75,7 @@ const router = createBrowserRouter([
 ]);
 
 export const BaseUrlContext = createContext<string|null>(null);
-export const baseUrl = 'http://localhost:3000';
+export const baseUrl = 'https://buysell-backend.crespire.dev';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
