@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.includes(:account).where(status: 'published').with_attached_images.order(:id)
+    @posts = Post.includes(:account).where(status: 'published').with_attached_images.order(:id, :desc)
     @posts = @posts.map do |post|
       include_resources(post)
     end
@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
   # GET /myposts
   def user_index
-    @posts = current_account.posts.all.includes(:account).with_attached_images.order(:id)
+    @posts = current_account.posts.all.includes(:account).with_attached_images.order(:id, :desc)
     @posts = @posts.map do |post|
       include_resources(post)
     end
