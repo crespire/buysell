@@ -50,6 +50,24 @@ function PostEditForm() {
           )}
         </div>
         <div className="form-control w-full">
+          <label htmlFor="title" className="label">
+            <span className="label-text text-lg font-bold">Price</span>
+          </label>
+          <input className="input input-bordered w-full" id="price" name="price" type="text" placeholder="12.34" value={values['price'] || ''} onBlur={handleBlur} onChange={handleChange} pattern="^\d{1,4}(\.\d{1,2})?$" data-error="Price must be blank, or a number greater than 0 and less than 10,000." />
+          { errors.price && (
+            <p className="alert alert-error">{ errors.price }</p>
+          )}
+        </div>
+        <div className="form-control w-full">
+          <label htmlFor="title" className="label">
+            <span className="label-text text-lg font-bold">Location</span>
+          </label>
+          <input className="input input-bordered w-full" id="location" name="location" type="text" placeholder="Location" value={values['location'] || ''} onBlur={handleBlur} onChange={handleChange} pattern="\s*" maxLength={100} data-error="Must be less than 100 characters." />
+          { errors.title && (
+            <p className="alert alert-error">{ errors.title }</p>
+          )}
+        </div>
+        <div className="form-control w-full">
           <label htmlFor="body" className="label">
             <span className="label-text text-lg font-bold">Post Body</span>
           </label>
