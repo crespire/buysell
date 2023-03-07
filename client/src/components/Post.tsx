@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import DropdownMenu from "./Dropdown";
 import ImageCarousel from "./ImageCarousel";
 import { CurrencyFormatter } from "../providers/CurrencyFormatter";
+import { Link } from 'react-router-dom';
 
 function Post(props: PostProps) {
   const { post } = props;
@@ -33,7 +34,7 @@ function Post(props: PostProps) {
   return (
     <article className="card rounded-none drop-shadow-lg lg:card-side odd:bg-base-100 even:bg-base-200 dark:border-accent/25 dark:border dark:border-solid dark:odd:bg-neutral dark:even:bg-neutral-focus last:drop-shadow-none">
       <div className="card-body">
-        <header className="card-title">{ post?.title }</header>
+        <header className="card-title"><Link to={`/posts/${post?.id}`}>{ post?.title }</Link></header>
         <section className='card-actions navbar'>
           <div className="flex-1">
             By { post?.account?.name } { jsDate && `posted on ${jsDate.toLocaleDateString()}` }
