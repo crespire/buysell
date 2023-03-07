@@ -11,8 +11,8 @@ class Post < ApplicationRecord
   validates :title, presence: true
   validates :title, length: { minimum: 3 }
   validates :location, length: { maximum: 100 }
-  validates :price, numericality: { greater_than_or_equal_to: 0, less_than: BigDecimal(10**4) },
-                    format: { with: /\A\d{1,4}(\.\d{1,2})?\z/}
+  validates :price, numericality: { allow_nil: true, greater_than_or_equal_to: 0, less_than: BigDecimal(10**4) },
+                    format: { allow_nil: true, with: /\A\d{1,4}(\.\d{1,2})?\z/ } 
   validate :image_types
 
   def image_types
