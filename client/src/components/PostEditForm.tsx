@@ -62,7 +62,7 @@ function PostEditForm() {
           <label htmlFor="title" className="label">
             <span className="label-text text-lg font-bold">Location</span>
           </label>
-          <input className="input input-bordered w-full" id="location" name="location" type="text" placeholder="Location" value={values['location'] || ''} onBlur={handleBlur} onChange={handleChange} pattern="\s*" maxLength={100} data-error="Must be less than 100 characters." />
+          <input className="input input-bordered w-full" id="location" name="location" type="text" placeholder="Location" value={values['location'] || ''} onBlur={handleBlur} onChange={handleChange} maxLength={100} data-error="Must be less than 100 characters." />
           { errors.title && (
             <p className="alert alert-error">{ errors.title }</p>
           )}
