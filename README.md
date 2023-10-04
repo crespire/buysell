@@ -1,5 +1,5 @@
 # Buy & Sell By Crespire
-
+ test
 A toy marketplace application implemented using a Rails 7 application in API
 mode and a React application written in Typescript. This application includes:
 * User registration and authentication. The Rails authentication is powered by
@@ -55,6 +55,11 @@ later date. Some of these ideas include:
   each other, and while this was something I had originally planned, implementing
   this feature feels like I'd just be doing more React. I may add this at a later
   date, but I felt it more important to move on to my next planned project.
+* Change the application to leverage Rails DirectUpload API for ActiveStorage.
+  Currently, the application relies on sending a FormData object to the API using
+  a `multipart/form-data` POST request. It isn't the worst, and I'm happy with it,
+  but I think it was a missed opportunity to explore and implement DirectUpload to
+  AWS S3.
 
 # About Me
 You can learn more about my projects and [learn more about me at my portfolio](https://crespire.dev).
